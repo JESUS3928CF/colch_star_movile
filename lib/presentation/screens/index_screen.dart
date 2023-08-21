@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class IndexScreen extends StatelessWidget {
+  const IndexScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,23 @@ class Profile extends StatelessWidget {
         ),
       ),
       body: const Center(
-        child: Text('This is MySecondPage'),
+        child: DashboardView(),
       ),
+      drawer: SideMenu(),
     );
+  }
+}
+
+class DashboardView extends StatefulWidget {
+  const DashboardView({super.key});
+
+  @override
+  State<DashboardView> createState() => _DashboardViewState();
+}
+
+class _DashboardViewState extends State<DashboardView> {
+  @override
+  Widget build(BuildContext context) {
+    return Text("Dashboard");
   }
 }
