@@ -12,13 +12,13 @@ class CustomersScreen extends StatefulWidget {
 class _CustomersScreenState extends State<CustomersScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PreferredSize(
+    return  Scaffold(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: Center(
+      body: const Center(
         child: Text("Vista de clientes"),
       ),
-      drawer: SideMenu(),
+      drawer: SideMenu(navDrawerIndex: 2)
     );
   }
 }

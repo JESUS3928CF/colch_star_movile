@@ -6,14 +6,15 @@ import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatefulWidget {
-  const SideMenu({super.key});
+  int? navDrawerIndex = 3;
+  SideMenu({Key? key,  this.navDrawerIndex}) : super(key: key);
 
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
-  int navDrawerIndex = 0;
+  // int navDrawerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,10 @@ class _SideMenuState extends State<SideMenu> {
 
     return NavigationDrawer(
         //* Opción para saber que pagina esta seleccionada
-        selectedIndex: navDrawerIndex,
+        selectedIndex: widget.navDrawerIndex,
         onDestinationSelected: (value) {
           setState(() {
-            navDrawerIndex = value;
+             widget.navDrawerIndex = value;
           });
 
           switch (value) {
@@ -69,7 +70,7 @@ class _SideMenuState extends State<SideMenu> {
           const NavigationDrawerDestination(
               icon: Icon(Icons.dashboard), label: Text('Dashboard')),
           const NavigationDrawerDestination(
-              icon: Icon(Icons.scale_sharp), label: Text('Ventas')),
+              icon: Icon(Icons.add_shopping_cart_sharp), label: Text('Ventas')),
           const NavigationDrawerDestination(
               icon: Icon(Icons.person), label: Text('Clientes')),
           const Padding(

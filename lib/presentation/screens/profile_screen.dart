@@ -12,13 +12,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PreferredSize(
+    return Scaffold(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: Center(
+      body: const Center(
         child: Text("vista del perfil"),
       ),
-      drawer: SideMenu(),
+      drawer: SideMenu(navDrawerIndex: 3,),
     );
   }
 }

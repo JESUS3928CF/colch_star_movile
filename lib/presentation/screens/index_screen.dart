@@ -28,7 +28,7 @@ class IndexScreen extends StatelessWidget {
       body: const Center(
         child: DashboardView(),
       ),
-      drawer: SideMenu(),
+      drawer: SideMenu(navDrawerIndex: 0),
     );
   }
 }

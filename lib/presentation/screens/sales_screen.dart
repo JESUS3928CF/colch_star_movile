@@ -12,13 +12,13 @@ class SalesScreen extends StatefulWidget {
 class _SalesScreenState extends State<SalesScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PreferredSize(
+    return Scaffold(
+      appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: Center(
+      body: const Center(
         child: Text("Pagina de ventas"),
       ),
-      drawer: SideMenu(),
+      drawer: SideMenu(navDrawerIndex: 1,),
     );
   }
 }
