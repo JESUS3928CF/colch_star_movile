@@ -1,4 +1,3 @@
-import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -19,22 +18,22 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Raleway',
           colorScheme: const ColorScheme.light()),
       debugShowCheckedModeBanner: false,
-      home: const RegisterPage(title: 'Flutter Demo Home Page'),
+      home: const LoginScreen(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 enum SinginCharacter { femenino, masculino, otro }
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key, required this.title});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key, required this.title});
   final String title;
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
   String _password = '';
@@ -119,13 +118,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               filled: true),
                           validator: (value) {
-                            String pattern =
-                                r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,20}$';
-                            RegExp regExp = RegExp(pattern);
+                            // String pattern =
+                                // r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5}$';
+                            // RegExp regExp = RegExp(pattern);
                             if (value!.isEmpty) {
                               return "La contraseña es necesaria";
-                            } else if (!regExp.hasMatch(value)) {
-                              return "La contraseña debe tener al menos 10 y máximo 20 caracteres, 1 letra mayúscula, 1 minúscula y 1 número. Además puede contener caracteres especiales.";
+                            } else if (value != "jesus123") {
+                              return "La contraseña es incorrecta";
                             } else {
                               return null;
                             }
@@ -141,10 +140,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 if (_formKey.currentState!.validate()) {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(SnackBar(
-                                    content: Row(
+                                    content: const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
-                                      children: const <Widget>[
+                                      children: <Widget>[
                                         Icon(
                                           Icons.check_circle,
                                           color: Color.fromARGB(
@@ -153,12 +152,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text(
-                                          "Usuario registrado correctamente",
-                                          style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 255, 255, 255)),
-                                        )
                                       ],
                                     ),
                                     duration:
@@ -183,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 foregroundColor:
                                     const Color.fromARGB(255, 0, 0, 0), // foreground (text) color
                               ),
-                              child: const Text('Registrarse')),
+                              child: const Text('Iniciar')),
                         )),
                   ],
                 ))
