@@ -15,8 +15,22 @@ class _CustomersScreenState extends State<CustomersScreen> {
     return  Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: const Center(
-        child: Text("Vista de clientes"),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton( child: const Icon(Icons.add), onPressed: (){
+
+            })
+            
+
+          ]
+        )
+        
+        
+      
+        
+        
       ),
       drawer: SideMenu(navDrawerIndex: 2)
     );
