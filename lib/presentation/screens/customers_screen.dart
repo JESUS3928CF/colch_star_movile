@@ -15,23 +15,20 @@ class _CustomersScreenState extends State<CustomersScreen> {
     return  Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+      body: Row( 
           children: [
-            FloatingActionButton( child: const Icon(Icons.add), onPressed: (){
-
-            })
             
-
-          ]
-        )
+          ],
+          
         
         
       
-        
-        
       ),
+
+      floatingActionButton: FloatingActionButton( child: const Icon(Icons.add), onPressed: (){
+
+            }),
+        
       drawer: SideMenu(navDrawerIndex: 2)
     );
   }
