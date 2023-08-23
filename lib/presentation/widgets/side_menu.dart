@@ -20,6 +20,10 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
 
+    final TextStyle menuTextStyle = TextStyle(fontWeight: FontWeight.w800,fontSize: 20);
+
+    final TextStyle menuItemsTextStyle = TextStyle(fontWeight: FontWeight.w600,fontSize: 17);
+
     return NavigationDrawer(
         //* Opción para saber que pagina esta seleccionada
         selectedIndex: widget.navDrawerIndex,
@@ -65,26 +69,26 @@ class _SideMenuState extends State<SideMenu> {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text("Menú principal"),
+            child: Text("Menú principal", style: menuTextStyle),
           ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.dashboard), label: Text('Dashboard')),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.add_shopping_cart_sharp), label: Text('Ventas')),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.person), label: Text('Clientes')),
+           NavigationDrawerDestination(
+              icon: const Icon(Icons.dashboard), label: Text('Dashboard', style: menuItemsTextStyle,)),
+           NavigationDrawerDestination(
+              icon: const Icon(Icons.add_shopping_cart_sharp), label: Text('Ventas', style: menuItemsTextStyle)),
+           NavigationDrawerDestination(
+              icon: const Icon(Icons.person), label: Text('Clientes', style: menuItemsTextStyle)),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
             child: Divider(),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text("Más acciones"),
+            child: Text("Más acciones", style: menuTextStyle,),
           ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.account_circle), label: Text('Mi perfil')),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.logout_rounded), label: Text('Cerrar sección')),
+          NavigationDrawerDestination(
+              icon: const Icon(Icons.account_circle), label: Text('Mi perfil', style: menuItemsTextStyle,)),
+          NavigationDrawerDestination(
+              icon: const Icon(Icons.logout_rounded), label: Text('Cerrar sección', style: menuItemsTextStyle,)),
         ]);
   }
 }
