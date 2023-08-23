@@ -16,7 +16,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: const Center(
-        child: Text("Vista de clientes"),
+        child: Text("Crear clientes"),
         
       ),
       drawer: SideMenu(navDrawerIndex: 2)
