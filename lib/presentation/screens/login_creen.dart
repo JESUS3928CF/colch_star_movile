@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -49,16 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 20),
-              child: Center(
-                child: const Text(
-                  'Registro Personal',
+              child: const Center(
+                child: Text(
+                  'Iniciar Sesión',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Center(child: Text('¡Ya Puedes Registrarte!')),
             ),
             Form(
                 key: _formKey,
@@ -138,36 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.check_circle,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                      ],
-                                    ),
-                                    duration:
-                                        const Duration(milliseconds: 2000),
-                                    width: 300,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 10),
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(3.0),
-                                    ),
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 12, 195, 106),
-                                  ));
-                                  
-                                  
+
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const IndexScreen()));
                                 }
                               },
                               style: ElevatedButton.styleFrom(
