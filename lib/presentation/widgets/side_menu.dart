@@ -88,7 +88,7 @@ class _SideMenuState extends State<SideMenu> {
           NavigationDrawerDestination(
               icon: const Icon(Icons.account_circle), label: Text('Mi perfil', style: menuItemsTextStyle,)),
           NavigationDrawerDestination(
-              icon: const Icon(Icons.logout_rounded), label: Text('Cerrar sección', style: menuItemsTextStyle,)),
+              icon: const Icon(Icons.logout_rounded), label: Text('Cerrar sesión', style: menuItemsTextStyle,)),
         ]);
   }
 }
