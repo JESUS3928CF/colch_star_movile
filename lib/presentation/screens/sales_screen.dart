@@ -1,6 +1,56 @@
+import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'sales_create.dart';
+
+const Sales = <Map<String, dynamic>>[
+  {'elevation': 4.0,
+    '_Producto': 'Camisa',
+    '_Cantidad': '3',
+    '_Precio': '35.000',
+    '_FechaDeEntrega': '14/12/24',
+    '_Descripcion': 'Camisa sin estampado',
+    'state': true,
+  },
+  {
+    'elevation': 4.0,
+    '_Producto': 'Briana',
+    '_Cantidad': 'Dispareja',
+    '_Precio': '32341231',
+    '_FechaDeEntrega': 'Briana@gmail.com',
+    '_Descripcion': 'Calle 20 # 80-20',
+    'state': true,
+  },
+  {
+    'elevation': 4.0,
+    '_Producto': 'Herlyn',
+    '_Cantidad': 'Jose',
+    '_Precio': '32341231',
+    '_FechaDeEntrega': 'herlyn@gmail.com',
+    '_Descripcion': 'Calle 20 # 80-20',
+    'state': false,
+  },
+  {
+    'elevation': 4.0,
+    '_Producto': 'Tomas',
+    '_Cantidad': 'Sanchez',
+    '_Precio': '32341231',
+    '_FechaDeEntrega': 'tomas@gmail.com',
+    '_Descripcion': 'Calle 20 # 80-20',
+    'state': true,
+  },
+  {
+    'elevation': 4.0,
+    '_Producto': 'Brian',
+    '_Cantidad': 'Pareja',
+    '_Precio': '32341231',
+    '_FechaDeEntrega': 'brian@gmail.com',
+    '_Descripcion': 'Calle 20 # 80-20',
+    'state': false,
+    },
+];
+
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -14,11 +64,179 @@ class _SalesScreenState extends State<SalesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
-      body: const Center(
-        child: Text("Pagina de ventas"),
-      ),
+          preferredSize: Size.fromHeight(kToolbarHeight),
+           child: AppBarColch()),
+      body: _SalesView(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.person_add_outlined),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> const SalesCreate()),
+          );
+        }),
+   
       drawer: SideMenu(navDrawerIndex: 1,),
+    );
+  }
+}
+
+class _SalesView extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+        const Padding(
+          padding: EdgeInsets.all(17.0),
+          child: Text(
+          "Lista de ventas",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+        ),
+        ),
+
+        ...Sales.map((sale) =>_Salescustomer(
+          elevation: sale ['elevation'],
+          Producto: sale ['_Producto'],
+          Cantidad: sale ['_Cantidad'],
+           Precio: sale['_Precio'],
+           FechaDeEntrega: sale["_FechaDeEntrega"],
+           Descripcion: sale['_Descripcion'],
+           state: sale['state'],
+
+        ))
+      ],),
+    );
+  }
+}
+
+const textCardStyle = TextStyle(fontSize: 17);
+const labelCardStyle = TextStyle(
+  fontSize: 20,
+);
+
+class _Salescustomer extends StatefulWidget {
+  final String Producto;
+  final String? Cantidad;
+  final String Precio;
+  final String FechaDeEntrega;
+  final String Descripcion;
+  bool state;
+  final double elevation;
+
+  _Salescustomer(
+      {required this.Producto,
+      required this.elevation,
+      this.Cantidad,
+      required this.Precio,
+      required this.FechaDeEntrega,
+      required this.Descripcion,
+      required this.state});
+
+  @override
+  State<_Salescustomer> createState() => _SalescustomerState();
+}
+
+class _SalescustomerState extends State<_Salescustomer> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+      child: Card(
+        // ignore: prefer_const_constructors
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            side: BorderSide(color: Colors.black)),
+        elevation: widget.elevation,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+          child: Column(children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Center(
+                    child: Text(
+                  '${widget.Producto}',
+                  style: labelCardStyle,
+                )),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:Align(
+                alignment: Alignment.bottomLeft,
+                child: Text('Cantidad : ${widget.Cantidad}',
+                style: textCardStyle,
+                ),
+                ) ,
+              ),
+
+
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Precio: ${widget.Precio}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'FechaDeEntrega: : ${widget.FechaDeEntrega}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Descripcion: : ${widget.Descripcion}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit_sharp,
+                    color: Color.fromARGB(255, 7, 135, 194),
+                  ),
+                  onPressed: () {},
+                ),
+                const SizedBox(
+                  width: 100,
+                ),
+                IconButton(
+                  icon: widget.state
+                      ? const Icon(
+                          Icons.toggle_off,
+                          color: Color.fromARGB(255, 7, 135, 194),
+                        )
+                      : const Icon(Icons.toggle_off,
+                          color: Color.fromARGB(255, 194, 29, 7)),
+                  onPressed: () {
+                    setState(() {
+                      widget.state = !widget.state;
+                    });
+                  },
+                ),
+
+                // SwitchListTile(value: true, onChanged: (value) {})
+              ],
+            ),
+          ]),
+        ),
+      ),
     );
   }
 }
