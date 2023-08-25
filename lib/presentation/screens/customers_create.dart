@@ -22,18 +22,18 @@ class _CustomersCreateState extends State<CustomersCreate> {
             child: AppBarColch()),
         body: SingleChildScrollView(
             child: Container(
-                margin: const EdgeInsets.only(top: 40, left: 30, right: 30),
+                margin: const EdgeInsets.only(top: 15, left: 30, right: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: const EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 15),
                       child: const Center(
                         child: Text(
                           'Agregar Cliente',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: 40,
                           ),
                         ),
                       ),
@@ -41,21 +41,24 @@ class _CustomersCreateState extends State<CustomersCreate> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                          child: Text('!Agregar nuevo cliente de colch star!')),
+                          child: Text('!Agregar nuevo cliente de colch star!',
+                          style: TextStyle(
+                            fontSize: 17
+                          ),)),
                     ),
                     Form(
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
                             Padding(
-                                padding: const EdgeInsets.only(top: 30),
+                                padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
                                   decoration: const InputDecoration(
                                       hintText: 'Nombre',
                                       hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                       fillColor:
-                                          Color.fromARGB(255, 209, 203, 203),
+                                          Color.fromARGB(255, 221, 216, 216),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0, style: BorderStyle.none),
@@ -83,9 +86,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   decoration: const InputDecoration(
                                       hintText: 'Apellidos',
                                       hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                       fillColor:
-                                          Color.fromARGB(255, 209, 203, 203),
+                                          Color.fromARGB(255, 221, 216, 216),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0, style: BorderStyle.none),
@@ -108,9 +111,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   decoration: const InputDecoration(
                                       hintText: 'Telefono',
                                       hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                       fillColor:
-                                          Color.fromARGB(255, 209, 203, 203),
+                                          Color.fromARGB(255, 221, 216, 216),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0, style: BorderStyle.none),
@@ -133,9 +136,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   decoration: const InputDecoration(
                                       hintText: 'Email',
                                       hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                       fillColor:
-                                          Color.fromARGB(255, 209, 203, 203),
+                                          Color.fromARGB(255, 221, 216, 216),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0, style: BorderStyle.none),
@@ -164,9 +167,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   decoration: const InputDecoration(
                                       hintText: 'Direccion',
                                       hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                          fontWeight: FontWeight.w700),
                                       fillColor:
-                                          Color.fromARGB(255, 209, 203, 203),
+                                          Color.fromARGB(255, 221, 216, 216),
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             width: 0, style: BorderStyle.none),
