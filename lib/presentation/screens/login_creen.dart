@@ -40,7 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 30), // Margen externo
+          margin: const EdgeInsets.symmetric(
+              vertical: 40, horizontal: 30), // Margen externo
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -54,9 +55,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(left: 50, bottom: 20),
-                child: Image.asset('assets/images/Login.jpg'),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  child: Image.asset('assets/images/Logooo.jpeg'),
+                ),
               ),
               Form(
                 key: _formKey,
@@ -74,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value!.isEmpty) {
                           return 'El correo es necesario';
                         } else if (!RegExp(
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(value)) {
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                            .hasMatch(value)) {
                           return 'Correo inválido';
                         }
                         return null;
