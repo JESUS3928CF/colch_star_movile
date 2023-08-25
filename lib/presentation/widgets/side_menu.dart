@@ -6,30 +6,25 @@ import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatefulWidget {
-  int? navDrawerIndex = 3;
-  SideMenu({Key? key,  this.navDrawerIndex}) : super(key: key);
+  const SideMenu({super.key});
 
   @override
   State<SideMenu> createState() => _SideMenuState();
 }
 
 class _SideMenuState extends State<SideMenu> {
-  // int navDrawerIndex = 0;
+  int navDrawerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
 
-    final TextStyle menuTextStyle = TextStyle(fontWeight: FontWeight.w800,fontSize: 20);
-
-    final TextStyle menuItemsTextStyle = TextStyle(fontWeight: FontWeight.w600,fontSize: 17);
-
     return NavigationDrawer(
         //* Opción para saber que pagina esta seleccionada
-        selectedIndex: widget.navDrawerIndex,
+        selectedIndex: navDrawerIndex,
         onDestinationSelected: (value) {
           setState(() {
-             widget.navDrawerIndex = value;
+            navDrawerIndex = value;
           });
 
           switch (value) {
@@ -69,26 +64,26 @@ class _SideMenuState extends State<SideMenu> {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: Text("Menú principal", style: menuTextStyle),
+            child: const Text("Menú principal"),
           ),
-           NavigationDrawerDestination(
-              icon: const Icon(Icons.dashboard), label: Text('Dashboard', style: menuItemsTextStyle,)),
-           NavigationDrawerDestination(
-              icon: const Icon(Icons.add_shopping_cart_sharp), label: Text('Ventas', style: menuItemsTextStyle)),
-           NavigationDrawerDestination(
-              icon: const Icon(Icons.person), label: Text('Clientes', style: menuItemsTextStyle)),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.dashboard), label: Text('Dashboard')),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.scale_sharp), label: Text('Ventas')),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.person), label: Text('Clientes')),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
             child: Divider(),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: Text("Más acciones", style: menuTextStyle,),
+            child: const Text("Más acciones"),
           ),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.account_circle), label: Text('Mi perfil', style: menuItemsTextStyle,)),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.logout_rounded), label: Text('Cerrar sección', style: menuItemsTextStyle,)),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.account_circle), label: Text('Mi perfil')),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.logout_rounded), label: Text('Cerrar sección')),
         ]);
   }
 }
