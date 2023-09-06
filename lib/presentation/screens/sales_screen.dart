@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'sales_create.dart';
 
 const Sales = <Map<String, dynamic>>[
-  {'elevation': 4.0,
+  {
+    'elevation': 4.0,
     '_Producto': 'Camisa',
     '_Cantidad': '3',
     '_Precio': '35.000',
     '_FechaDeEntrega': '14/12/24',
     '_Descripcion': 'Camisa sin estampado',
+    '_Cliente': 'Juan',
     'state': true,
   },
   {
@@ -20,6 +22,7 @@ const Sales = <Map<String, dynamic>>[
     '_Precio': '32341231',
     '_FechaDeEntrega': 'Briana@gmail.com',
     '_Descripcion': 'Calle 20 # 80-20',
+    '_Cliente': 'Juan',
     'state': true,
   },
   {
@@ -29,6 +32,7 @@ const Sales = <Map<String, dynamic>>[
     '_Precio': '32341231',
     '_FechaDeEntrega': 'herlyn@gmail.com',
     '_Descripcion': 'Calle 20 # 80-20',
+    '_Cliente': 'Juan',
     'state': false,
   },
   {
@@ -38,6 +42,7 @@ const Sales = <Map<String, dynamic>>[
     '_Precio': '32341231',
     '_FechaDeEntrega': 'tomas@gmail.com',
     '_Descripcion': 'Calle 20 # 80-20',
+    '_Cliente': 'Juan',
     'state': true,
   },
   {
@@ -47,10 +52,10 @@ const Sales = <Map<String, dynamic>>[
     '_Precio': '32341231',
     '_FechaDeEntrega': 'brian@gmail.com',
     '_Descripcion': 'Calle 20 # 80-20',
+    '_Cliente': 'Juan',
     'state': false,
-    },
+  },
 ];
-
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -64,46 +69,48 @@ class _SalesScreenState extends State<SalesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-           child: AppBarColch()),
+          preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.person_add_outlined),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> const SalesCreate()),
-          );
-        }),
-   
-      drawer: SideMenu(navDrawerIndex: 1,),
+          child: const Icon(Icons.person_add_outlined),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SalesCreate()),
+            );
+          }),
+      drawer: SideMenu(
+        navDrawerIndex: 1,
+      ),
     );
   }
 }
 
-class _SalesView extends StatelessWidget{
+class _SalesView extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-        const Padding(
-          padding: EdgeInsets.all(17.0),
-          child: Text(
-          "Lista de ventas",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
-        ),
-        ),
-
-        ...Sales.map((sale) =>_Salescustomer(
-          elevation: sale ['elevation'],
-          Producto: sale ['_Producto'],
-          Cantidad: sale ['_Cantidad'],
-           Precio: sale['_Precio'],
-           FechaDeEntrega: sale["_FechaDeEntrega"],
-           Descripcion: sale['_Descripcion'],
-           state: sale['state'],
-
-        ))
-      ],),
+          const Padding(
+            padding: EdgeInsets.all(17.0),
+            child: Text(
+              "Lista de ventas",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+            ),
+          ),
+          ...Sales.map((sale) => _Salescustomer(
+                elevation: sale['elevation'],
+                Producto: sale['_Producto'],
+                Cantidad: sale['_Cantidad'],
+                Precio: sale['_Precio'],
+                FechaDeEntrega: sale["_FechaDeEntrega"],
+                Descripcion: sale['_Descripcion'],
+                Cliente: sale['_Cliente'],
+                state: sale['state'],
+              ))
+        ],
+      ),
     );
   }
 }
@@ -119,6 +126,7 @@ class _Salescustomer extends StatefulWidget {
   final String Precio;
   final String FechaDeEntrega;
   final String Descripcion;
+  final String Cliente;
   bool state;
   final double elevation;
 
@@ -129,7 +137,8 @@ class _Salescustomer extends StatefulWidget {
       required this.Precio,
       required this.FechaDeEntrega,
       required this.Descripcion,
-      required this.state});
+      required this.state,
+      required this.Cliente});
 
   @override
   State<_Salescustomer> createState() => _SalescustomerState();
@@ -160,19 +169,16 @@ class _SalescustomerState extends State<_Salescustomer> {
                 )),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:Align(
+              child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text('Cantidad : ${widget.Cantidad}',
-                style: textCardStyle,
+                child: Text(
+                  'Cantidad : ${widget.Cantidad}',
+                  style: textCardStyle,
                 ),
-                ) ,
               ),
-
-
-
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
@@ -199,6 +205,16 @@ class _SalescustomerState extends State<_Salescustomer> {
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   'Descripcion: : ${widget.Descripcion}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Cliente: : ${widget.Cliente}',
                   style: textCardStyle,
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,7 @@ class SalesCreate extends StatefulWidget {
 }
 
 class _SalesCreateState extends State<SalesCreate> {
-
-   String _nombre = '';
+  String _nombre = '';
   final _formKey = GlobalKey<FormState>();
   String _password = '';
 
@@ -42,10 +42,10 @@ class _SalesCreateState extends State<SalesCreate> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                          child: Text('!Agregar una nueva venta a colch star!',
-                          style: TextStyle(
-                            fontSize: 17
-                          ),)),
+                          child: Text(
+                        '!Agregar una nueva venta a colch star!',
+                        style: TextStyle(fontSize: 17),
+                      )),
                     ),
                     Form(
                         key: _formKey,
@@ -150,9 +150,8 @@ class _SalesCreateState extends State<SalesCreate> {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                                    
                                     if (value!.isEmpty) {
-                                      return "La fecha es necesario";                                    
+                                      return "La fecha es necesario";
                                     }
                                     return null;
                                   },
@@ -177,7 +176,32 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Por favor ingrese la descripcion del producto';
+                                      return 'Por favor ingrese la descripción del producto';
+                                    }
+                                    return null;
+                                  },
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                      hintText: 'Cliente',
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                      fillColor:
+                                          Color.fromARGB(255, 221, 216, 216),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      filled: true),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Por favor seleccione un cliente';
                                     }
                                     return null;
                                   },
@@ -241,40 +265,34 @@ class _SalesCreateState extends State<SalesCreate> {
                                           ),
                                           child: const Text('Agregar')),
                                     )),
-                                    SizedBox( width: 20,),
-                                SizedBox(
-                                  width: 100,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      // Lógica para cancelar aquí
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors
-                                          .red, // Puedes cambiar el color según tus preferencias
-                                      foregroundColor: Colors.white,
-                                    ),
-                                    child: const Text('Cancelar'),
-                                  ),
+                                const SizedBox(
+                                  width: 20,
                                 ),
-
-                                SizedBox( width: 30,),
                                 SizedBox(
                                   width: 100,
                                   height: 45,
-                                  child: ElevatedButton(
-                                    onPressed: (){
-
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue,
-                                      foregroundColor: Colors.white,
-                                    ),
-
-                                    child: const Text('Cliente'),
-                                  ) ,)
+                                  child: Builder(builder: (context) {
+                                    return ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SalesScreen()));
+                                        // Lógica para cancelar aquí
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors
+                                            .red, // Puedes cambiar el color según tus preferencias
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      child: const Text('Cancelar'),
+                                    );
+                                  }),
+                                ),
                               ],
                             ),
+
                             // Añade un espacio entre los botones
                           ],
                         ))
@@ -282,5 +300,4 @@ class _SalesCreateState extends State<SalesCreate> {
                 ))),
         drawer: SideMenu(navDrawerIndex: 2));
   }
- 
 }

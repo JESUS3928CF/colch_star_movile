@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(title: 'Hola',),
+      home: LoginScreen(
+        title: 'Hola',
+      ),
     );
   }
 }
- 
