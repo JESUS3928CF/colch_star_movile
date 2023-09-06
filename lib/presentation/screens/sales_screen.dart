@@ -184,7 +184,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio: ${widget.Precio}',
+                  'Precio Total: ${widget.Precio}',
                   style: textCardStyle,
                 ),
               ),
@@ -194,7 +194,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'FechaDeEntrega: : ${widget.FechaDeEntrega}',
+                  'Fecha De Entrega: : ${widget.FechaDeEntrega}',
                   style: textCardStyle,
                 ),
               ),
@@ -204,7 +204,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripcion: : ${widget.Descripcion}',
+                  'Descripción: : ${widget.Descripcion}',
                   style: textCardStyle,
                 ),
               ),
