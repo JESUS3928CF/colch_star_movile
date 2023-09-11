@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/profile.dart';
 import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
+import 'package:colch_stat_app/main.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
@@ -78,6 +79,11 @@ class ProfileProvider extends ChangeNotifier {
 
   void vaciarErrores() {
     errores = {"messageEmail": "", "messagePassword": ""};
+    notifyListeners();
+  }
+
+  void singOff() {
+    profile = {};
     notifyListeners();
   }
 }

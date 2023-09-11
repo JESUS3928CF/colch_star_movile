@@ -32,7 +32,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-/// Instanciamos el proveedor para poder usar sus métodos
+//! Instanciamos el proveedor para poder usar sus métodos
 var profileProvider = ProfileProvider();
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -82,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
+                        //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
                         errorText: profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
@@ -115,12 +116,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText:
+                          /// Usando el provider
                               profileProvider.errores["messagePassword"]),
                       validator: (value) {
                         if (value!.isEmpty) {
                           // profileProvider.vaciarErrores();
-                          print("contra vacía");
-                          print(profileProvider.errores);
                           return 'La contraseña es necesaria';
                         }
                         return null;
@@ -135,19 +135,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           String password = _passwordController.text;
                           String email = _emailController.text;
 
-                          // profileProvider.vaciarErrores();
-                          print("contra vacía");
-                          print(profileProvider.errores);
-
-                          // await profileProvider.getUsers();
-                          // print(profileProvider.profileList[0].name);
-
                           if (_formKey.currentState!.validate()) {
+
+                            /// Vaciamos los erres que se presentaron
                             profileProvider.vaciarErrores();
+
+                            //! Lo que hago es buscar el perfil en la API
                             await profileProvider.getProfile(email, password);
                             // Agrega setState para que la vista se actualice
                             setState(() {});
 
+                            /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
                             if (profileProvider.profile.isNotEmpty) {
                               // ignore: use_build_context_synchronously
                               Navigator.push(

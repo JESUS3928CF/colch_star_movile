@@ -8,13 +8,16 @@ void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  //! Usando el provider para poder acceder a la información que tenemos hay 
+  //! Usando el provider para poder acceder a la información que tenemos hay
   @override
-   /// 1 envolvemos el provider en el árbol principal para hacer disponible la info en toda nuestra app 
+
+  /// 1 envolvemos el provider en el árbol principal para hacer disponible la info en toda nuestra app
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProfileProvider()) //* Aca ponen sus provider el de cliente y el de proveedor 
+        ChangeNotifierProvider(
+            create: (_) =>
+                ProfileProvider()) //* Aca ponen sus provider el de cliente y el de proveedor
       ],
       child: const MaterialApp(
         title: 'Material App',
