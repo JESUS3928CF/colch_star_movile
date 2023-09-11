@@ -43,6 +43,59 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
-    return Text("Dashboard");
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        DashboardBox(label: 'Clientes', icon: Icons.people, total: 0),
+        SizedBox(height: 20),
+        DashboardBox(label: 'Ventas', icon: Icons.attach_money, total: 0),
+      ],
+    ));
+  }
+}
+
+class DashboardBox extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final int total;
+
+  const DashboardBox({
+    Key? key,
+    required this.label,
+    required this.icon,
+    required this.total,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 130,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 40,
+            color: Colors.white,
+          ),
+          SizedBox(height: 5),
+          Text(
+            label,
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+          SizedBox(height: 5),
+          Text(
+            'Total: $total',
+            style: TextStyle(fontSize: 18, color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 }

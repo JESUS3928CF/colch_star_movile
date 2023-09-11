@@ -72,7 +72,7 @@ class _SideMenuState extends State<SideMenu> {
               profileProvider.singOff();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                MaterialPageRoute(builder: (context) => const MyApp()),
               );
               break;
           }
@@ -112,7 +112,7 @@ class _SideMenuState extends State<SideMenu> {
                 style: menuItemsTextStyle,
               )),
           const NavigationDrawerDestination(
-              icon: Icon(Icons.key),
+              icon: Icon(Icons.lock_outlined),
               label: Text(
                 'Contraseña',
                 style: menuItemsTextStyle,
