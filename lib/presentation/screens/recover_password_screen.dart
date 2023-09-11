@@ -171,7 +171,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                 ],
               ))),
       drawer: SideMenu(
-        navDrawerIndex: 3,
+        navDrawerIndex: 4,
       ),
     );
   }

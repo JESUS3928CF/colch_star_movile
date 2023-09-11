@@ -112,7 +112,7 @@ class _SideMenuState extends State<SideMenu> {
                 style: menuItemsTextStyle,
               )),
           const NavigationDrawerDestination(
-              icon: Icon(Icons.account_circle),
+              icon: Icon(Icons.key),
               label: Text(
                 'Contraseña',
                 style: menuItemsTextStyle,
