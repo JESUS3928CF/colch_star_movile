@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             // Agrega setState para que la vista se actualice
                             setState(() {});
 
-                            if (profileProvider != null) {
+                            if (profileProvider.profile.isNotEmpty) {
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,

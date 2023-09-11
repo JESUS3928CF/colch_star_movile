@@ -1,5 +1,3 @@
-// import 'dart:html';
-
 import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/profile.dart';
@@ -52,43 +50,29 @@ class ProfileProvider extends ChangeNotifier {
     //- Codifica los datos en formato JSON
     final jsonData = jsonEncode(data);
 
-    try {
-      // Realiza la solicitud POST
-      final response = await _dio.post(url, data: jsonData);
+    // Realiza la solicitud POST
+    final response = await _dio.post(url, data: jsonData);
 
-      //* Verifica el código de estado de la respuesta
-      if (response.statusCode == 200) {
-        //* La solicitud POST fue exitosa, puedes manejar la respuesta aquí
+    //* Verifica el código de estado de la respuesta
+    if (response.statusCode == 200) {
+      //* La solicitud POST fue exitosa, puedes manejar la respuesta aquí
 
-        print("Esto manda la respuesta");
-        print(response.data["message"]);
-
-        /// Lo que hacemos es decidar en base a las respuestas de nuestro servidor si debemos llenar la propiedad de profile o la de errores
-        if (response.data["message"] != null) {
-          //- Llenamos nuestra propiedad de errores
-          response.data["message"] == "Usuario no encontrado"
-              ? errores["messageEmail"] = response.data["message"]
-              : errores["messagePassword"] = response.data["message"];
-
-          print("Vamos errores ");
-          print(errores);
-        } else {
-          //- Llenamos nuestra propiedad del usuario que se registro
-          profile = response.data;
-
-          print("Puedes iniciar sección $profile");
-        }
-
-        notifyListeners();
+      /// Lo que hacemos es decidar en base a las respuestas de nuestro servidor si debemos llenar la propiedad de profile o la de errores
+      if (response.data["message"] != null) {
+        //- Llenamos nuestra propiedad de errores
+        response.data["message"] == "Usuario no encontrado"
+            ? errores["messageEmail"] = response.data["message"]
+            : errores["messagePassword"] = response.data["message"];
       } else {
-        //* La solicitud POST falló con un código de estado diferente de 200
-        throw Exception(
-            "La solicitud POST falló con el código de estado ${response.statusCode}");
+        //- Llenamos nuestra propiedad del usuario que se registro
+        profile = response.data;
       }
-    } catch (error) {
-      // Manejo de errores
-      print("Error en la solicitud: $error");
-      //* Puedes mostrar un mensaje de error al usuario o tomar otras medidas apropiadas aquí
+
+      notifyListeners(); //! Esto es para cuando la información del provider cambie notificar de estos cambios en todos los lugares donde sea usado proveedor
+    } else {
+      //* La solicitud POST falló con un código de estado diferente de 200
+      throw Exception(
+          "La solicitud POST falló con el código de estado ${response.statusCode}");
     }
   }
 
