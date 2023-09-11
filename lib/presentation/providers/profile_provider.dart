@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/profile.dart';
 import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
-import 'package:colch_stat_app/main.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
@@ -13,7 +12,16 @@ class ProfileProvider extends ChangeNotifier {
   List<Profile> profileList = []; //* esto es una lista de entidades de usuarios
 
   /// Propiedad a llenar si alguien se loguea
-  Map<String, dynamic> profile = {};
+  Map<dynamic, dynamic> profile = {
+    "id": "",
+    "name": "",
+    "lastName": "",
+    "phone": "",
+    "email": "",
+    "password": "",
+    "state": "",
+    "rolName": ""
+  };
 
   /// Propiedad a llenar alguien intenta loguearse pero comete errores
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
@@ -65,8 +73,19 @@ class ProfileProvider extends ChangeNotifier {
             ? errores["messageEmail"] = response.data["message"]
             : errores["messagePassword"] = response.data["message"];
       } else {
-        //- Llenamos nuestra propiedad del usuario que se registro
-        profile = response.data;
+        //- Llenamos nuestra propiedad del usuario que se registró
+        Map<String, dynamic> formatProfile = response.data;
+        final profile02 =
+            ProfileModel.fromJson(formatProfile).toProfileEntity();
+
+        profile["id"] = profile02.id;
+        profile["name"] = profile02.name;
+        profile["lastName"] = profile02.lastName;
+        profile["email"] = profile02.email;
+        profile["phone"] = profile02.phone;
+        profile["password"] = profile02.password;
+        profile["state"] = profile02.state;
+        profile["rolName"] = profile02.rolName;
       }
 
       notifyListeners(); //! Esto es para cuando la información del provider cambie notificar de estos cambios en todos los lugares donde sea usado proveedor
@@ -83,7 +102,16 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void singOff() {
-    profile = {};
+    profile = {
+      "id": "",
+      "name": "",
+      "lastName": "",
+      "phone": "",
+      "email": "",
+      "password": "",
+      "state": "",
+      "rolName": ""
+    };
     notifyListeners();
   }
 }

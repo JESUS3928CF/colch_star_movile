@@ -58,7 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue: profileProvider.profile["nombre"],
+                                /// Usando el provider hacer esto por cada uno de los métodos
+                                initialValue: profileProvider.profile["name"],
                                 decoration: const InputDecoration(
                                     hintText: 'Nombre',
                                     hintStyle:
@@ -90,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
                                 initialValue:
-                                    profileProvider.profile["apellido"],
+                                    profileProvider.profile["lastName"],
                                 decoration: const InputDecoration(
                                     hintText: 'Apellido',
                                     hintStyle:
@@ -116,8 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue:
-                                    profileProvider.profile["telefono"],
+                                initialValue: profileProvider.profile["phone"],
                                 decoration: const InputDecoration(
                                     hintText: 'Telefono',
                                     hintStyle:
