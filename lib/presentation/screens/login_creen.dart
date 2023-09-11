@@ -32,14 +32,13 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+/// Instanciamos el proveedor para poder usar sus métodos
 var profileProvider = ProfileProvider();
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  /// Instanciamos el proveedor para poder usar sus métodos
-  
   final _formKey = GlobalKey<FormState>();
   // ignore: unused_field
   String _password = '';
@@ -83,17 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        errorText: profileProvider.profile["message"],
+                        errorText: profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
+                          // profileProvider.vaciarErrores();
+                          print("Correo invalido");
+                          print(profileProvider.errores);
                           return 'El correo es necesario';
                         } else if (!RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                             .hasMatch(value)) {
+                          // profileProvider.vaciarErrores();
                           return 'Correo inválido';
                         }
-
                         return null;
                       },
                     ),
@@ -107,18 +109,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        hintText: 'Contraseña',
-                        prefixIcon: const Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                          hintText: 'Contraseña',
+                          prefixIcon: const Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          errorText:
+                              profileProvider.errores["messagePassword"]),
                       validator: (value) {
                         if (value!.isEmpty) {
+                          // profileProvider.vaciarErrores();
+                          print("contra vacía");
+                          print(profileProvider.errores);
                           return 'La contraseña es necesaria';
-                        } else if (profileProvider.profile["contrasena"] ==
-                            null) {
-                          return 'La contraseña es incorrecta';
                         }
                         return null;
                       },
@@ -129,24 +132,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 45,
                       child: ElevatedButton(
                         onPressed: () async {
-
                           String password = _passwordController.text;
                           String email = _emailController.text;
 
-                          await profileProvider.getProfile(email, password);
-
+                          // profileProvider.vaciarErrores();
+                          print("contra vacía");
+                          print(profileProvider.errores);
 
                           // await profileProvider.getUsers();
                           // print(profileProvider.profileList[0].name);
 
                           if (_formKey.currentState!.validate()) {
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const IndexScreen(),
-                              ),
-                            );
+                            profileProvider.vaciarErrores();
+                            await profileProvider.getProfile(email, password);
+                            // Agrega setState para que la vista se actualice
+                            setState(() {});
+
+                            if (profileProvider != null) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const IndexScreen(),
+                                ),
+                              );
+                            }
 
                             try {
                               // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.

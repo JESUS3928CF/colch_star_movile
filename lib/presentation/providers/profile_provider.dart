@@ -12,7 +12,12 @@ class ProfileProvider extends ChangeNotifier {
 
   /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
   List<Profile> profileList = []; //* esto es una lista de entidades de usuarios
+
+  /// Propiedad a llenar si alguien se loguea
   Map<String, dynamic> profile = {};
+
+  /// Propiedad a llenar alguien intenta loguearse pero comete errores
+  Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getUsers() async {
@@ -42,30 +47,53 @@ class ProfileProvider extends ChangeNotifier {
     final data = {
       'email': email,
       'contrasena': password,
-    }; 
+    };
 
-    // Codifica los datos en formato JSON
+    //- Codifica los datos en formato JSON
     final jsonData = jsonEncode(data);
 
     try {
       // Realiza la solicitud POST
       final response = await _dio.post(url, data: jsonData);
 
-      // Verifica el código de estado de la respuesta
+      //* Verifica el código de estado de la respuesta
       if (response.statusCode == 200) {
-        // La solicitud POST fue exitosa, puedes manejar la respuesta aquí
+        //* La solicitud POST fue exitosa, puedes manejar la respuesta aquí
 
-        profile = response.data;
+        print("Esto manda la respuesta");
+        print(response.data["message"]);
+
+        /// Lo que hacemos es decidar en base a las respuestas de nuestro servidor si debemos llenar la propiedad de profile o la de errores
+        if (response.data["message"] != null) {
+          //- Llenamos nuestra propiedad de errores
+          response.data["message"] == "Usuario no encontrado"
+              ? errores["messageEmail"] = response.data["message"]
+              : errores["messagePassword"] = response.data["message"];
+
+          print("Vamos errores ");
+          print(errores);
+        } else {
+          //- Llenamos nuestra propiedad del usuario que se registro
+          profile = response.data;
+
+          print("Puedes iniciar sección $profile");
+        }
+
         notifyListeners();
       } else {
-        // La solicitud POST falló con un código de estado diferente de 200
+        //* La solicitud POST falló con un código de estado diferente de 200
         throw Exception(
             "La solicitud POST falló con el código de estado ${response.statusCode}");
       }
     } catch (error) {
       // Manejo de errores
       print("Error en la solicitud: $error");
-      // Puedes mostrar un mensaje de error al usuario o tomar otras medidas apropiadas aquí
+      //* Puedes mostrar un mensaje de error al usuario o tomar otras medidas apropiadas aquí
     }
+  }
+
+  void vaciarErrores() {
+    errores = {"messageEmail": "", "messagePassword": ""};
+    notifyListeners();
   }
 }
