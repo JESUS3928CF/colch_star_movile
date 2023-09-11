@@ -3,6 +3,7 @@ import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
+import 'package:colch_stat_app/presentation/screens/recover_password_screen.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatefulWidget {
@@ -61,6 +62,13 @@ class _SideMenuState extends State<SideMenu> {
               );
               break;
             case 4:
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RecoverPassword()),
+              );
+              break;
+            case 5:
               profileProvider.singOff();
               Navigator.push(
                 context,
@@ -101,6 +109,12 @@ class _SideMenuState extends State<SideMenu> {
               icon: Icon(Icons.account_circle),
               label: Text(
                 'Mi perfil',
+                style: menuItemsTextStyle,
+              )),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.account_circle),
+              label: Text(
+                'Contraseña',
                 style: menuItemsTextStyle,
               )),
           const NavigationDrawerDestination(
