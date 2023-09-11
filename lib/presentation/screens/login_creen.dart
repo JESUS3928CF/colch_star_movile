@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 
@@ -31,8 +32,16 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+var profileProvider = ProfileProvider();
+
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  /// Instanciamos el proveedor para poder usar sus métodos
+  
   final _formKey = GlobalKey<FormState>();
+  // ignore: unused_field
   String _password = '';
 
   @override
@@ -67,12 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Correo Electrónico',
-                        prefixIcon: Icon(Icons.email),
+                        prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
+                        errorText: profileProvider.profile["message"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -82,11 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             .hasMatch(value)) {
                           return 'Correo inválido';
                         }
+
                         return null;
                       },
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       onChanged: (value) {
                         setState(() {
@@ -95,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       decoration: InputDecoration(
                         hintText: 'Contraseña',
-                        prefixIcon: Icon(Icons.lock),
+                        prefixIcon: const Icon(Icons.lock),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -103,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'La contraseña es necesaria';
-                        } else if (value != 'jesus123') {
+                        } else if (profileProvider.profile["contrasena"] ==
+                            null) {
                           return 'La contraseña es incorrecta';
                         }
                         return null;
@@ -114,18 +128,36 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+
+                          String password = _passwordController.text;
+                          String email = _emailController.text;
+
+                          await profileProvider.getProfile(email, password);
+
+
+                          // await profileProvider.getUsers();
+                          // print(profileProvider.profileList[0].name);
+
                           if (_formKey.currentState!.validate()) {
+                            // ignore: use_build_context_synchronously
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const IndexScreen(),
                               ),
                             );
+
+                            try {
+                              // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.
+                            } catch (error) {
+                              // Manejar cualquier error que pueda ocurrir durante la obtención de datos.
+                              print(error);
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
