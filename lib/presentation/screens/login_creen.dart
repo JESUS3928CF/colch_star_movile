@@ -116,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText:
-                          /// Usando el provider
+
+                              /// Usando el provider
                               profileProvider.errores["messagePassword"]),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -136,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           String email = _emailController.text;
 
                           if (_formKey.currentState!.validate()) {
-
                             /// Vaciamos los erres que se presentaron
                             profileProvider.vaciarErrores();
 
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const IndexScreen(),
+                                  builder: (context) => IndexScreen(),
                                 ),
                               );
                             }

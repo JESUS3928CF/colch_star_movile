@@ -38,7 +38,7 @@ class _SideMenuState extends State<SideMenu> {
             case 0: // Dashboard
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const IndexScreen()),
+                MaterialPageRoute(builder: (context) => IndexScreen()),
               );
               break;
             case 1: // Ventas
@@ -64,7 +64,7 @@ class _SideMenuState extends State<SideMenu> {
               profileProvider.singOff();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
               break;
           }
