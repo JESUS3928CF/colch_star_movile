@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                /// Usando el provider hacer esto por cada uno de los métodos
+                                /// Usando el provider hacer esto por cada uno de los inputs
                                 initialValue: profileProvider.profile["name"],
                                 decoration: const InputDecoration(
                                     hintText: 'Nombre',
