@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (_) =>
-                ProfileProvider()) //* Aca ponen sus provider el de cliente y el de proveedor
+                ProfileProvider(),
+                ),
+                ChangeNotifierProvider(
+            create: (_) =>
+                CustomerProvider())  //* Aca ponen sus provider el de cliente y el de proveedor
       ],
       child: const MaterialApp(
         title: 'Material App',

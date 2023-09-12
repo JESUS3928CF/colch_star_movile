@@ -1,56 +1,62 @@
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
+import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'customers_create.dart';
 
 //* Para no tener que definer tantas beses las tarjas solo una ves
-const cards = <Map<String, dynamic>>[
-  {
-    'elevation': 4.0,
-    'name': 'Jesús',
-    'lastName': 'Cochero',
-    'phone': '32341231',
-    'email': 'jesus@gmail.com',
-    'address': 'Calle 20 # 80-20',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    'name': 'Briana',
-    'lastName': 'Dispareja',
-    'phone': '32341231',
-    'email': 'Briana@gmail.com',
-    'address': 'Calle 20 # 80-20',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    'name': 'Herlyn',
-    'lastName': 'Jose',
-    'phone': '32341231',
-    'email': 'herlyn@gmail.com',
-    'address': 'Calle 20 # 80-20',
-    'state': false,
-  },
-  {
-    'elevation': 4.0,
-    'name': 'Tomas',
-    'lastName': 'Sanchez',
-    'phone': '32341231',
-    'email': 'tomas@gmail.com',
-    'address': 'Calle 20 # 80-20',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    'name': 'Brian',
-    'lastName': 'Pareja',
-    'phone': '32341231',
-    'email': 'brian@gmail.com',
-    'address': 'Calle 20 # 80-20',
-    'state': false,
-  },
-];
+// const cards = <Map<String, dynamic>>[
+//   {
+//     'elevation': 4.0,
+//     'name': 'Jesús',
+//     'lastName': 'Cochero',
+//     'phone': '32341231',
+//     'email': 'jesus@gmail.com',
+//     'address': 'Calle 20 # 80-20',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     'name': 'Briana',
+//     'lastName': 'Dispareja',
+//     'phone': '32341231',
+//     'email': 'Briana@gmail.com',
+//     'address': 'Calle 20 # 80-20',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     'name': 'Herlyn',
+//     'lastName': 'Jose',
+//     'phone': '32341231',
+//     'email': 'herlyn@gmail.com',
+//     'address': 'Calle 20 # 80-20',
+//     'state': false,
+//   },
+//   {
+//     'elevation': 4.0,
+//     'name': 'Tomas',
+//     'lastName': 'Sanchez',
+//     'phone': '32341231',
+//     'email': 'tomas@gmail.com',
+//     'address': 'Calle 20 # 80-20',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     'name': 'Brian',
+//     'lastName': 'Pareja',
+//     'phone': '32341231',
+//     'email': 'brian@gmail.com',
+//     'address': 'Calle 20 # 80-20',
+//     'state': false,
+//   },
+// ];
+
+var customerProvider = CustomerProvider();
+
+
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
@@ -59,7 +65,28 @@ class CustomersScreen extends StatefulWidget {
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
 
+
+
 class _CustomersScreenState extends State<CustomersScreen> {
+
+ void initState() {
+    super.initState();
+    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    loadCustomers();
+  }
+ // Método async para cargar los clientes.
+  Future<void> loadCustomers() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await customerProvider.getCustomers();
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar clientes: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,14 +120,14 @@ class _CustomerView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...cards.map((card) => _CardCustomer(
-                elevation: card['elevation'],
-                name: card['name'],
-                lastName: card['lastName'],
-                phone: card['phone'],
-                email: card["email"],
-                address: card['address'],
-                state: card['state'],
+          ...customerProvider.customerList.map((customer) => _CardCustomer(
+                elevation: 4.0,
+                name: customer.name,
+                lastName: customer.lastName,
+                phone: customer.phone,
+                email: customer.email,
+                address: customer.address,
+                state: customer.state,
               ))
         ],
       ),
@@ -211,10 +238,11 @@ class _CardCustomerState extends State<_CardCustomer> {
                         )
                       : const Icon(Icons.toggle_off,
                           color: Color.fromARGB(255, 194, 29, 7)),
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       widget.state = !widget.state;
                     });
+
                   },
                 ),
 
