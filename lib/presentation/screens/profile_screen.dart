@@ -280,6 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               255,
                                                               255)),
                                                     )
+                                                    
                                                   ],
                                                 ),
                                                 // duration:

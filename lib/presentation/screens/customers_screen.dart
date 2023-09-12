@@ -1,4 +1,5 @@
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
+import 'package:colch_stat_app/presentation/screens/customers_edit.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
@@ -122,6 +123,7 @@ class _CustomerView extends StatelessWidget {
           ),
           ...customerProvider.customerList.map((customer) => _CardCustomer(
                 elevation: 4.0,
+                id: customer.id,
                 name: customer.name,
                 lastName: customer.lastName,
                 phone: customer.phone,
@@ -141,6 +143,7 @@ const labelCardStyle = TextStyle(
 );
 
 class _CardCustomer extends StatefulWidget {
+  final int id;
   final String name;
   final String? lastName;
   final String phone;
@@ -150,7 +153,8 @@ class _CardCustomer extends StatefulWidget {
   final double elevation;
 
   _CardCustomer(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.elevation,
       this.lastName,
       required this.phone,
@@ -225,7 +229,18 @@ class _CardCustomerState extends State<_CardCustomer> {
                     Icons.edit_sharp,
                     color: Color.fromARGB(255, 7, 135, 194),
                   ),
-                  onPressed: () {},
+                  onPressed: ()  {
+                    Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CustomersEdit()),
+              );
+
+                    //  customerProvider.llenarCustomer(widget.id);
+
+                       
+                    // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
+                  },
                 ),
                 const SizedBox(
                   width: 100,
@@ -242,6 +257,9 @@ class _CardCustomerState extends State<_CardCustomer> {
                     setState(() {
                       widget.state = !widget.state;
                     });
+
+                      await customerProvider.editCustomerState(widget.id, !widget.state);
+
 
                   },
                 ),
