@@ -114,6 +114,8 @@ class CustomerProvider extends ChangeNotifier {
   }
 
   void llenarCustomer(id) {
+
+    print(" Metodo iniciando");
     // customerList
   //  
     for (int i = 0; i < customerList.length; i++) {
@@ -127,10 +129,15 @@ class CustomerProvider extends ChangeNotifier {
       "address": customer["address"],
       "state": customer["state"],
     };
+
+print("Llenando customer");
+print(customer);
+
+    return notifyListeners();  
       }
     }
 
     
-    notifyListeners();
+    
   }
 }
