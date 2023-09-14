@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
-import 'package:flutter/material.dart';
+
+import '../providers/customer_provider.dart';
 
 class CustomersCreate extends StatefulWidget {
   const CustomersCreate({super.key});
@@ -10,259 +13,261 @@ class CustomersCreate extends StatefulWidget {
 }
 
 class _CustomersCreateState extends State<CustomersCreate> {
-
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final customerProvider = Provider.of<CustomerProvider>(context);
+
     return Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: AppBarColch()),
-        body: SingleChildScrollView(
-            child: Container(
-                margin: const EdgeInsets.only(top: 15, left: 30, right: 30),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(top: 15, left: 30, right: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                child: const Center(
+                  child: Text(
+                    'Agregar Cliente',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                    ),
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: Text(
+                    '!Agregar nuevo cliente de colch star!',
+                    style: TextStyle(fontSize: 17),
+                  ),
+                ),
+              ),
+              Form(
+                key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: const Center(
-                        child: Text(
-                          'Agregar Cliente',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                            hintText: 'Nombre',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                            fillColor: Color.fromARGB(255, 221, 216, 216),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            filled: true),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor ingrese su nombre';
+                          }
+                          return null;
+                        },
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Center(
-                          child: Text('!Agregar nuevo cliente de colch star!',
-                          style: TextStyle(
-                            fontSize: 17
-                          ),)),
-                    ),
-                    Form(
-                        key: _formKey,
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Nombre',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su nombre';
-                                    }
-                                    return null;
-                                  },
-                                  
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Apellidos',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Por favor digite su apellido';
-                                    }
-                                    return null;
-                                  },
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Telefono',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Telefono';
-                                    }
-                                    return null;
-                                  },
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Email',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    String pattern =
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                    RegExp regExp = RegExp(pattern);
-                                    if (value!.isEmpty) {
-                                      return "El correo es necesario";
-                                    } else if (!regExp.hasMatch(value)) {
-                                      return "Correo invalido";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Direccion',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Direccion';
-                                    }
-                                    return null;
-                                  },
-                                )),
-                            Row(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
-                                    child: SizedBox(
-                                      width: 100,
-                                      height: 45,
-                                      child: ElevatedButton(
-                                          onPressed: () {
-                                            if (_formKey.currentState!
-                                                .validate()) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Icon(
-                                                      Icons.check_circle,
-                                                      color: Color.fromARGB(
-                                                          255, 255, 255, 255),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Usuario registrado correctamente",
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              255,
-                                                              255,
-                                                              255)),
-                                                    )
-                                                  ],
-                                                ),
-                                                // duration:
-                                                //     Duration(milliseconds: 2000),
-                                                // width: 300,
-                                                // padding: EdgeInsets.symmetric(
-                                                //     horizontal: 8.0, vertical: 10),
-                                                // behavior: SnackBarBehavior.floating,
-                                                // shape: RoundedRectangleBorder(
-                                                //   borderRadius: BorderRadius.circular(9.0),
-                                                // ),
-                                                // backgroundColor:
-                                                //     Color.fromARGB(255, 0, 119, 62),
-                                              ));
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors
-                                                .green, // background (button) color
-                                            foregroundColor: Colors
-                                                .white, // foreground (text) color
-                                          ),
-                                          child: const Text('Agregar')),
-                                    )),
-                                    SizedBox( width: 20,),
-                                SizedBox(
-                                  width: 100,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      // Lógica para cancelar aquí
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors
-                                          .red, // Puedes cambiar el color según tus preferencias
-                                      foregroundColor: Colors.white,
-                                    ),
-                                    child: const Text('Cancelar'),
-                                  ),
-                                ),
-                              ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                        controller: _lastNameController,
+                        decoration: const InputDecoration(
+                            hintText: 'Apellido',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                            fillColor: Color.fromARGB(255, 221, 216, 216),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
                             ),
-                            // Añade un espacio entre los botones
-                          ],
-                        ))
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            filled: true),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor ingrese su nombre';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                        controller: _phoneController,
+                        decoration: const InputDecoration(
+                            hintText: 'Telefono',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                            fillColor: Color.fromARGB(255, 221, 216, 216),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            filled: true),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor ingrese su nombre';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                   
+                
+                    
+                    Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                              hintText: 'Email',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regExp = RegExp(pattern);
+                            if (value!.isEmpty) {
+                              return "El correo es necesario";
+                            } else if (!regExp.hasMatch(value)) {
+                              return "Correo invalido";
+                            } else {
+                              return null;
+                            }
+                          },
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: TextFormField(
+                          controller: _addressController,
+                          decoration: const InputDecoration(
+                              hintText: 'Direccion',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Por favor ingrese su Direccion';
+                            }
+                            return null;
+                          },
+                        )),
+
+                    // Resto de los campos de entrada aquí...
+
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: SizedBox(
+                            width: 100,
+                            height: 45,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  // Obtener los valores de los campos de entrada
+                                  final name = _nameController.text;
+                                  final lastName = _lastNameController.text;
+                                  final phone = _phoneController.text;
+                                  final email = _emailController.text;
+                                  final address = _addressController.text;
+
+                                  // Llamar a la función para crear el cliente
+                                  await customerProvider.createCustomer(
+                                    name,
+                                    lastName,
+                                    phone,
+                                    email,
+                                    address,
+                                  );
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "Cliente registrado correctamente",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text('Agregar'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                          width: 100,
+                          height: 45,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Lógica para cancelar aquí
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text('Cancelar'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Añade un espacio entre los botones
                   ],
-                ))),
-        drawer: SideMenu(navDrawerIndex: 2));
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      drawer: SideMenu(navDrawerIndex: 2),
+    );
   }
 }

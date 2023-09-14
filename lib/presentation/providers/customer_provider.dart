@@ -140,4 +140,35 @@ print(customer);
     
     
   }
+  Future<void> createCustomer(name, lastName,  phone,  email,  address) async {
+  final data = {
+    'nombre': name,
+    'apellido': lastName,
+    'telefono': phone,
+    'email': email,
+    'direccion': address,
+  };
+
+  final jsonData = jsonEncode(data);
+
+  try {
+    final response = await _dio.post(
+      'http://localhost:3000/api/clientes',
+      data: jsonData,
+    );
+
+    if (response.statusCode == 201) {
+      print('Cliente creado exitosamente');
+      print('Respuesta: ${response.data}');
+      // Puedes realizar alguna acción adicional si es necesario
+    } else {
+      print('Error al crear el cliente');
+      print('Código de estado: ${response.statusCode}');
+      print('Mensaje de error: ${response.statusMessage}');
+    }
+  } catch (error) {
+    print('Error al crear el cliente: $error');
+  }
+}
+
 }
