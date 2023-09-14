@@ -28,7 +28,8 @@ class CustomerProvider extends ChangeNotifier {
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getCustomers() async {
-    final response = await _dio.get("http://localhost:3000/api/clientes");
+    final response = await _dio.get(
+        "https://backend-colch-star-production.up.railway.app/api/clientes");
 
     print("Cnsultando clientes");
     if (response.statusCode == 200) {
@@ -62,7 +63,7 @@ class CustomerProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.post(
-        'http://localhost:3000/api/clientes',
+        'https://backend-colch-star-production.up.railway.app/api/clientes',
         data: jsonData,
       );
 
@@ -80,5 +81,55 @@ class CustomerProvider extends ChangeNotifier {
     }
   }
 
-  
+  void setCustomer(id) async {
+    customerList[id - 1];
+
+    customer = {
+      "id": customerList[id - 1].id,
+      "name": customerList[id - 1].name,
+      "lastName": customerList[id - 1].lastName,
+      "phone": customerList[id - 1].phone,
+      "email": customerList[id - 1].email,
+      "address": customerList[id - 1].address,
+      "state": customerList[id - 1].state,
+    };
+
+    print(customer);
+
+    notifyListeners();
+  }
+
+  Future<void> editCustomer(name, lastName, phone, email, address) async {
+    final data = {
+      'nombre': name,
+      'apellido': lastName,
+      'telefono': phone,
+      'email': email,
+      'direccion': address,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    var _id = customer["id"];
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/clientes/$_id',
+        data: jsonData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Cliente creado exitosamente');
+        print('Respuesta: ${response.data}');
+        // Puedes realizar alguna acción adicional si es necesario
+      } else {
+        print('Error al crear el cliente');
+        print('Código de estado: ${response.statusCode}');
+        print('Mensaje de error: ${response.statusMessage}');
+      }
+    } catch (error) {
+      print('Error al edita el cliente: $error');
+    }
+  }
+
+  notifyListeners();
 }

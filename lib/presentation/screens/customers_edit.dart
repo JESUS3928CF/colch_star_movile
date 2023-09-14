@@ -11,9 +11,22 @@ class CustomersEdit extends StatefulWidget {
 }
 
 class _CustomersEditState extends State<CustomersEdit> {
-  String _nombre = '';
   final _formKey = GlobalKey<FormState>();
-  String _password = '';
+
+  final TextEditingController _nombreController =
+      TextEditingController(text: customerProvider.customer["name"]);
+
+  final TextEditingController _apellidoController =
+      TextEditingController(text: customerProvider.customer["lastName"]);
+
+  final TextEditingController _telefonoController =
+      TextEditingController(text: customerProvider.customer["phone"]);
+
+  final TextEditingController _emailController =
+      TextEditingController(text: customerProvider.customer["email"]);
+
+  final TextEditingController _direccionController =
+      TextEditingController(text: customerProvider.customer["address"]);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +44,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                       margin: const EdgeInsets.only(top: 15),
                       child: const Center(
                         child: Text(
-                          'Agregar Cliente',
+                          'Editar Cliente',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
@@ -42,10 +55,10 @@ class _CustomersEditState extends State<CustomersEdit> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                          child: Text('!Agregar nuevo cliente de colch star!',
-                          style: TextStyle(
-                            fontSize: 17
-                          ),)),
+                          child: Text(
+                        '!Editar cliente de colch star!',
+                        style: TextStyle(fontSize: 17),
+                      )),
                     ),
                     Form(
                         key: _formKey,
@@ -54,7 +67,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
-                                  initialValue: customerProvider.customer["name"],
+                                  controller: _nombreController,
                                   decoration: const InputDecoration(
                                       hintText: 'Nombre',
                                       hintStyle: TextStyle(
@@ -76,16 +89,11 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     }
                                     return null;
                                   },
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _nombre = value.toString();
-                                    });
-                                  },
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
-                                  initialValue: customerProvider.customer["lastName"],
+                                  controller: _apellidoController,
                                   decoration: const InputDecoration(
                                       hintText: 'Apellidos',
                                       hintStyle: TextStyle(
@@ -111,9 +119,9 @@ class _CustomersEditState extends State<CustomersEdit> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
-                                  initialValue: customerProvider.customer["phone"],
+                                  controller: _telefonoController,
                                   decoration: const InputDecoration(
-                                      hintText: 'Telefono',
+                                      hintText: 'Teléfono',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -129,7 +137,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Telefono';
+                                      return 'Por favor ingrese su Teléfono';
                                     }
                                     return null;
                                   },
@@ -137,7 +145,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
-                                  initialValue: customerProvider.customer["email"],
+                                  controller: _emailController,
                                   decoration: const InputDecoration(
                                       hintText: 'Email',
                                       hintStyle: TextStyle(
@@ -169,9 +177,9 @@ class _CustomersEditState extends State<CustomersEdit> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
-                                  initialValue: customerProvider.customer["address"],
+                                  controller: _direccionController,
                                   decoration: const InputDecoration(
-                                      hintText: 'Direccion',
+                                      hintText: 'Dirección',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -202,8 +210,25 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       height: 45,
                                       child: ElevatedButton(
                                           onPressed: () {
+                                            String name =
+                                                _nombreController.text;
+                                            String lastName =
+                                                _apellidoController.text;
+                                            String phone =
+                                                _telefonoController.text;
+                                            String email =
+                                                _emailController.text;
+                                            String address =
+                                                _direccionController.text;
+
                                             if (_formKey.currentState!
                                                 .validate()) {
+                                              customerProvider.editCustomer(
+                                                  name,
+                                                  lastName,
+                                                  phone,
+                                                  email,
+                                                  address);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
                                                 content: Row(
@@ -219,7 +244,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Usuario registrado correctamente",
+                                                      "Cliente registrado correctamente",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
@@ -251,7 +276,9 @@ class _CustomersEditState extends State<CustomersEdit> {
                                           ),
                                           child: const Text('Agregar')),
                                     )),
-                                    SizedBox( width: 20,),
+                                SizedBox(
+                                  width: 20,
+                                ),
                                 SizedBox(
                                   width: 100,
                                   height: 45,
