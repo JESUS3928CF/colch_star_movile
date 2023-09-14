@@ -10,9 +10,8 @@ class CustomersCreate extends StatefulWidget {
 }
 
 class _CustomersCreateState extends State<CustomersCreate> {
-  String _nombre = '';
+
   final _formKey = GlobalKey<FormState>();
-  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +73,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                     }
                                     return null;
                                   },
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _nombre = value.toString();
-                                    });
-                                  },
+                                  
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
