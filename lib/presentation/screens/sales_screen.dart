@@ -1,93 +1,98 @@
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+import 'package:colch_stat_app/presentation/providers/sales_provider.dart';
+import 'package:colch_stat_app/presentation/screens/sales_edit.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'sales_create.dart';
 
-const Sales = <Map<String, dynamic>>[
-  {
-    'elevation': 4.0,
-    '_Producto': 'Camisa',
-    '_Cantidad': '3',
-    '_Precio': '35.000',
-    '_FechaDeEntrega': '14/12/24',
-    '_Descripcion': 'Camisa sin estampado',
-    '_Cliente': 'Juan',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-<<<<<<< HEAD
-    '_Producto': 'Buso',
-    '_Cantidad': '3',
-    '_Precio': '75.000',
-    '_FechaDeEntrega': '05/09/24',
-    '_Descripcion': 'Buso con estampado',
-=======
-    '_Producto': 'Briana',
-    '_Cantidad': 'Dispareja',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'Briana@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
->>>>>>> main
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-<<<<<<< HEAD
-    '_Producto': 'Camiseta',
-    '_Cantidad': '2',
-    '_Precio': '45.000',
-    '_FechaDeEntrega': '10/09/24',
-    '_Descripcion': 'Camiseta con estampados por ambos lados',
-=======
-    '_Producto': 'Herlyn',
-    '_Cantidad': 'Jose',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'herlyn@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
->>>>>>> main
-    'state': false,
-  },
-  {
-    'elevation': 4.0,
-<<<<<<< HEAD
-    '_Producto': 'Buso y camisa',
-    '_Cantidad': '1',
-    '_Precio': '150.000',
-    '_FechaDeEntrega': '04/09/24',
-    '_Descripcion': 'El buso y la camisa contiene estampados',
-=======
-    '_Producto': 'Tomas',
-    '_Cantidad': 'Sanchez',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'tomas@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
->>>>>>> main
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-<<<<<<< HEAD
-    '_Producto': 'Buso',
-    '_Cantidad': '1',
-    '_Precio': '85.000',
-    '_FechaDeEntrega': '23/08/24',
-    '_Descripcion': 'Buso con estampados ambos lados',
-=======
-    '_Producto': 'Brian',
-    '_Cantidad': 'Pareja',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'brian@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
->>>>>>> main
-    'state': false,
-  },
-];
+// const Sales = <Map<String, dynamic>>[
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Camisa',
+//     '_Cantidad': '3',
+//     '_Precio': '35.000',
+//     '_FechaDeEntrega': '14/12/24',
+//     '_Descripcion': 'Camisa sin estampado',
+//     '_Cliente': 'Juan',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+// <<<<<<< HEAD
+//     '_Producto': 'Buso',
+//     '_Cantidad': '3',
+//     '_Precio': '75.000',
+//     '_FechaDeEntrega': '05/09/24',
+//     '_Descripcion': 'Buso con estampado',
+// =======
+//     '_Producto': 'Briana',
+//     '_Cantidad': 'Dispareja',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'Briana@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+// >>>>>>> main
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+// <<<<<<< HEAD
+//     '_Producto': 'Camiseta',
+//     '_Cantidad': '2',
+//     '_Precio': '45.000',
+//     '_FechaDeEntrega': '10/09/24',
+//     '_Descripcion': 'Camiseta con estampados por ambos lados',
+// =======
+//     '_Producto': 'Herlyn',
+//     '_Cantidad': 'Jose',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'herlyn@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+// >>>>>>> main
+//     'state': false,
+//   },
+//   {
+//     'elevation': 4.0,
+// <<<<<<< HEAD
+//     '_Producto': 'Buso y camisa',
+//     '_Cantidad': '1',
+//     '_Precio': '150.000',
+//     '_FechaDeEntrega': '04/09/24',
+//     '_Descripcion': 'El buso y la camisa contiene estampados',
+// =======
+//     '_Producto': 'Tomas',
+//     '_Cantidad': 'Sanchez',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'tomas@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+// >>>>>>> main
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+// <<<<<<< HEAD
+//     '_Producto': 'Buso',
+//     '_Cantidad': '1',
+//     '_Precio': '85.000',
+//     '_FechaDeEntrega': '23/08/24',
+//     '_Descripcion': 'Buso con estampados ambos lados',
+// =======
+//     '_Producto': 'Brian',
+//     '_Cantidad': 'Pareja',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'brian@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+// >>>>>>> main
+//     'state': false,
+//   },
+// ];
+
+
+ var salesProviders = SaleProvider();
+
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -97,6 +102,26 @@ class SalesScreen extends StatefulWidget {
 }
 
 class _SalesScreenState extends State<SalesScreen> {
+
+  void initState() {
+    super.initState();
+    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    loadSales();
+  }
+ // Método async para cargar los clientes.
+  Future<void> loadSales() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await salesProviders.getSales();
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar de ventas: $error');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +137,7 @@ class _SalesScreenState extends State<SalesScreen> {
             );
           }),
       drawer: SideMenu(
-        navDrawerIndex: 1,
+        navDrawerIndex: 2,
       ),
     );
   }
@@ -131,15 +156,15 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...Sales.map((sale) => _Salescustomer(
-                elevation: sale['elevation'],
-                Producto: sale['_Producto'],
-                Cantidad: sale['_Cantidad'],
-                Precio: sale['_Precio'],
-                FechaDeEntrega: sale["_FechaDeEntrega"],
-                Descripcion: sale['_Descripcion'],
-                Cliente: sale['_Cliente'],
-                state: sale['state'],
+          ...salesProviders.salesList.map((sale) => _CardSales(
+                elevation: 4.0,
+                id: sale.id,
+                products: sale.products,
+                amountProducts: sale.amountProducts,
+                price: sale.price,
+                deliverDate:sale.deliverDate,
+                description:sale.description,
+                state: sale.state,
               ))
         ],
       ),
@@ -152,31 +177,35 @@ const labelCardStyle = TextStyle(
   fontSize: 20,
 );
 
-class _Salescustomer extends StatefulWidget {
-  final String Producto;
-  final String? Cantidad;
-  final String Precio;
-  final String FechaDeEntrega;
-  final String Descripcion;
-  final String Cliente;
-  bool state;
-  final double elevation;
+class _CardSales extends StatefulWidget {
 
-  _Salescustomer(
-      {required this.Producto,
-      required this.elevation,
-      this.Cantidad,
-      required this.Precio,
-      required this.FechaDeEntrega,
-      required this.Descripcion,
+  late final int id;
+  late final String products;
+  late final int amountProducts;
+  late final double price;
+  late final DateTime deliverDate;
+  late final String description;
+  late final bool state;
+  late final double elevation;
+
+  _CardSales(
+
+      {
+      required this.id,
+      required this.products,
+      required this.amountProducts,
+      required this.price,
+      required this.deliverDate,
+      required this.description,
       required this.state,
-      required this.Cliente});
+      required this.elevation
+      });
 
   @override
-  State<_Salescustomer> createState() => _SalescustomerState();
+  State<_CardSales> createState() => _CardSalesState();
 }
 
-class _SalescustomerState extends State<_Salescustomer> {
+class _CardSalesState extends State<_CardSales> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -196,7 +225,7 @@ class _SalescustomerState extends State<_Salescustomer> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.Producto}',
+                  '${widget.products}',
                   style: labelCardStyle,
                 )),
               ),
@@ -206,7 +235,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cantidad : ${widget.Cantidad}',
+                  'Cantidad : ${widget.amountProducts}',
                   style: textCardStyle,
                 ),
               ),
@@ -216,7 +245,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.Precio}',
+                  'Precio Total: ${widget.price}',
                   style: textCardStyle,
                 ),
               ),
@@ -226,7 +255,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.FechaDeEntrega}',
+                  'Fecha De Entrega: : ${widget.deliverDate}',
                   style: textCardStyle,
                 ),
               ),
@@ -236,17 +265,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: : ${widget.Descripcion}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Cliente: : ${widget.Cliente}',
+                  'Descripción: : ${widget.description}',
                   style: textCardStyle,
                 ),
               ),
@@ -259,7 +278,10 @@ class _SalescustomerState extends State<_Salescustomer> {
                     Icons.edit_sharp,
                     color: Color.fromARGB(255, 7, 135, 194),
                   ),
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SalesEdit()),);},
                 ),
                 const SizedBox(
                   width: 100,
@@ -278,7 +300,6 @@ class _SalescustomerState extends State<_Salescustomer> {
                     });
                   },
                 ),
-
                 // SwitchListTile(value: true, onChanged: (value) {})
               ],
             ),
