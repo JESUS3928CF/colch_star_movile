@@ -1,16 +1,16 @@
-import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
+import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
-class SalesCreate extends StatefulWidget {
-  const SalesCreate({super.key});
+class CustomersEdit extends StatefulWidget {
+  const CustomersEdit({super.key});
 
   @override
-  State<SalesCreate> createState() => _SalesCreateState();
+  State<CustomersEdit> createState() => _CustomersEditState();
 }
 
-class _SalesCreateState extends State<SalesCreate> {
+class _CustomersEditState extends State<CustomersEdit> {
   String _nombre = '';
   final _formKey = GlobalKey<FormState>();
   String _password = '';
@@ -31,7 +31,7 @@ class _SalesCreateState extends State<SalesCreate> {
                       margin: const EdgeInsets.only(top: 15),
                       child: const Center(
                         child: Text(
-                          'Agregar Venta',
+                          'Agregar Cliente',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
@@ -42,10 +42,10 @@ class _SalesCreateState extends State<SalesCreate> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Center(
-                          child: Text(
-                        '!Agregar una nueva venta a colch star!',
-                        style: TextStyle(fontSize: 17),
-                      )),
+                          child: Text('!Agregar nuevo cliente de colch star!',
+                          style: TextStyle(
+                            fontSize: 17
+                          ),)),
                     ),
                     Form(
                         key: _formKey,
@@ -54,8 +54,9 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
+                                  initialValue: customerProvider.customer["name"],
                                   decoration: const InputDecoration(
-                                      hintText: 'Producto',
+                                      hintText: 'Nombre',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -71,7 +72,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Por favor el nombre del producto';
+                                      return 'Por favor ingrese su nombre';
                                     }
                                     return null;
                                   },
@@ -84,8 +85,9 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  initialValue: customerProvider.customer["lastName"],
                                   decoration: const InputDecoration(
-                                      hintText: 'Cantidad',
+                                      hintText: 'Apellidos',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -101,7 +103,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Por favor digite la cantidad';
+                                      return 'Por favor digite su apellido';
                                     }
                                     return null;
                                   },
@@ -109,8 +111,9 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  initialValue: customerProvider.customer["phone"],
                                   decoration: const InputDecoration(
-                                      hintText: 'Precio',
+                                      hintText: 'Telefono',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -126,7 +129,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Por favor ingrese el precio';
+                                      return 'Por favor ingrese su Telefono';
                                     }
                                     return null;
                                   },
@@ -134,8 +137,41 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  initialValue: customerProvider.customer["email"],
                                   decoration: const InputDecoration(
-                                      hintText: 'Fecha de entrega ',
+                                      hintText: 'Email',
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                      fillColor:
+                                          Color.fromARGB(255, 221, 216, 216),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      filled: true),
+                                  validator: (value) {
+                                    String pattern =
+                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                    RegExp regExp = RegExp(pattern);
+                                    if (value!.isEmpty) {
+                                      return "El correo es necesario";
+                                    } else if (!regExp.hasMatch(value)) {
+                                      return "Correo invalido";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: TextFormField(
+                                  initialValue: customerProvider.customer["address"],
+                                  decoration: const InputDecoration(
+                                      hintText: 'Direccion',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -151,57 +187,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return "La fecha es necesario";
-                                    }
-                                    return null;
-                                  },
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Descripcion',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese la descripción del producto';
-                                    }
-                                    return null;
-                                  },
-                                )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                      hintText: 'Cliente',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor seleccione un cliente';
+                                      return 'Por favor ingrese su Direccion';
                                     }
                                     return null;
                                   },
@@ -233,7 +219,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Venta registrada correctamente",
+                                                      "Usuario registrado correctamente",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
@@ -265,34 +251,24 @@ class _SalesCreateState extends State<SalesCreate> {
                                           ),
                                           child: const Text('Agregar')),
                                     )),
-                                const SizedBox(
-                                  width: 20,
-                                ),
+                                    SizedBox( width: 20,),
                                 SizedBox(
                                   width: 100,
                                   height: 45,
-                                  child: Builder(builder: (context) {
-                                    return ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SalesScreen()));
-                                        // Lógica para cancelar aquí
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors
-                                            .red, // Puedes cambiar el color según tus preferencias
-                                        foregroundColor: Colors.white,
-                                      ),
-                                      child: const Text('Cancelar'),
-                                    );
-                                  }),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Lógica para cancelar aquí
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors
+                                          .red, // Puedes cambiar el color según tus preferencias
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    child: const Text('Cancelar'),
+                                  ),
                                 ),
                               ],
                             ),
-
                             // Añade un espacio entre los botones
                           ],
                         ))

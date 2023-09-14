@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 
@@ -31,8 +32,17 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+//! Instanciamos el proveedor para poder usar sus métodos
+var profileProvider = ProfileProvider();
+
+
+
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+  // ignore: unused_field
   String _password = '';
 
   @override
@@ -67,19 +77,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Correo Electrónico',
-                        prefixIcon: Icon(Icons.email),
+                        prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
+                        //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
+                        errorText: profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
+                          // profileProvider.vaciarErrores();
+                          print("Correo invalido");
+                          print(profileProvider.errores);
                           return 'El correo es necesario';
                         } else if (!RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                             .hasMatch(value)) {
+                          // profileProvider.vaciarErrores();
                           return 'Correo inválido';
                         }
                         return null;
@@ -87,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       onChanged: (value) {
                         setState(() {
@@ -94,17 +112,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        hintText: 'Contraseña',
-                        prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                          hintText: 'Contraseña',
+                          prefixIcon: const Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          errorText:
+
+                              /// Usando el provider
+                              profileProvider.errores["messagePassword"]),
                       validator: (value) {
                         if (value!.isEmpty) {
+                          // profileProvider.vaciarErrores();
                           return 'La contraseña es necesaria';
-                        } else if (value != 'jesus123') {
-                          return 'La contraseña es incorrecta';
                         }
                         return null;
                       },
@@ -114,18 +134,40 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       height: 45,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          String password = _passwordController.text;
+                          String email = _emailController.text;
+
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const IndexScreen(),
-                              ),
-                            );
+                            /// Vaciamos los erres que se presentaron
+                            profileProvider.vaciarErrores();
+
+                            //! Lo que hago es buscar el perfil en la API
+                            await profileProvider.getProfile(email, password);
+                            // Agrega setState para que la vista se actualice
+                            setState(() {});
+
+                            /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
+                            if (profileProvider.profile["name"].isNotEmpty) {
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IndexScreen(),
+                                ),
+                              );
+                            }
+
+                            try {
+                              // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.
+                            } catch (error) {
+                              // Manejar cualquier error que pueda ocurrir durante la obtención de datos.
+                              print(error);
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

@@ -1,8 +1,9 @@
-import 'package:colch_stat_app/main.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
+import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
+import 'package:colch_stat_app/presentation/screens/recover_password_screen.dart';
 import 'package:flutter/material.dart';
 
 class SideMenu extends StatefulWidget {
@@ -38,7 +39,7 @@ class _SideMenuState extends State<SideMenu> {
             case 0: // Dashboard
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const IndexScreen()),
+                MaterialPageRoute(builder: (context) => IndexScreen()),
               );
               break;
             case 1: // Ventas
@@ -63,6 +64,14 @@ class _SideMenuState extends State<SideMenu> {
             case 4:
               Navigator.push(
                 context,
+                MaterialPageRoute(
+                    builder: (context) => const RecoverPassword()),
+              );
+              break;
+            case 5:
+              profileProvider.singOff();
+              Navigator.push(
+                context,
                 MaterialPageRoute(builder: (context) => const MyApp()),
               );
               break;
@@ -71,19 +80,19 @@ class _SideMenuState extends State<SideMenu> {
         children: [
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: Text("Menú principal", style: menuTextStyle),
+            child: const Text("Menú principal", style: menuTextStyle),
           ),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.dashboard),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.dashboard),
               label: Text(
                 'Dashboard',
                 style: menuItemsTextStyle,
               )),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.add_shopping_cart_sharp),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.add_shopping_cart_sharp),
               label: Text('Ventas', style: menuItemsTextStyle)),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.person),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.person),
               label: Text('Clientes', style: menuItemsTextStyle)),
           const Padding(
             padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
@@ -91,19 +100,25 @@ class _SideMenuState extends State<SideMenu> {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: Text(
+            child: const Text(
               "Más acciones",
               style: menuTextStyle,
             ),
           ),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.account_circle),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.account_circle),
               label: Text(
                 'Mi perfil',
                 style: menuItemsTextStyle,
               )),
-          NavigationDrawerDestination(
-              icon: const Icon(Icons.logout_rounded),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.lock_outlined),
+              label: Text(
+                'Contraseña',
+                style: menuItemsTextStyle,
+              )),
+          const NavigationDrawerDestination(
+              icon: Icon(Icons.logout_rounded),
               label: Text(
                 'Cerrar sesión',
                 style: menuItemsTextStyle,

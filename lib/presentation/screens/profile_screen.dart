@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,17 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  /// Instanciamos el proveedor para poder usar sus métodos
+
+  // ignore: unused_field
   String _nombre = '';
   final _formKey = GlobalKey<FormState>();
   String _password = '';
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    ;
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
@@ -41,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(vertical: 7),
                     child: Center(
                         child: Text(
-                      '!Modifica tu informacion aqui!',
+                      '!Modifica tu información aquí!',
                       style: TextStyle(fontSize: 17),
                     )),
                   ),
@@ -52,6 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
+                                /// Usando el provider hacer esto por cada uno de los inputs
+                                initialValue: profileProvider.profile["name"],
                                 decoration: const InputDecoration(
                                     hintText: 'Nombre',
                                     hintStyle:
@@ -82,6 +90,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
+                                initialValue:
+                                    profileProvider.profile["lastName"],
                                 decoration: const InputDecoration(
                                     hintText: 'Apellido',
                                     hintStyle:
@@ -107,6 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
+                                initialValue: profileProvider.profile["phone"],
                                 decoration: const InputDecoration(
                                     hintText: 'Telefono',
                                     hintStyle:
@@ -133,6 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
+                                initialValue: profileProvider.profile["email"],
                                 decoration: const InputDecoration(
                                     hintText: 'Email',
                                     hintStyle:
@@ -161,72 +173,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   }
                                 },
                               )),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: TextFormField(
-                                obscureText: true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _password = value;
-                                  });
-                                },
-                                decoration: const InputDecoration(
-                                    hintText: 'Contraseña',
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w700),
-                                    fillColor:
-                                        Color.fromARGB(255, 221, 216, 216),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0, style: BorderStyle.none),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0, style: BorderStyle.none),
-                                    ),
-                                    filled: true),
-                                validator: (value) {
-                                  String pattern =
-                                      r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,20}$';
-                                  RegExp regExp = RegExp(pattern);
-                                  if (value!.isEmpty) {
-                                    return "La contraseña es necesaria";
-                                  } else if (!regExp.hasMatch(value)) {
-                                    return "La contraseña debe tener al menos 10 y maximo 20 caracteres , 1 letra mayúscula, 1 minúscula y 1 número. Además puede contener caracteres especiales.";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: TextFormField(
-                                obscureText: true,
-                                decoration: const InputDecoration(
-                                    hintText: 'Confirmar contraseña',
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w700),
-                                    fillColor:
-                                        Color.fromARGB(255, 221, 216, 216),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0, style: BorderStyle.none),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0, style: BorderStyle.none),
-                                    ),
-                                    filled: true),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  if (value != _password) {
-                                    return 'Las contraseñas no coinciden';
-                                  }
-                                  return null;
-                                },
-                              )),
+                          // Padding(
+                          //     padding: const EdgeInsets.only(top: 15),
+                          //     child: TextFormField(
+                          //       initialValue:
+                          //           profileProvider.profile["apellido"],
+                          //       obscureText: true,
+                          //       onChanged: (value) {
+                          //         setState(() {
+                          //           _password = value;
+                          //         });
+                          //       },
+                          //       decoration: const InputDecoration(
+                          //           hintText: 'Contraseña',
+                          //           hintStyle:
+                          //               TextStyle(fontWeight: FontWeight.w700),
+                          //           fillColor:
+                          //               Color.fromARGB(255, 221, 216, 216),
+                          //           focusedBorder: OutlineInputBorder(
+                          //             borderSide: BorderSide(
+                          //                 width: 0, style: BorderStyle.none),
+                          //           ),
+                          //           enabledBorder: OutlineInputBorder(
+                          //             borderSide: BorderSide(
+                          //                 width: 0, style: BorderStyle.none),
+                          //           ),
+                          //           filled: true),
+                          //       validator: (value) {
+                          //         String pattern =
+                          //             r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,20}$';
+                          //         RegExp regExp = RegExp(pattern);
+                          //         if (value!.isEmpty) {
+                          //           return "La contraseña es necesaria";
+                          //         } else if (!regExp.hasMatch(value)) {
+                          //           return "La contraseña debe tener al menos 10 y maximo 20 caracteres , 1 letra mayúscula, 1 minúscula y 1 número. Además puede contener caracteres especiales.";
+                          //         } else {
+                          //           return null;
+                          //         }
+                          //       },
+                          //     )),
+                          // Padding(
+                          //     padding: const EdgeInsets.only(top: 15),
+                          //     child: TextFormField(
+                          //       obscureText: true,
+                          //       decoration: const InputDecoration(
+                          //           hintText: 'Confirmar contraseña',
+                          //           hintStyle:
+                          //               TextStyle(fontWeight: FontWeight.w700),
+                          //           fillColor:
+                          //               Color.fromARGB(255, 221, 216, 216),
+                          //           focusedBorder: OutlineInputBorder(
+                          //             borderSide: BorderSide(
+                          //                 width: 0, style: BorderStyle.none),
+                          //           ),
+                          //           enabledBorder: OutlineInputBorder(
+                          //             borderSide: BorderSide(
+                          //                 width: 0, style: BorderStyle.none),
+                          //           ),
+                          //           filled: true),
+                          //       validator: (value) {
+                          //         if (value == null || value.isEmpty) {
+                          //           return 'Please enter some text';
+                          //         }
+                          //         if (value != _password) {
+                          //           return 'Las contraseñas no coinciden';
+                          //         }
+                          //         return null;
+                          //       },
+                          //     )),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -266,6 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               255,
                                                               255)),
                                                     )
+                                                    
                                                   ],
                                                 ),
                                                 // duration:
