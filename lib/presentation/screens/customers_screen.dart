@@ -258,7 +258,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                      await customerProvider.editCustomerState(widget.id, !widget.state);
+                      // await customerProvider.editCustomerState(widget.id, !widget.state);
 
 
                   },
