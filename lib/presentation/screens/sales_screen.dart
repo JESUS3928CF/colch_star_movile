@@ -2,60 +2,63 @@ import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import '../providers/sale_provider.dart';
 import 'sales_create.dart';
 
-const Sales = <Map<String, dynamic>>[
-  {
-    'elevation': 4.0,
-    '_Producto': 'Camisa',
-    '_Cantidad': '3',
-    '_Precio': '35.000',
-    '_FechaDeEntrega': '14/12/24',
-    '_Descripcion': 'Camisa sin estampado',
-    '_Cliente': 'Juan',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    '_Producto': 'Briana',
-    '_Cantidad': 'Dispareja',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'Briana@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    '_Producto': 'Herlyn',
-    '_Cantidad': 'Jose',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'herlyn@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
-    'state': false,
-  },
-  {
-    'elevation': 4.0,
-    '_Producto': 'Tomas',
-    '_Cantidad': 'Sanchez',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'tomas@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
-    'state': true,
-  },
-  {
-    'elevation': 4.0,
-    '_Producto': 'Brian',
-    '_Cantidad': 'Pareja',
-    '_Precio': '32341231',
-    '_FechaDeEntrega': 'brian@gmail.com',
-    '_Descripcion': 'Calle 20 # 80-20',
-    '_Cliente': 'Juan',
-    'state': false,
-  },
-];
+// const Sales = <Map<String, dynamic>>[
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Camisa',
+//     '_Cantidad': '3',
+//     '_Precio': '35.000',
+//     '_FechaDeEntrega': '14/12/24',
+//     '_Descripcion': 'Camisa sin estampado',
+//     '_Cliente': 'Juan',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Briana',
+//     '_Cantidad': 'Dispareja',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'Briana@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Herlyn',
+//     '_Cantidad': 'Jose',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'herlyn@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+//     'state': false,
+//   },
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Tomas',
+//     '_Cantidad': 'Sanchez',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'tomas@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+//     'state': true,
+//   },
+//   {
+//     'elevation': 4.0,
+//     '_Producto': 'Brian',
+//     '_Cantidad': 'Pareja',
+//     '_Precio': '32341231',
+//     '_FechaDeEntrega': 'brian@gmail.com',
+//     '_Descripcion': 'Calle 20 # 80-20',
+//     '_Cliente': 'Juan',
+//     'state': false,
+//   },
+// ];
+
+var saleProvider = SaleProvider();
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -64,7 +67,27 @@ class SalesScreen extends StatefulWidget {
   State<SalesScreen> createState() => _SalesScreenState();
 }
 
+
+
 class _SalesScreenState extends State<SalesScreen> {
+
+  void initState() {
+    super.initState();
+    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    loadSales();
+  }
+ // Método async para cargar los clientes.
+  Future<void> loadSales() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await saleProvider.getSales();
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar ventas: $error');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +109,7 @@ class _SalesScreenState extends State<SalesScreen> {
   }
 }
 
+
 class _SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -99,15 +123,17 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...Sales.map((sale) => _Salescustomer(
-                elevation: sale['elevation'],
-                Producto: sale['_Producto'],
-                Cantidad: sale['_Cantidad'],
-                Precio: sale['_Precio'],
-                FechaDeEntrega: sale["_FechaDeEntrega"],
-                Descripcion: sale['_Descripcion'],
-                Cliente: sale['_Cliente'],
-                state: sale['state'],
+          ...saleProvider.saleList.map((sale) => _CardSale(
+                elevation: 4.0,
+                id: sale.id,
+                product: sale.product,
+                amountproduct: sale.amountproduct,
+                totalamount: sale.totalamount,
+                time: sale.time,
+                description: sale.description,
+                state: sale.state,
+                fk_cliente: sale.fk_cliente
+
               ))
         ],
       ),
@@ -120,31 +146,33 @@ const labelCardStyle = TextStyle(
   fontSize: 20,
 );
 
-class _Salescustomer extends StatefulWidget {
-  final String Producto;
-  final String? Cantidad;
-  final String Precio;
-  final String FechaDeEntrega;
-  final String Descripcion;
-  final String Cliente;
+class _CardSale extends StatefulWidget {
+  final int id;
+  final String product;
+  final int amountproduct;
+  final String totalamount;
+  final String time;
+  final String description;
   bool state;
+  final int fk_cliente;
   final double elevation;
 
-  _Salescustomer(
-      {required this.Producto,
+  _CardSale(
+      {required this.id,
+        required this.product,
       required this.elevation,
-      this.Cantidad,
-      required this.Precio,
-      required this.FechaDeEntrega,
-      required this.Descripcion,
+      required this.amountproduct,
+      required this.totalamount,
+      required this.time,
+      required this.description,
       required this.state,
-      required this.Cliente});
+      required this.fk_cliente});
 
   @override
-  State<_Salescustomer> createState() => _SalescustomerState();
+  State<_CardSale> createState() => _CardsaleState();
 }
 
-class _SalescustomerState extends State<_Salescustomer> {
+class _CardsaleState extends State<_CardSale> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -164,7 +192,7 @@ class _SalescustomerState extends State<_Salescustomer> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.Producto}',
+                  '${widget.product}',
                   style: labelCardStyle,
                 )),
               ),
@@ -174,7 +202,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cantidad : ${widget.Cantidad}',
+                  'Cantidad : ${widget.amountproduct}',
                   style: textCardStyle,
                 ),
               ),
@@ -184,7 +212,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.Precio}',
+                  'Precio Total: ${widget.totalamount}',
                   style: textCardStyle,
                 ),
               ),
@@ -194,7 +222,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.FechaDeEntrega}',
+                  'Fecha De Entrega: : ${widget.time}',
                   style: textCardStyle,
                 ),
               ),
@@ -204,7 +232,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: : ${widget.Descripcion}',
+                  'Descripción: : ${widget.description}',
                   style: textCardStyle,
                 ),
               ),
@@ -214,7 +242,7 @@ class _SalescustomerState extends State<_Salescustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cliente: : ${widget.Cliente}',
+                  'Cliente: : ${widget.fk_cliente}',
                   style: textCardStyle,
                 ),
               ),
