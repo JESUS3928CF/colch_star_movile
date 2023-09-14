@@ -57,8 +57,6 @@ import 'customers_create.dart';
 
 var customerProvider = CustomerProvider();
 
-
-
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
 
@@ -66,16 +64,14 @@ class CustomersScreen extends StatefulWidget {
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
 
-
-
 class _CustomersScreenState extends State<CustomersScreen> {
-
- void initState() {
+  void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
     loadCustomers();
   }
- // Método async para cargar los clientes.
+
+  // Método async para cargar los clientes.
   Future<void> loadCustomers() async {
     try {
       // Llama al método en customerProvider para cargar los clientes.
@@ -229,16 +225,15 @@ class _CardCustomerState extends State<_CardCustomer> {
                     Icons.edit_sharp,
                     color: Color.fromARGB(255, 7, 135, 194),
                   ),
-                  onPressed: ()  {
+                  onPressed: () {
                     Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CustomersEdit()),
-              );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CustomersEdit()),
+                    );
 
-                    //  customerProvider.llenarCustomer(widget.id);
+                    customerProvider.setCustomer(widget.id);
 
-                       
                     // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
                   },
                 ),
@@ -258,9 +253,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                      // await customerProvider.editCustomerState(widget.id, !widget.state);
-
-
+                    // await customerProvider.editCustomerState(widget.id, !widget.state);
                   },
                 ),
 

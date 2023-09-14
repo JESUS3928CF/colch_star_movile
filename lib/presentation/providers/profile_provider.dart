@@ -28,7 +28,8 @@ class ProfileProvider extends ChangeNotifier {
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getUsers() async {
-    final response = await _dio.get("http://localhost:3000/api/usuarios");
+    final response = await _dio.get(
+        "https://backend-colch-star-production.up.railway.app/api/usuarios");
 
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -48,7 +49,8 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> getProfile(email, password) async {
     // URL de la API a la que deseas enviar la solicitud POST
-    const url = 'http://localhost:3000/api/usuarios/login';
+    const url =
+        'https://backend-colch-star-production.up.railway.app/api/usuarios/login';
 
     // Datos que deseas enviar en el cuerpo de la solicitud
     final data = {
