@@ -222,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Usuario registrado correctamente",
+                                                      "Usuario editado correctamente",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
