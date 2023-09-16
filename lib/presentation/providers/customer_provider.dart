@@ -8,11 +8,9 @@ import 'package:flutter/widgets.dart';
 class CustomerProvider extends ChangeNotifier {
   final _dio = Dio(BaseOptions());
 
-  /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
   List<Customer> customerList =
       []; //* esto es una lista de entidades de usuarios
 
-  /// Propiedad a llenar si alguien se loguea
   Map<dynamic, dynamic> customer = {
     "id": "",
     "name": "",
@@ -23,15 +21,14 @@ class CustomerProvider extends ChangeNotifier {
     "state": "",
   };
 
-  /// Propiedad a llenar alguien intenta loguearse pero comete errores
+  int totalClients = 0;
+
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
-  //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getCustomers() async {
     final response = await _dio.get(
         "https://backend-colch-star-production.up.railway.app/api/clientes");
 
-    print("Cnsultando clientes");
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
       final List<Customer> newCustomer = data
@@ -42,9 +39,10 @@ class CustomerProvider extends ChangeNotifier {
           .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
       customerList.addAll(newCustomer);
 
+
+      totalClients = customerList.length;
+
       notifyListeners();
-      print("Cnsultando clientes");
-      print(customerList[0].name);
     } else {
       // Manejar el error aquí si es necesario
     }

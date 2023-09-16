@@ -65,24 +65,7 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
-  void initState() {
-    super.initState();
-    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
-    loadCustomers();
-  }
-
-  // Método async para cargar los clientes.
-  Future<void> loadCustomers() async {
-    try {
-      // Llama al método en customerProvider para cargar los clientes.
-      await customerProvider.getCustomers();
-      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
-      setState(() {});
-    } catch (error) {
-      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-      print('Error al cargar clientes: $error');
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
