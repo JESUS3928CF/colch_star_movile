@@ -144,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     filled: true),
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Por favor ingrese su Telefono';
+                                    return 'Por favor ingrese su Teléfono';
                                   }
                                   return null;
                                 },

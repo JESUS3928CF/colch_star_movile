@@ -152,4 +152,35 @@ class ProfileProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> changePassword(
+      String currentPassword, String newPassword) async {
+    final data = {
+      'contrasenaActual': currentPassword,
+      'contrasenaNueva': newPassword,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    int id = profile["id"];
+
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/usuarios/cambiarContrasena/$id;',
+        data: jsonData,
+      );
+
+      print('Contraseña editada o no');
+      print('Respuesta: ${response.data}');
+
+      if (response.data["message"] == "Contraseña actual incorrecta") {
+        errores["messagePassword"] = response.data["message"];
+      }
+      // Puedes realizar alguna acción adicional si es necesario
+    } catch (error) {
+      print('Error al editar el usuario: $error');
+    }
+
+    notifyListeners();
+  }
 }
