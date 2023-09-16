@@ -14,9 +14,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-
-
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nombreController =
@@ -31,10 +28,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _emailController =
       TextEditingController(text: profileProfile.profile["email"]);
 
+  void _updateControllers() {
+    print("editar perfil provando");
+    //    setState(() {});
+    print(profileProfile.profile);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    ;
+    // ignore: unused_local_variable;
+
+    _updateControllers();
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),

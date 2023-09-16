@@ -88,6 +88,9 @@ class ProfileProvider extends ChangeNotifier {
         profile["password"] = profile02.password;
         profile["state"] = profile02.state;
         profile["rolName"] = profile02.rolName;
+
+        print("Que pasa...");
+        print(profile);
       }
 
       notifyListeners(); //! Esto es para cuando la información del provider cambie notificar de estos cambios en todos los lugares donde sea usado proveedor
