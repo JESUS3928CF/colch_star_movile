@@ -13,32 +13,30 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+void initState() {
+  // Llena los controladores con los datos iniciales del perfil solo una vez
+  print("Llenar perfil");
+  print(profileProfile.profile);
+}
+
 class _ProfileScreenState extends State<ProfileScreen> {
+  initState();
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nombreController =
-      TextEditingController(text: profileProfile.profile["name"]);
-
+      TextEditingController(text: profileProvider.profile["name"]);
   final TextEditingController _apellidoController =
-      TextEditingController(text: profileProfile.profile["lastName"]);
-
+      TextEditingController(text: profileProvider.profile["lastName"]);
   final TextEditingController _telefonoController =
-      TextEditingController(text: profileProfile.profile["phone"]);
-
+      TextEditingController(text: profileProvider.profile["phone"]);
   final TextEditingController _emailController =
-      TextEditingController(text: profileProfile.profile["email"]);
-
-  void _updateControllers() {
-    print("editar perfil provando");
-    //    setState(() {});
-    print(profileProfile.profile);
-  }
+      TextEditingController(text: profileProvider.profile["email"]);
 
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable;
 
-    _updateControllers();
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
