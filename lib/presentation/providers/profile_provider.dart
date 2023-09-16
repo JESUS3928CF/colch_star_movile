@@ -116,4 +116,37 @@ class ProfileProvider extends ChangeNotifier {
     };
     notifyListeners();
   }
+
+  Future<void> editProfile(name, lastName, phone, email) async {
+    final data = {
+      'nombre': name,
+      'apellido': lastName,
+      'telefono': phone,
+      'email': email,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    var _id = profile["id"];
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/usuarios/$_id',
+        data: jsonData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Usuario editado exitosamente');
+        print('Respuesta: ${response.data}');
+        // Puedes realizar alguna acción adicional si es necesario
+      } else {
+        print('Error al editar el usuario');
+        print('Código de estado: ${response.statusCode}');
+        print('Mensaje de error: ${response.statusMessage}');
+      }
+    } catch (error) {
+      print('Error al editar el usuario: $error');
+    }
+
+    notifyListeners();
+  }
 }
