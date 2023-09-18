@@ -65,7 +65,24 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
-  
+  void initState() {
+    super.initState();
+    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    loadCustomers();
+  }
+
+  // Método async para cargar los clientes.
+  Future<void> loadCustomers() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await customerProvider.getCustomers();
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar clientes: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,31 +266,3 @@ class _CardCustomerState extends State<_CardCustomer> {
     );
   }
 }
-
-// class _CardType1 extends StatelessWidget {
-//   final String label;
-//   final double elevation;
-//   const _CardType1({required this.label, required this.elevation});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: elevation,
-//       child: Padding(
-//         padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-//         child: Column(children: [
-//           Align(
-//               alignment: Alignment.topRight,
-//               child: IconButton(
-//                 icon: const Icon(Icons.more_vert_outlined),
-//                 onPressed: () {},
-//               )),
-//           Align(
-//             alignment: Alignment.bottomLeft,
-//             child: Text(label),
-//           )
-//         ]),
-//       ),
-//     );
-//   }
-// }

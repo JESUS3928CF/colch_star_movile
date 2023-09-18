@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
@@ -195,7 +197,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       filled: true),
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Direccion';
+                                      return 'Por favor ingrese su Dirección';
                                     }
                                     return null;
                                   },
@@ -209,7 +211,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       width: 100,
                                       height: 45,
                                       child: ElevatedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             String name =
                                                 _nombreController.text;
                                             String lastName =
@@ -244,7 +246,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Cliente registrado correctamente",
+                                                      "Cliente editado correctamente",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
@@ -267,6 +269,15 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                 //     Color.fromARGB(255, 0, 119, 62),
                                               ));
                                             }
+
+                                            await customerProvider
+                                                .getCustomers();
+
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const CustomersScreen()));
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors
@@ -285,6 +296,11 @@ class _CustomersEditState extends State<CustomersEdit> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Lógica para cancelar aquí
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CustomersScreen()));
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors

@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
@@ -133,9 +134,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         },
                       ),
                     ),
-                   
-                
-                    
+
                     Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: TextFormField(
@@ -171,7 +170,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         child: TextFormField(
                           controller: _addressController,
                           decoration: const InputDecoration(
-                              hintText: 'Direccion',
+                              hintText: 'Dirección',
                               hintStyle: TextStyle(fontWeight: FontWeight.w700),
                               fillColor: Color.fromARGB(255, 221, 216, 216),
                               focusedBorder: OutlineInputBorder(
@@ -185,7 +184,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               filled: true),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Por favor ingrese su Direccion';
+                              return 'Por favor ingrese su Dirección';
                             }
                             return null;
                           },
@@ -230,6 +229,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                       backgroundColor: Colors.green,
                                     ),
                                   );
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const CustomersScreen()));
                                 }
                               },
                               style: ElevatedButton.styleFrom(
@@ -249,6 +255,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           child: ElevatedButton(
                             onPressed: () {
                               // Lógica para cancelar aquí
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CustomersScreen()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
