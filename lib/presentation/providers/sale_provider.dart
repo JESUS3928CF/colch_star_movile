@@ -32,7 +32,7 @@ class SaleProvider extends ChangeNotifier {
     final response = await _dio
         .get("https://backend-colch-star-production.up.railway.app/api/ventas");
 
-    print("Cnsultando ventas");
+    print("Cosultando ventas");
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
       final List<Sale> newSale = data
@@ -106,4 +106,38 @@ class SaleProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+  Future<void> editSale(product, amountProduct, montTotal, time, description, fksale) async {
+    final data = {
+      'producto': product,
+      'cantidadProducto': amountProduct,
+      'montoTotal': montTotal,
+      'fechaEntrega': time,
+      'descripcion': description,
+      'fkCliente': fksale,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    var _id = sale["id"];
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/ventas/$_id',
+        data: jsonData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Venta creada exitosamente');
+        print('Respuesta: ${response.data}');
+        // Puedes realizar alguna acción adicional si es necesario
+      } else {
+        print('Error al crear la venta ');
+        print('Código de estado: ${response.statusCode}');
+        print('Mensaje de error: ${response.statusMessage}');
+      }
+    } catch (error) {
+      print('Error al edita la venta $error');
+    }
+  }
+
+  notifyListeners();
 }
