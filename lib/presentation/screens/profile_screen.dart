@@ -1,7 +1,10 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+
+var profileProfile = ProfileProvider();
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,18 +13,30 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  /// Instanciamos el proveedor para poder usar sus métodos
+void initState() {
+  // Llena los controladores con los datos iniciales del perfil solo una vez
+  print("Llenar perfil");
+  print(profileProfile.profile);
+}
 
-  // ignore: unused_field
-  String _nombre = '';
+class _ProfileScreenState extends State<ProfileScreen> {
+  initState();
+
   final _formKey = GlobalKey<FormState>();
-  String _password = '';
+
+  final TextEditingController _nombreController =
+      TextEditingController(text: profileProvider.profile["name"]);
+  final TextEditingController _apellidoController =
+      TextEditingController(text: profileProvider.profile["lastName"]);
+  final TextEditingController _telefonoController =
+      TextEditingController(text: profileProvider.profile["phone"]);
+  final TextEditingController _emailController =
+      TextEditingController(text: profileProvider.profile["email"]);
 
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    ;
+    // ignore: unused_local_variable;
+
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
@@ -59,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
                                 /// Usando el provider hacer esto por cada uno de los inputs
-                                initialValue: profileProvider.profile["name"],
+                                controller: _nombreController,
                                 decoration: const InputDecoration(
                                     hintText: 'Nombre',
                                     hintStyle:
@@ -81,17 +96,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   }
                                   return null;
                                 },
-                                onSaved: (value) {
-                                  setState(() {
-                                    _nombre = value.toString();
-                                  });
-                                },
                               )),
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue:
-                                    profileProvider.profile["lastName"],
+                                controller: _apellidoController,
                                 decoration: const InputDecoration(
                                     hintText: 'Apellido',
                                     hintStyle:
@@ -117,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue: profileProvider.profile["phone"],
+                                controller: _telefonoController,
                                 decoration: const InputDecoration(
                                     hintText: 'Telefono',
                                     hintStyle:
@@ -135,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     filled: true),
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Por favor ingrese su Telefono';
+                                    return 'Por favor ingrese su Teléfono';
                                   }
                                   return null;
                                 },
@@ -144,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue: profileProvider.profile["email"],
+                                controller: _emailController,
                                 decoration: const InputDecoration(
                                     hintText: 'Email',
                                     hintStyle:
@@ -173,75 +182,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   }
                                 },
                               )),
-                          // Padding(
-                          //     padding: const EdgeInsets.only(top: 15),
-                          //     child: TextFormField(
-                          //       initialValue:
-                          //           profileProvider.profile["apellido"],
-                          //       obscureText: true,
-                          //       onChanged: (value) {
-                          //         setState(() {
-                          //           _password = value;
-                          //         });
-                          //       },
-                          //       decoration: const InputDecoration(
-                          //           hintText: 'Contraseña',
-                          //           hintStyle:
-                          //               TextStyle(fontWeight: FontWeight.w700),
-                          //           fillColor:
-                          //               Color.fromARGB(255, 221, 216, 216),
-                          //           focusedBorder: OutlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //                 width: 0, style: BorderStyle.none),
-                          //           ),
-                          //           enabledBorder: OutlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //                 width: 0, style: BorderStyle.none),
-                          //           ),
-                          //           filled: true),
-                          //       validator: (value) {
-                          //         String pattern =
-                          //             r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,20}$';
-                          //         RegExp regExp = RegExp(pattern);
-                          //         if (value!.isEmpty) {
-                          //           return "La contraseña es necesaria";
-                          //         } else if (!regExp.hasMatch(value)) {
-                          //           return "La contraseña debe tener al menos 10 y maximo 20 caracteres , 1 letra mayúscula, 1 minúscula y 1 número. Además puede contener caracteres especiales.";
-                          //         } else {
-                          //           return null;
-                          //         }
-                          //       },
-                          //     )),
-                          // Padding(
-                          //     padding: const EdgeInsets.only(top: 15),
-                          //     child: TextFormField(
-                          //       obscureText: true,
-                          //       decoration: const InputDecoration(
-                          //           hintText: 'Confirmar contraseña',
-                          //           hintStyle:
-                          //               TextStyle(fontWeight: FontWeight.w700),
-                          //           fillColor:
-                          //               Color.fromARGB(255, 221, 216, 216),
-                          //           focusedBorder: OutlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //                 width: 0, style: BorderStyle.none),
-                          //           ),
-                          //           enabledBorder: OutlineInputBorder(
-                          //             borderSide: BorderSide(
-                          //                 width: 0, style: BorderStyle.none),
-                          //           ),
-                          //           filled: true),
-                          //       validator: (value) {
-                          //         if (value == null || value.isEmpty) {
-                          //           return 'Please enter some text';
-                          //         }
-                          //         if (value != _password) {
-                          //           return 'Las contraseñas no coinciden';
-                          //         }
-                          //         return null;
-                          //       },
-                          //     )),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -255,8 +195,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 45,
                                       child: ElevatedButton(
                                           onPressed: () {
+                                            String name =
+                                                _nombreController.text;
+                                            String lastName =
+                                                _apellidoController.text;
+                                            String phone =
+                                                _telefonoController.text;
+                                            String email =
+                                                _emailController.text;
                                             if (_formKey.currentState!
                                                 .validate()) {
+                                              profileProvider.editProfile(
+                                                  name, lastName, phone, email);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
                                                 content: Row(
@@ -272,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Usuario registrado correctamente",
+                                                      "Usuario editado correctamente",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
@@ -280,20 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               255,
                                                               255)),
                                                     )
-                                                    
                                                   ],
                                                 ),
-                                                // duration:
-                                                //     Duration(milliseconds: 2000),
-                                                // width: 300,
-                                                // padding: EdgeInsets.symmetric(
-                                                //     horizontal: 8.0, vertical: 10),
-                                                // behavior: SnackBarBehavior.floating,
-                                                // shape: RoundedRectangleBorder(
-                                                //   borderRadius: BorderRadius.circular(9.0),
-                                                // ),
-                                                // backgroundColor:
-                                                //     Color.fromARGB(255, 0, 119, 62),
                                               ));
                                             }
                                           },
