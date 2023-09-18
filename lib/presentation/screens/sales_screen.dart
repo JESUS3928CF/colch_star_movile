@@ -68,7 +68,6 @@ class SalesScreen extends StatefulWidget {
 }
 
 class _SalesScreenState extends State<SalesScreen> {
-
   void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
@@ -88,7 +87,6 @@ class _SalesScreenState extends State<SalesScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +102,7 @@ class _SalesScreenState extends State<SalesScreen> {
             );
           }),
       drawer: SideMenu(
-        navDrawerIndex: 2,
+        navDrawerIndex: 1,
       ),
     );
   }
@@ -126,13 +124,13 @@ class _SalesView extends StatelessWidget {
           ...saleProvider.saleList.map((sale) => _CardSale(
                 elevation: 4.0,
                 id: sale.id,
-                product:sale.product,
-                amountProduct:sale.amountProduct ,
+                product: sale.product,
+                amountProduct: sale.amountProduct,
                 montTotal: sale.montTotal,
                 time: sale.time,
-                description:sale.description ,
+                description: sale.description,
                 state: sale.state,
-                fksale:sale.fksale ,
+                fksale: sale.fksale,
               ))
         ],
       ),
@@ -156,16 +154,17 @@ class _CardSale extends StatefulWidget {
   bool state;
   final double elevation;
 
-  _CardSale(
-      {required this.id,
-      required this.product,
-      required this.amountProduct,
-      required this.montTotal,
-      required this.time,
-      required this.description,
-      required this.state,
-      required this.fksale,
-      required this.elevation,});
+  _CardSale({
+    required this.id,
+    required this.product,
+    required this.amountProduct,
+    required this.montTotal,
+    required this.time,
+    required this.description,
+    required this.state,
+    required this.fksale,
+    required this.elevation,
+  });
 
   @override
   State<_CardSale> createState() => _CardSaleState();
@@ -191,7 +190,7 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.product} ${widget.montTotal}',
+                  '${widget.product} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -211,7 +210,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.description}',
+                  'Precio Total: ${widget.montTotal}',
                   style: textCardStyle,
                 ),
               ),
@@ -231,21 +230,21 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: : ${widget.fksale}',
+                  'Descripción: ${widget.description} ${widget.fksale}',
                   style: textCardStyle,
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text(
-            //       'Cliente: : ${widget.}',
-            //       style: textCardStyle,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Id Cliente: ${widget.fksale}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

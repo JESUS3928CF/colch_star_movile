@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:colch_stat_app/domain/entities/customer.dart';
-import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,8 +10,7 @@ class SaleProvider extends ChangeNotifier {
   final _dio = Dio(BaseOptions());
 
   /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
-  List<Sale> saleList =
-      []; //* esto es una lista de entidades de usuarios
+  List<Sale> saleList = []; //* esto es una lista de entidades de usuarios
 
   /// Propiedad a llenar si alguien se loguea
   Map<dynamic, dynamic> sale = {
@@ -24,7 +21,7 @@ class SaleProvider extends ChangeNotifier {
     "time": "",
     "description": "",
     "state": "",
-    "fksale":"",
+    "fksale": "",
   };
 
   /// Propiedad a llenar alguien intenta loguearse pero comete errores
@@ -32,8 +29,8 @@ class SaleProvider extends ChangeNotifier {
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getSales() async {
-    final response = await _dio.get(
-        "https://backend-colch-star-production.up.railway.app/api/ventas");
+    final response = await _dio
+        .get("https://backend-colch-star-production.up.railway.app/api/ventas");
 
     print("Cnsultando ventas");
     if (response.statusCode == 200) {
@@ -48,20 +45,21 @@ class SaleProvider extends ChangeNotifier {
 
       notifyListeners();
       print("Cnsultando ventas");
-      print(saleList[0].product);
+      print(saleList[0].fksale);
     } else {
       // Manejar el error aquí si es necesario
     }
   }
 
-   Future<void> createSale(product, amountProduct, montTotal, time , description,fksale) async {
+  Future<void> createSale(
+      product, amountProduct, montTotal, time, description, fksale) async {
     final data = {
       'producto': product,
       'cantidadProducto': amountProduct,
       'montoTotal': montTotal,
       'fechaEntrega': time,
       'descripcion': description,
-      'fkCliente':fksale,
+      'fkCliente': fksale,
     };
 
     final jsonData = jsonEncode(data);
@@ -103,14 +101,4 @@ class SaleProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
-
-
-
-
-
-
-
-
 }
