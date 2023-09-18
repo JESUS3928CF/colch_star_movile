@@ -24,6 +24,8 @@ class SaleProvider extends ChangeNotifier {
     "fksale": "",
   };
 
+  int totalSales = 0;
+
   /// Propiedad a llenar alguien intenta loguearse pero comete errores
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
@@ -42,6 +44,9 @@ class SaleProvider extends ChangeNotifier {
       saleList
           .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
       saleList.addAll(newSale);
+
+
+      totalSales = saleList.length;
 
       notifyListeners();
       print("Cnsultando ventas");

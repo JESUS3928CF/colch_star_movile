@@ -92,7 +92,6 @@ class CustomerProvider extends ChangeNotifier {
       "state": customerList[id - 1].state,
     };
 
-    print(customer);
 
     notifyListeners();
   }

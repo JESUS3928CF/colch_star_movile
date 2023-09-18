@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -53,6 +54,7 @@ class _DashboardViewState extends State<DashboardView> {
     try {
       // Llama al método en customerProvider para cargar los clientes.
       await customerProvider.getCustomers();
+      await saleProvider.getSales();
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {
@@ -72,7 +74,10 @@ class _DashboardViewState extends State<DashboardView> {
             icon: Icons.people,
             total: customerProvider.totalClients),
         SizedBox(height: 20),
-        DashboardBox(label: 'Ventas', icon: Icons.attach_money, total: 0),
+        DashboardBox(
+            label: 'Ventas',
+            icon: Icons.attach_money,
+            total: saleProvider.totalSales),
       ],
     ));
   }
