@@ -22,6 +22,8 @@ class _SalesCreateState extends State<SalesCreate> {
   final _descriptionController = TextEditingController();
   final _fksaleController = TextEditingController();
 
+  
+
   @override
   Widget build(BuildContext context) {
     final saleProvider = Provider.of<SaleProvider>(context);
