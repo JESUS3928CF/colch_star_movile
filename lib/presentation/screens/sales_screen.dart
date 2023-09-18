@@ -1,4 +1,5 @@
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+import 'package:colch_stat_app/presentation/screens/sales_edit.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -253,7 +254,17 @@ class _CardSaleState extends State<_CardSale> {
                     Icons.edit_sharp,
                     color: Color.fromARGB(255, 7, 135, 194),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SalesEdit()),
+                    );
+
+                    saleProvider.setSale(widget.id);
+
+                    // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
+                  },
                 ),
                 const SizedBox(
                   width: 100,
