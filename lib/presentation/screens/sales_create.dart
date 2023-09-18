@@ -169,7 +169,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                 child: TextFormField(
                                   controller: _descriptionController,
                                   decoration: const InputDecoration(
-                                      hintText: 'Descripcion',
+                                      hintText: 'Descripción',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -230,15 +230,27 @@ class _SalesCreateState extends State<SalesCreate> {
                                                 .validate()) {
                                               final product =
                                                   _productController.text;
-                                              final amountProduct =
+                                              String _amountProduct =
                                                   _amountProductController.text;
-                                              final montTotal =
+
+                                              int amountProduct = int.tryParse(
+                                                      _amountProduct) ??
+                                                  0;
+
+                                              String montTotalText =
                                                   _montTotalController.text;
+                                              double montTotal =
+                                                  double.tryParse(
+                                                          montTotalText) ??
+                                                      0.0;
                                               final time = _timeController.text;
                                               final description =
                                                   _descriptionController.text;
-                                              final fksale =
+                                              String _fksale =
                                                   _fksaleController.text;
+
+                                              int fksale =
+                                                  int.tryParse(_fksale) ?? 0;
 
                                               await saleProvider.createSale(
                                                 product,
@@ -285,6 +297,13 @@ class _SalesCreateState extends State<SalesCreate> {
                                                 // backgroundColor:
                                                 //     Color.fromARGB(255, 0, 119, 62),
                                               ));
+
+                                              // ignore: use_build_context_synchronously
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SalesScreen()));
                                             }
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -322,7 +341,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                 ),
                               ],
                             ),
- 
+
                             // Añade un espacio entre los botones
                           ],
                         ))

@@ -1,4 +1,3 @@
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +125,7 @@ class _SalesView extends StatelessWidget {
                 id: sale.id,
                 product: sale.product,
                 amountProduct: sale.amountProduct,
-                montTotal: sale.montTotal,
+                montTotal: int.tryParse(sale.montTotal) ?? 0,
                 time: sale.time,
                 description: sale.description,
                 state: sale.state,
@@ -147,7 +146,7 @@ class _CardSale extends StatefulWidget {
   final int id;
   final String product;
   final int amountProduct;
-  final String montTotal;
+  final int montTotal;
   final DateTime time;
   final String description;
   final int fksale;
@@ -210,7 +209,17 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.montTotal}',
+                  'Precio Unitario: ${widget.montTotal}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Precio Total: ${widget.montTotal * widget.amountProduct}',
                   style: textCardStyle,
                 ),
               ),
@@ -230,7 +239,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: ${widget.description} ${widget.fksale}',
+                  'Descripción: ${widget.description}',
                   style: textCardStyle,
                 ),
               ),

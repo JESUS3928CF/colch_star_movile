@@ -55,14 +55,17 @@ class SaleProvider extends ChangeNotifier {
       product, amountProduct, montTotal, time, description, fksale) async {
     final data = {
       'producto': product,
-      'cantidadProducto': amountProduct,
-      'montoTotal': montTotal,
-      'fechaEntrega': time,
+      'cantidad_producto': amountProduct,
+      'monto_total': montTotal,
+      'fecha_entrega': time,
       'descripcion': description,
-      'fkCliente': fksale,
+      'fk_cliente': fksale,
     };
 
     final jsonData = jsonEncode(data);
+
+    print("Esto es lo que se agrega");
+    print(jsonData);
 
     try {
       final response = await _dio.post(
@@ -70,7 +73,7 @@ class SaleProvider extends ChangeNotifier {
         data: jsonData,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         print('Venta creada exitosamente');
         print('Respuesta: ${response.data}');
         // Puedes realizar alguna acción adicional si es necesario
@@ -82,6 +85,8 @@ class SaleProvider extends ChangeNotifier {
     } catch (error) {
       print('Error al crear la venta: $error');
     }
+
+    notifyListeners();
   }
 
   void setSale(id) async {
