@@ -95,7 +95,7 @@ class _SalesScreenState extends State<SalesScreen> {
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
       floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.person_add_outlined),
+          child: const Icon(Icons.add_shopping_cart_sharp),
           onPressed: () {
             Navigator.push(
               context,

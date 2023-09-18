@@ -32,7 +32,7 @@ class SaleProvider extends ChangeNotifier {
     final response = await _dio
         .get("https://backend-colch-star-production.up.railway.app/api/ventas");
 
-    print("Cnsultando ventas");
+    print("Cosultando ventas");
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
       final List<Sale> newSale = data
