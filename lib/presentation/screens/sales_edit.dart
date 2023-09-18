@@ -1,4 +1,4 @@
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
@@ -14,23 +14,40 @@ class SalesEdit extends StatefulWidget {
 class _SalesEditState extends State<SalesEdit> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _productController =
-      TextEditingController(text: saleProvider.sale["product"]);
+  // final TextEditingController _productController =
+  //     TextEditingController(text: saleProvider.sale["product"]);
+
+  // final TextEditingController _amountProductController =
+  //     TextEditingController(text: saleProvider.sale["amountProduct"].);
+
+  // final TextEditingController _montTotalController =
+  //     TextEditingController(text: saleProvider.sale["montTotal"]);
+
+  // final TextEditingController _timeController =
+  //     TextEditingController(text: saleProvider.sale["time"]);
+
+  // final TextEditingController _descriptionController =
+  //     TextEditingController(text: saleProvider.sale["description"]);
+
+  // final TextEditingController _fksaleController =
+  //   TextEditingController(text: saleProvider.sale["fksale"]);
+    final TextEditingController _productController =
+      TextEditingController(text: saleProvider.sale["product"] ?? "");
 
   final TextEditingController _amountProductController =
-      TextEditingController(text: saleProvider.sale["amountProduct"]);
+      TextEditingController(text: saleProvider.sale["amountProduct"].toString());
 
   final TextEditingController _montTotalController =
-      TextEditingController(text: saleProvider.sale["montTotal"]);
+      TextEditingController(text: saleProvider.sale["montTotal"].toString());
 
   final TextEditingController _timeController =
-      TextEditingController(text: saleProvider.sale["time"]);
+      TextEditingController(text: saleProvider.sale["time"]?.toString() ?? "");
 
   final TextEditingController _descriptionController =
-      TextEditingController(text: saleProvider.sale["description"]);
+      TextEditingController(text: saleProvider.sale["description"] ?? "");
 
   final TextEditingController _fksaleController =
-    TextEditingController(text: saleProvider.sale["fksale"]);
+      TextEditingController(text: saleProvider.sale["fksale"].toString());
 
   @override
   Widget build(BuildContext context) {
