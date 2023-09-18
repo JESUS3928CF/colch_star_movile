@@ -4,6 +4,7 @@ import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 
 import '../providers/customer_provider.dart';
+import 'customers_screen.dart';
 
 class CustomersCreate extends StatefulWidget {
   const CustomersCreate({super.key});
@@ -248,8 +249,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           height: 45,
                           child: ElevatedButton(
                             onPressed: () {
-                              // Lógica para cancelar aquí
-                            },
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const CustomersScreen()));
+                                        // Lógica para cancelar aquí
+                                      },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red,
                               foregroundColor: Colors.white,

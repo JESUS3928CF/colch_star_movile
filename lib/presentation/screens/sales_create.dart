@@ -2,6 +2,9 @@ import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/sale_provider.dart';
 
 class SalesCreate extends StatefulWidget {
   const SalesCreate({super.key});
@@ -11,12 +14,18 @@ class SalesCreate extends StatefulWidget {
 }
 
 class _SalesCreateState extends State<SalesCreate> {
-  String _nombre = '';
   final _formKey = GlobalKey<FormState>();
-  String _password = '';
+  final _productController = TextEditingController();
+  final _amountProductController = TextEditingController();
+  final _montTotalController = TextEditingController();
+  final _timeController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _fksaleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final saleProvider = Provider.of<SaleProvider>(context);
+
     return Scaffold(
         appBar: const PreferredSize(
             preferredSize: Size.fromHeight(kToolbarHeight),
@@ -54,6 +63,7 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
+                                  controller: _productController,
                                   decoration: const InputDecoration(
                                       hintText: 'Producto',
                                       hintStyle: TextStyle(
@@ -75,15 +85,11 @@ class _SalesCreateState extends State<SalesCreate> {
                                     }
                                     return null;
                                   },
-                                  onSaved: (value) {
-                                    setState(() {
-                                      _nombre = value.toString();
-                                    });
-                                  },
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  controller: _amountProductController,
                                   decoration: const InputDecoration(
                                       hintText: 'Cantidad',
                                       hintStyle: TextStyle(
@@ -109,6 +115,7 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  controller: _montTotalController,
                                   decoration: const InputDecoration(
                                       hintText: 'Precio',
                                       hintStyle: TextStyle(
@@ -134,6 +141,7 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  controller: _timeController,
                                   decoration: const InputDecoration(
                                       hintText: 'Fecha de entrega ',
                                       hintStyle: TextStyle(
@@ -159,6 +167,7 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  controller: _descriptionController,
                                   decoration: const InputDecoration(
                                       hintText: 'Descripcion',
                                       hintStyle: TextStyle(
@@ -184,6 +193,7 @@ class _SalesCreateState extends State<SalesCreate> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
+                                  controller: _fksaleController,
                                   decoration: const InputDecoration(
                                       hintText: 'Cliente',
                                       hintStyle: TextStyle(
@@ -215,9 +225,29 @@ class _SalesCreateState extends State<SalesCreate> {
                                       width: 100,
                                       height: 45,
                                       child: ElevatedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             if (_formKey.currentState!
                                                 .validate()) {
+                                              final product =
+                                                  _productController.text;
+                                              final amountProduct =
+                                                  _amountProductController.text;
+                                              final montTotal =
+                                                  _montTotalController.text;
+                                              final time = _timeController.text;
+                                              final description =
+                                                  _descriptionController.text;
+                                              final fksale =
+                                                  _fksaleController.text;
+
+                                              await saleProvider.createSale(
+                                                product,
+                                                amountProduct,
+                                                montTotal,
+                                                time,
+                                                description,
+                                                fksale,
+                                              );
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
                                                 content: Row(
@@ -292,7 +322,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                 ),
                               ],
                             ),
-
+ 
                             // Añade un espacio entre los botones
                           ],
                         ))
