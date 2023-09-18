@@ -106,14 +106,16 @@ class SaleProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  Future<void> editSale(product, amountProduct, montTotal, time, description, fksale) async {
+
+  Future<void> editSale(
+      product, amountProduct, montTotal, time, description, fksale) async {
     final data = {
       'producto': product,
-      'cantidadProducto': amountProduct,
-      'montoTotal': montTotal,
-      'fechaEntrega': time,
+      'cantidad_producto': amountProduct,
+      'monto_total': montTotal,
+      'fecha_entrega': time,
       'descripcion': description,
-      'fkCliente': fksale,
+      'fk_cliente': fksale,
     };
 
     final jsonData = jsonEncode(data);
@@ -137,7 +139,7 @@ class SaleProvider extends ChangeNotifier {
     } catch (error) {
       print('Error al edita la venta $error');
     }
-  }
 
-  notifyListeners();
+    notifyListeners();
+  }
 }
