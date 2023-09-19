@@ -121,6 +121,13 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<void> editProfile(name, lastName, phone, email) async {
+    profile["name"] = name;
+    profile["lastName"] = lastName;
+    profile["phone"] = phone;
+    profile["email"] = email;
+
+    notifyListeners();
+
     final data = {
       'nombre': name,
       'apellido': lastName,
