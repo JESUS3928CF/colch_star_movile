@@ -253,10 +253,10 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                    // await customerProvider.editCustomerState(widget.id, !widget.state);
+                    await customerProvider.editStateProvider(
+                        widget.id, !widget.state);
                   },
                 ),
-
                 // SwitchListTile(value: true, onChanged: (value) {})
               ],
             ),

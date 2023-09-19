@@ -1,4 +1,3 @@
-
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
@@ -14,28 +13,11 @@ class SalesEdit extends StatefulWidget {
 class _SalesEditState extends State<SalesEdit> {
   final _formKey = GlobalKey<FormState>();
 
-  // final TextEditingController _productController =
-  //     TextEditingController(text: saleProvider.sale["product"]);
-
-  // final TextEditingController _amountProductController =
-  //     TextEditingController(text: saleProvider.sale["amountProduct"].);
-
-  // final TextEditingController _montTotalController =
-  //     TextEditingController(text: saleProvider.sale["montTotal"]);
-
-  // final TextEditingController _timeController =
-  //     TextEditingController(text: saleProvider.sale["time"]);
-
-  // final TextEditingController _descriptionController =
-  //     TextEditingController(text: saleProvider.sale["description"]);
-
-  // final TextEditingController _fksaleController =
-  //   TextEditingController(text: saleProvider.sale["fksale"]);
-    final TextEditingController _productController =
+  final TextEditingController _productController =
       TextEditingController(text: saleProvider.sale["product"] ?? "");
 
-  final TextEditingController _amountProductController =
-      TextEditingController(text: saleProvider.sale["amountProduct"].toString());
+  final TextEditingController _amountProductController = TextEditingController(
+      text: saleProvider.sale["amountProduct"].toString());
 
   final TextEditingController _montTotalController =
       TextEditingController(text: saleProvider.sale["montTotal"].toString());
@@ -215,7 +197,7 @@ class _SalesEditState extends State<SalesEdit> {
                                     return null;
                                   },
                                 )),
-                                Padding(
+                            Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _fksaleController,
@@ -257,12 +239,11 @@ class _SalesEditState extends State<SalesEdit> {
                                                 _amountProductController.text;
                                             String montTotal =
                                                 _montTotalController.text;
-                                            String time =
-                                                _timeController.text;
+                                            String time = _timeController.text;
                                             String description =
                                                 _descriptionController.text;
                                             String fksale =
-                                              _fksaleController.text;
+                                                _fksaleController.text;
 
                                             if (_formKey.currentState!
                                                 .validate()) {
@@ -312,8 +293,7 @@ class _SalesEditState extends State<SalesEdit> {
                                               ));
                                             }
 
-                                            await saleProvider
-                                                .getSales();
+                                            await saleProvider.getSales();
 
                                             Navigator.push(
                                                 context,
@@ -327,7 +307,7 @@ class _SalesEditState extends State<SalesEdit> {
                                             foregroundColor: Colors
                                                 .white, // foreground (text) color
                                           ),
-                                          child: const Text('Agregar')),
+                                          child: const Text('Editar')),
                                     )),
                                 SizedBox(
                                   width: 20,

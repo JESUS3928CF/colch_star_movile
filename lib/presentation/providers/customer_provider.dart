@@ -125,6 +125,37 @@ class CustomerProvider extends ChangeNotifier {
       print('Error al edita el cliente: $error');
     }
 
+   
+
+    notifyListeners();
+  }
+
+   Future<void> editStateProvider(id, state) async {
+    final data = {
+      'estado': state,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/clientes/estado/$id',
+        data: jsonData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Estado modificado exitosamente');
+        print('Respuesta: ${response.data}');
+        // Puedes realizar alguna acción adicional si es necesario
+      } else {
+        print('Error al cambiar el estado');
+        print('Código de estado: ${response.statusCode}');
+        print('Mensaje de error: ${response.statusMessage}');
+      }
+    } catch (error) {
+      print('Error al cambiar el estado del cliente: $error');
+    }
+
     notifyListeners();
   }
 }

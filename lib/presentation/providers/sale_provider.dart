@@ -45,7 +45,6 @@ class SaleProvider extends ChangeNotifier {
           .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
       saleList.addAll(newSale);
 
-
       totalSales = saleList.length;
 
       notifyListeners();
@@ -133,16 +132,45 @@ class SaleProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 201) {
-        print('Venta creada exitosamente');
+        print('Venta Editada exitosamente');
         print('Respuesta: ${response.data}');
         // Puedes realizar alguna acción adicional si es necesario
       } else {
-        print('Error al crear la venta ');
+        print('Error al editar la venta ');
         print('Código de estado: ${response.statusCode}');
         print('Mensaje de error: ${response.statusMessage}');
       }
     } catch (error) {
-      print('Error al edita la venta $error');
+      print('Error al editar la venta $error');
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> editStateSale(id, state) async {
+    final data = {
+      'estado': state,
+    };
+
+    final jsonData = jsonEncode(data);
+
+    try {
+      final response = await _dio.patch(
+        'https://backend-colch-star-production.up.railway.app/api/ventas/estado/$id',
+        data: jsonData,
+      );
+
+      if (response.statusCode == 201) {
+        print('Cambio de estado en venta exitosamente');
+        print('Respuesta: ${response.data}');
+        // Puedes realizar alguna acción adicional si es necesario
+      } else {
+        print('Error al cambiar estado de la venta ');
+        print('Código de estado: ${response.statusCode}');
+        print('Mensaje de error: ${response.statusMessage}');
+      }
+    } catch (error) {
+      print('Error al cambiar el estado de la venta $error');
     }
 
     notifyListeners();

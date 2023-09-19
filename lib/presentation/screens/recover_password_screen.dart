@@ -199,7 +199,8 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                             foregroundColor: Colors
                                                 .white, // foreground (text) color
                                           ),
-                                          child: const Text('Guardar Cambios')),
+                                          child:
+                                              const Text('Cambiar Contraseña')),
                                     ),
                                   )),
                             ],
