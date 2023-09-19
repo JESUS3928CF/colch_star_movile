@@ -289,6 +289,8 @@ class _CardSaleState extends State<_CardSale> {
                   onPressed: () {
                     setState(() {
                       widget.state = !widget.state;
+
+                      //! Llamas el método en esta parte
                     });
                   },
                 ),

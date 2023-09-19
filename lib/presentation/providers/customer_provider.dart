@@ -39,7 +39,6 @@ class CustomerProvider extends ChangeNotifier {
           .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
       customerList.addAll(newCustomer);
 
-
       totalClients = customerList.length;
 
       notifyListeners();
@@ -92,7 +91,6 @@ class CustomerProvider extends ChangeNotifier {
       "state": customerList[id - 1].state,
     };
 
-
     notifyListeners();
   }
 
@@ -126,7 +124,7 @@ class CustomerProvider extends ChangeNotifier {
     } catch (error) {
       print('Error al edita el cliente: $error');
     }
-  }
 
-  notifyListeners();
+    notifyListeners();
+  }
 }
