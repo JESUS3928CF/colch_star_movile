@@ -13,23 +13,6 @@ class SalesEdit extends StatefulWidget {
 class _SalesEditState extends State<SalesEdit> {
   final _formKey = GlobalKey<FormState>();
 
-  // final TextEditingController _productController =
-  //     TextEditingController(text: saleProvider.sale["product"]);
-
-  // final TextEditingController _amountProductController =
-  //     TextEditingController(text: saleProvider.sale["amountProduct"].);
-
-  // final TextEditingController _montTotalController =
-  //     TextEditingController(text: saleProvider.sale["montTotal"]);
-
-  // final TextEditingController _timeController =
-  //     TextEditingController(text: saleProvider.sale["time"]);
-
-  // final TextEditingController _descriptionController =
-  //     TextEditingController(text: saleProvider.sale["description"]);
-
-  // final TextEditingController _fksaleController =
-  //   TextEditingController(text: saleProvider.sale["fksale"]);
   final TextEditingController _productController =
       TextEditingController(text: saleProvider.sale["product"] ?? "");
 
