@@ -285,7 +285,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                             foregroundColor: Colors
                                                 .white, // foreground (text) color
                                           ),
-                                          child: const Text('Agregar')),
+                                          child: const Text('Editar')),
                                     )),
                                 SizedBox(
                                   width: 20,

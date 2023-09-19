@@ -286,10 +286,11 @@ class _CardSaleState extends State<_CardSale> {
                         )
                       : const Icon(Icons.toggle_off,
                           color: Color.fromARGB(255, 194, 29, 7)),
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       widget.state = !widget.state;
                     });
+                    await saleProvider.editStateSale(widget.id, !widget.state);
                   },
                 ),
 
