@@ -103,6 +103,7 @@ class SaleProvider extends ChangeNotifier {
       "montTotal": saleList[id - 1].montTotal,
       "time": saleList[id - 1].time,
       "description": saleList[id - 1].description,
+      "fksale": saleList[id - 1].fksale,
       "state": saleList[id - 1].state,
     };
 
