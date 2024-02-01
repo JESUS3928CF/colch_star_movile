@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/profile.dart';
+import 'package:colch_stat_app/domain/helpers/config.dart';
 import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -29,7 +30,7 @@ class ProfileProvider extends ChangeNotifier {
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getUsers() async {
     final response = await _dio.get(
-        "https://backend-colch-star-production.up.railway.app/api/usuarios");
+        "${APIConfig.apiUrl}/usuarios");
 
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -50,7 +51,7 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> getProfile(email, password) async {
     // URL de la API a la que deseas enviar la solicitud POST
     const url =
-        'https://backend-colch-star-production.up.railway.app/api/usuarios/login';
+        '${APIConfig.apiUrl}/usuarios/login';
 
     // Datos que deseas enviar en el cuerpo de la solicitud
     final data = {
@@ -61,8 +62,13 @@ class ProfileProvider extends ChangeNotifier {
     //- Codifica los datos en formato JSON
     final jsonData = jsonEncode(data);
 
+
+    try {
+      
+
     // Realiza la solicitud POST
     final response = await _dio.post(url, data: jsonData);
+
 
     //* Verifica el código de estado de la respuesta
     if (response.statusCode == 200) {
@@ -93,12 +99,18 @@ class ProfileProvider extends ChangeNotifier {
         print(profile);
       }
 
-      notifyListeners(); //! Esto es para cuando la información del provider cambie notificar de estos cambios en todos los lugares donde sea usado proveedor
     } else {
       //* La solicitud POST falló con un código de estado diferente de 200
       throw Exception(
           "La solicitud POST falló con el código de estado ${response.statusCode}");
     }
+    } catch (e) {
+      print(e);
+    } finally {
+      notifyListeners(); //! Esto es para cuando la información del provider cambie notificar de estos cambios en todos los lugares donde sea usado proveedor
+    }
+
+    
   }
 
   void vaciarErrores() {
@@ -140,7 +152,7 @@ class ProfileProvider extends ChangeNotifier {
     var _id = profile["id"];
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/usuarios/$_id',
+        '${APIConfig.apiUrl}/usuarios/$_id',
         data: jsonData,
       );
 
@@ -173,7 +185,7 @@ class ProfileProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/usuarios/cambiarContrasena/$id;',
+        '${APIConfig.apiUrl}/usuarios/cambiarContrasena/$id;',
         data: jsonData,
       );
 

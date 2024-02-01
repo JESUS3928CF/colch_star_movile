@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:colch_stat_app/domain/helpers/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
@@ -32,7 +33,7 @@ class SaleProvider extends ChangeNotifier {
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getSales() async {
     final response = await _dio
-        .get("https://backend-colch-star-production.up.railway.app/api/ventas");
+        .get("${APIConfig.apiUrl}/ventas");
 
     print("Cosultando ventas");
     if (response.statusCode == 200) {
@@ -73,7 +74,7 @@ class SaleProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.post(
-        'https://backend-colch-star-production.up.railway.app/api/ventas',
+        '${APIConfig.apiUrl}/ventas',
         data: jsonData,
       );
 
@@ -128,7 +129,7 @@ class SaleProvider extends ChangeNotifier {
     var _id = sale["id"];
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/ventas/$_id',
+        '${APIConfig.apiUrl}/ventas/$_id',
         data: jsonData,
       );
 
@@ -157,7 +158,7 @@ class SaleProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/ventas/estado/$id',
+        '${APIConfig.apiUrl}/ventas/estado/$id',
         data: jsonData,
       );
 

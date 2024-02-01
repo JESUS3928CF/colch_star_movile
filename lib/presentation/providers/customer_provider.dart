@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/customer.dart';
+import 'package:colch_stat_app/domain/helpers/config.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -27,7 +28,7 @@ class CustomerProvider extends ChangeNotifier {
 
   Future<void> getCustomers() async {
     final response = await _dio.get(
-        "https://backend-colch-star-production.up.railway.app/api/clientes");
+        "${APIConfig.apiUrl}/clientes");
 
     if (response.statusCode == 200) {
       final List<dynamic> data = response.data;
@@ -60,7 +61,7 @@ class CustomerProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.post(
-        'https://backend-colch-star-production.up.railway.app/api/clientes',
+        '${APIConfig.apiUrl}/clientes',
         data: jsonData,
       );
 
@@ -108,7 +109,7 @@ class CustomerProvider extends ChangeNotifier {
     var _id = customer["id"];
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/clientes/$_id',
+        '${APIConfig.apiUrl}/clientes/$_id',
         data: jsonData,
       );
 
@@ -139,7 +140,7 @@ class CustomerProvider extends ChangeNotifier {
 
     try {
       final response = await _dio.patch(
-        'https://backend-colch-star-production.up.railway.app/api/clientes/estado/$id',
+        '${APIConfig.apiUrl}/clientes/estado/$id',
         data: jsonData,
       );
 
