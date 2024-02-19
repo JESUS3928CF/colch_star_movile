@@ -9,9 +9,10 @@ import 'package:flutter/widgets.dart';
 class ProfileProvider extends ChangeNotifier {
   final _dio = Dio(BaseOptions());
 
-  /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
+  //! - Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
   List<Profile> profileList = []; //* esto es una lista de entidades de usuarios
 
+  //! - Esto se remplaza por que eso se estruptura con el mapper
   /// Propiedad a llenar si alguien se loguea
   Map<dynamic, dynamic> profile = {
     "id": "",
@@ -24,10 +25,10 @@ class ProfileProvider extends ChangeNotifier {
     "rolName": ""
   };
 
-  /// Propiedad a llenar alguien intenta loguearse pero comete errores
+  //!- ver esto desde donde se hace - Propiedad a llenar alguien intenta loguearse pero comete errores
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
-  //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
+  //! ESTO SE VA - Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getUsers() async {
     final response = await _dio.get(
         "${APIConfig.apiUrl}/usuarios");
