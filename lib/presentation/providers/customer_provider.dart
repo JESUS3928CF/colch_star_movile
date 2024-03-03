@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:colch_stat_app/domain/entities/customer.dart';
-import 'package:colch_stat_app/domain/helpers/config.dart';
+import 'package:colch_stat_app/config/helpers/config.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';

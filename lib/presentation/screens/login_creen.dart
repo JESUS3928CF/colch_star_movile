@@ -35,8 +35,6 @@ class LoginScreen extends StatefulWidget {
 //! Instanciamos el proveedor para poder usar sus métodos
 var profileProvider = ProfileProvider();
 
-
-
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -116,7 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText:
-
                               /// Usando el provider
                               profileProvider.errores["messagePassword"]),
                       validator: (value) {
@@ -151,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => IndexScreen(),
+                                  builder: (context) => const IndexScreen(),
                                 ),
                               );
                             }

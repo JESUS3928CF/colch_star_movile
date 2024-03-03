@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
 
   /// 1 envolvemos el provider en el árbol principal para hacer disponible la info en toda nuestra app
   Widget build(BuildContext context) {
+
+
+    // todo: instanciar el repository y el data source aquí de cada provider
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
