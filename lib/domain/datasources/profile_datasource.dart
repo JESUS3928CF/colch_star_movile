@@ -1,3 +1,3 @@
-abstract class ProfileDatasource {
+abstract class ProfileDataSource {
   
 }
