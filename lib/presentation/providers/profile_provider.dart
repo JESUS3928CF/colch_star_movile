@@ -57,7 +57,8 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void signOff() {
+
+  void singOff() {
     _profile = Profile(
       id: 0,
       name: '',

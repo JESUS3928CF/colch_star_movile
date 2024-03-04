@@ -154,7 +154,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                               String cp = _currentPassword.text;
                                               String np = _newPassword.text;
 
-                                              await profileProvider
+                                              profileProvider
                                                   .changePassword(cp, np);
 
                                               print("Mensaje de error");
