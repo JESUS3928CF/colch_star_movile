@@ -1,5 +1,4 @@
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
-import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';

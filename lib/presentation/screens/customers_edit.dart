@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomersEdit extends StatefulWidget {
   const CustomersEdit({super.key});
@@ -13,22 +15,34 @@ class CustomersEdit extends StatefulWidget {
 }
 
 class _CustomersEditState extends State<CustomersEdit> {
+  late CustomerProvider customerProvider; // Declara profileProvider aquí
+
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nombreController =
-      TextEditingController(text: customerProvider.customer["name"]);
+  late TextEditingController _nombreController;
+  late TextEditingController _apellidoController;
+  late TextEditingController _telefonoController;
+  late TextEditingController _emailController;
+  late TextEditingController _direccionController;
 
-  final TextEditingController _apellidoController =
-      TextEditingController(text: customerProvider.customer["lastName"]);
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    customerProvider = context.read<CustomerProvider>();
 
-  final TextEditingController _telefonoController =
-      TextEditingController(text: customerProvider.customer["phone"]);
-
-  final TextEditingController _emailController =
-      TextEditingController(text: customerProvider.customer["email"]);
-
-  final TextEditingController _direccionController =
-      TextEditingController(text: customerProvider.customer["address"]);
+    // Inicializa los controladores aquí, después de haber inicializado customerProvider
+    _nombreController =
+        TextEditingController(text: customerProvider.customer.name);
+    _apellidoController =
+        TextEditingController(text: customerProvider.customer.lastName);
+    _telefonoController =
+        TextEditingController(text: customerProvider.customer.phone);
+    _emailController =
+        TextEditingController(text: customerProvider.customer.email);
+    _direccionController =
+        TextEditingController(text: customerProvider.customer.address);
+  }
 
   @override
   Widget build(BuildContext context) {

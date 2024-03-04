@@ -145,4 +145,8 @@ class CustomerProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  // Método getter para acceder al perfil
+  Customer get customer => _customer;
+
 }

@@ -4,6 +4,7 @@ import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'customers_create.dart';
 
 //* Para no tener que definer tantas beses las tarjas solo una ves
@@ -55,7 +56,7 @@ import 'customers_create.dart';
 //   },
 // ];
 
-var customerProvider = CustomerProvider();
+// var customerProvider = CustomerProvider();
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
@@ -65,9 +66,14 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
+
+  late CustomerProvider customerProvider; // Declara profileProvider aquí
+
+  @override
   void initState() {
     super.initState();
-    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    // Inicializa profileProvider en initState
+    customerProvider = context.read<CustomerProvider>();
     loadCustomers();
   }
 
@@ -105,6 +111,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
 }
 
 class _CustomerView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
