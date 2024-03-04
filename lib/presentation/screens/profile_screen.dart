@@ -3,8 +3,9 @@ import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-var profileProfile = ProfileProvider();
+// var profileProfile = ProfileProvider();
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -13,25 +14,34 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-void initState() {
-  // Llena los controladores con los datos iniciales del perfil solo una vez
-  print("Llenar perfil");
-  print(profileProfile.profile);
-}
+// void initState() {
+//   // Llena los controladores con los datos iniciales del perfil solo una vez
+//   print("Llenar perfil");
+//   print(profileProfile.profile);
+// }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  initState();
+  late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController _nombreController;
+  late TextEditingController _apellidoController;
+  late TextEditingController _telefonoController;
+  late TextEditingController _emailController;
 
-  final TextEditingController _nombreController =
-      TextEditingController(text: profileProvider.profile["name"]);
-  final TextEditingController _apellidoController =
-      TextEditingController(text: profileProvider.profile["lastName"]);
-  final TextEditingController _telefonoController =
-      TextEditingController(text: profileProvider.profile["phone"]);
-  final TextEditingController _emailController =
-      TextEditingController(text: profileProvider.profile["email"]);
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    profileProvider = context.read<ProfileProvider>();
+
+    // Inicializa los controladores aquí
+    _nombreController = TextEditingController(text: profileProvider.profile.name);
+    _apellidoController = TextEditingController(text: profileProvider.profile.lastName);
+    _telefonoController = TextEditingController(text: profileProvider.profile.phone);
+    _emailController = TextEditingController(text: profileProvider.profile.email);
+  }
+
 
   @override
   Widget build(BuildContext context) {

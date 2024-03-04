@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {});
 
                             /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            if (profileProvider.profile["name"].isNotEmpty) {
+                            if (profileProvider.profile.name.isNotEmpty) {
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,

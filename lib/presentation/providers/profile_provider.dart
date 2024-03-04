@@ -37,11 +37,7 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners(); // Notificar a los oyentes (listeners) sobre el cambio en el perfil
   }
 
-  // Método para actualizar el perfil
-  void updateProfile(Profile newProfile) {
-    _profile = newProfile;
-    notifyListeners(); // Notificar a los widgets que el estado ha cambiado
-  }
+  
 
   //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
@@ -73,6 +69,23 @@ class ProfileProvider extends ChangeNotifier {
       rolName: '',
     );
     notifyListeners();
+  }
+
+  
+
+
+  // Método getter para acceder al perfil
+  Profile get profile => _profile;
+
+
+
+  // Método para actualizar el perfil
+  void editProfile(name, lastName, phone, email) {
+    // _profile = newProfile;
+    notifyListeners(); // Notificar a los widgets que el estado ha cambiado
+  }
+  void changePassword (cp, np) {
+     notifyListeners(); 
   }
 
 }

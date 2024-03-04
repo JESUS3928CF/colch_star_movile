@@ -1,7 +1,9 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({super.key});
@@ -12,6 +14,7 @@ class RecoverPassword extends StatefulWidget {
 
 class _RecoverPasswordState extends State<RecoverPassword> {
   /// Instanciamos el proveedor para poder usar sus métodos
+  late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   // ignore: unused_field
   String _nombre = '';
@@ -20,6 +23,13 @@ class _RecoverPasswordState extends State<RecoverPassword> {
 
   final TextEditingController _currentPassword = TextEditingController();
   final TextEditingController _newPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    profileProvider = context.read<ProfileProvider>();
+  }
 
   @override
   Widget build(BuildContext context) {
