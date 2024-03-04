@@ -1,6 +1,6 @@
 import 'package:colch_stat_app/domain/entities/customer.dart';
 
-abstract class CustomerDataSource {
+abstract class CustomerRepository {  
 
   Future<List<Customer>> getCustomers();
 
@@ -11,4 +11,5 @@ abstract class CustomerDataSource {
   Future<void> editCustomer(name, lastName, phone, email, address);
 
   Future<void> editStateCustomer(id, state);
+  
 }

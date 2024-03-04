@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:colch_stat_app/domain/entities/profile.dart';
-import 'package:colch_stat_app/config/helpers/config.dart';
-import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
 import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
