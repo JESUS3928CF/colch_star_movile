@@ -1,3 +1,6 @@
+import 'package:colch_stat_app/domain/repositories/profile_repository.dart';
+import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
+import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
@@ -18,11 +21,12 @@ class MyApp extends StatelessWidget {
 
 
     // todo: instanciar el repository y el data source aquí de cada provider
+    final profileRepository = ProfileRepositoryImpl(profileDataSource: LocalProfileDataSourceImpl());
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProfileProvider(),
+          create: (_) => ProfileProvider( profileRepository: profileRepository),
         ),
         ChangeNotifierProvider(create: (_) => CustomerProvider()),
         ChangeNotifierProvider(

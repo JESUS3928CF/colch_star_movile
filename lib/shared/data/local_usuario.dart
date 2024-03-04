@@ -8,5 +8,5 @@ Map<String, dynamic> usuario = {
   "contrasena": "password123",
   "estado": true,
   "fk_rol": 1,
-  "role": {"nombre": "Admin"}
+  "rol": "Admin"
 };

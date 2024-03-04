@@ -1,6 +1,7 @@
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,12 +33,20 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-//! Instanciamos el proveedor para poder usar sus métodos
-var profileProvider = ProfileProvider();
 
 class _LoginScreenState extends State<LoginScreen> {
+  late ProfileProvider profileProvider; // Declara profileProvider aquí
+
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    profileProvider = context.read<ProfileProvider>();
+  }
+
 
   final _formKey = GlobalKey<FormState>();
   // ignore: unused_field
