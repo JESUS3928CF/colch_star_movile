@@ -14,12 +14,6 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-// void initState() {
-//   // Llena los controladores con los datos iniciales del perfil solo una vez
-//   print("Llenar perfil");
-//   print(profileProfile.profile);
-// }
-
 class _ProfileScreenState extends State<ProfileScreen> {
   late ProfileProvider profileProvider; // Declara profileProvider aquí
 
