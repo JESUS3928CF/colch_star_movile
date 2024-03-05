@@ -23,7 +23,12 @@ class IndexScreen extends StatelessWidget {
             Padding(
               /// de esta forma damos padding horizontal a un widget
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text("Colch Star"),
+              child: Text(
+                "Colch Star",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
             )
           ],
         ),
@@ -55,9 +60,10 @@ class _DashboardViewState extends State<DashboardView> {
     try {
       // Llama al método en customerProvider para cargar los clientes.
       await customerProviderSingleton.customerProvider.getCustomers();
-      /// se comenta para que no de error 
+
+      /// se comenta para que no de error
       // await saleProvider.getSales();
-      
+
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {

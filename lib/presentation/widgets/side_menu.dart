@@ -46,39 +46,39 @@ class _SideMenuState extends State<SideMenu> {
           });
 
           switch (value) {
-            case 0: // Dashboard
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => IndexScreen()),
-              );
-              break;
-            case 1: // Ventas
+            // case 0: // Dashboard
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => IndexScreen()),
+            //   );
+            //   break;
+            case 0: // Ordenes
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const SalesScreen()),
               );
               break;
-            case 2: // Clientes
+            case 1: // Clientes
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const CustomersScreen()),
               );
               break;
-            case 3:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
-              );
-              break;
-            case 4:
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RecoverPassword()),
-              );
-              break;
-            case 5:
+            // case 3:
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => const ProfileScreen()),
+            //   );
+            //   break;
+            // case 4:
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const RecoverPassword()),
+            //   );
+            //   break;
+            case 2:
               profileProvider.singOff();
               Navigator.push(
                 context,
@@ -92,15 +92,15 @@ class _SideMenuState extends State<SideMenu> {
             padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
             child: const Text("Menú principal", style: menuTextStyle),
           ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.dashboard),
-              label: Text(
-                'Dashboard',
-                style: menuItemsTextStyle,
-              )),
+          // const NavigationDrawerDestination(
+          //     icon: Icon(Icons.dashboard),
+          //     label: Text(
+          //       'Dashboard',
+          //       style: menuItemsTextStyle,
+          //     )),
           const NavigationDrawerDestination(
               icon: Icon(Icons.add_shopping_cart_sharp),
-              label: Text('Ventas', style: menuItemsTextStyle)),
+              label: Text('Ordenes', style: menuItemsTextStyle)),
           const NavigationDrawerDestination(
               icon: Icon(Icons.person),
               label: Text('Clientes', style: menuItemsTextStyle)),
@@ -115,18 +115,18 @@ class _SideMenuState extends State<SideMenu> {
               style: menuTextStyle,
             ),
           ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.account_circle),
-              label: Text(
-                'Mi perfil',
-                style: menuItemsTextStyle,
-              )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.lock_outlined),
-              label: Text(
-                'Contraseña',
-                style: menuItemsTextStyle,
-              )),
+          // const NavigationDrawerDestination(
+          //     icon: Icon(Icons.account_circle),
+          //     label: Text(
+          //       'Mi perfil',
+          //       style: menuItemsTextStyle,
+          //     )),
+          // const NavigationDrawerDestination(
+          //     icon: Icon(Icons.lock_outlined),
+          //     label: Text(
+          //       'Contraseña',
+          //       style: menuItemsTextStyle,
+          //     )),
           const NavigationDrawerDestination(
               icon: Icon(Icons.logout_rounded),
               label: Text(
