@@ -78,7 +78,7 @@ class _DashboardViewState extends State<DashboardView> {
             total: customerProviderSingleton.customerProvider.totalClients),
         SizedBox(height: 20),
         DashboardBox(
-            label: 'Ventas',
+            label: 'Ordenes',
             icon: Icons.attach_money,
             total: saleProvider.totalSales),
       ],

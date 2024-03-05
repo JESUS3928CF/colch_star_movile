@@ -100,7 +100,7 @@ class _SideMenuState extends State<SideMenu> {
               )),
           const NavigationDrawerDestination(
               icon: Icon(Icons.add_shopping_cart_sharp),
-              label: Text('Ventas', style: menuItemsTextStyle)),
+              label: Text('Ordenes', style: menuItemsTextStyle)),
           const NavigationDrawerDestination(
               icon: Icon(Icons.person),
               label: Text('Clientes', style: menuItemsTextStyle)),
