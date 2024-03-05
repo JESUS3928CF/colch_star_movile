@@ -1,7 +1,4 @@
-import 'package:colch_stat_app/domain/repositories/profile_repository.dart';
-import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
-import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
@@ -24,13 +21,16 @@ class MyApp extends StatelessWidget {
 
     // todo: instanciar el repository y el data source aquí de cada provider
     final profileRepository = ProfileRepositoryImpl(profileDataSource: LocalProfileDataSourceImpl());
-    final customerRepository = CustomerRepositoryImpl(customerDataSource: LocalCustomerDataSourceImpl());
+
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => ProfileProvider( profileRepository: profileRepository),
         ),
-        ChangeNotifierProvider(create: (_) => CustomerProvider( customerRepository: customerRepository)),
+        /// 1) Usar el CustomerProviderSingleton en lugar de instanciar directamente CustomerProvider
+        ChangeNotifierProvider.value(
+            value: customerProviderSingleton.customerProvider),
         ChangeNotifierProvider(
             create: (_) =>
                 SaleProvider()) //* Aca ponen sus provider el de cliente y el de proveedor

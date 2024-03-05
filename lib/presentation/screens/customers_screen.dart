@@ -67,21 +67,11 @@ class CustomersScreen extends StatefulWidget {
 
 class _CustomersScreenState extends State<CustomersScreen> {
 
-  late CustomerProvider customerProvider; // Declara profileProvider aquí
-
-  @override
-  void initState() {
-    super.initState();
-    // Inicializa profileProvider en initState
-    customerProvider = context.read<CustomerProvider>();
-    loadCustomers();
-  }
-
   // Método async para cargar los clientes.
   Future<void> loadCustomers() async {
     try {
-      // Llama al método en customerProvider para cargar los clientes.
-      await customerProvider.getCustomers();
+      /// 1) uso en otro archivo Llama al método en customerProvider para cargar los clientes.
+      await customerProviderSingleton.customerProvider.getCustomers();
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {
@@ -124,7 +114,7 @@ class _CustomerView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...customerProvider.customerList.map((customer) => _CardCustomer(
+          ...customerProviderSingleton.customerProvider.customerList.map((customer) => _CardCustomer(
                 elevation: 4.0,
                 id: customer.id,
                 name: customer.name,
@@ -239,7 +229,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                           builder: (context) => const CustomersEdit()),
                     );
 
-                    customerProvider.setCustomer(widget.id);
+                    customerProviderSingleton.customerProvider.setCustomer(widget.id);
 
                     // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
                   },
@@ -260,7 +250,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                    await customerProvider.editStateProvider(
+                    await customerProviderSingleton.customerProvider.editStateProvider(
                         widget.id, !widget.state);
                   },
                 ),

@@ -3,18 +3,25 @@ import 'dart:convert';
 import 'package:colch_stat_app/domain/entities/customer.dart';
 import 'package:colch_stat_app/config/helpers/config.dart';
 import 'package:colch_stat_app/domain/entities/profile.dart';
+import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomerProvider extends ChangeNotifier {
-
   final CustomerRepositoryImpl customerRepository;
 
   List<Customer> customerList =
       []; //* esto es una lista de entidades de usuarios
 
-  Customer _customer = Customer(id: 0, name: "", lastName: "", phone: "", email: "", address: "", state: false);
+  Customer _customer = Customer(
+      id: 0,
+      name: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      address: "",
+      state: false);
 
   int totalClients = 0;
 
@@ -23,14 +30,13 @@ class CustomerProvider extends ChangeNotifier {
   CustomerProvider({required this.customerRepository});
 
   Future<void> getCustomers() async {
+    customerList = await customerRepository.getCustomers();
 
-      customerList = await customerRepository.getCustomers();
-    
-      // customerList.addAll(newCustomer);
+    // customerList.addAll(newCustomer);
 
-      totalClients = customerList.length;
+    totalClients = customerList.length;
 
-      notifyListeners();
+    notifyListeners();
   }
 
   Future<void> createCustomer(name, lastName, phone, email, address) async {
@@ -112,12 +118,10 @@ class CustomerProvider extends ChangeNotifier {
     //   print('Error al edita el cliente: $error');
     // }
 
-   
-
     notifyListeners();
   }
 
-   Future<void> editStateProvider(id, state) async {
+  Future<void> editStateProvider(id, state) async {
     // final data = {
     //   'estado': state,
     // };
@@ -148,5 +152,38 @@ class CustomerProvider extends ChangeNotifier {
 
   // Método getter para acceder al perfil
   Customer get customer => _customer;
-
 }
+
+/// Instanciar el provider una sola ves en toda la app
+class CustomerProviderSingleton {
+  /// Creación de una única instancia del repositorio que se usara.
+  static final CustomerRepositoryImpl customerRepository =
+      CustomerRepositoryImpl(customerDataSource: LocalCustomerDataSourceImpl());
+
+  /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
+  static final CustomerProviderSingleton _instance =
+      CustomerProviderSingleton._internal();
+
+  /// Constructor de fábrica privado para crear o devolver la instancia única de CustomerProviderSingleton.
+  factory CustomerProviderSingleton() {
+    return _instance;
+  }
+
+  /// Constructor privado interno para evitar la creación de instancias desde fuera de la clase.
+  CustomerProviderSingleton._internal();
+
+  /// Método estático para obtener la instancia única de CustomerProviderSingleton.
+  static CustomerProviderSingleton get instance => _instance;
+
+  /// Propiedad para almacenar la instancia de CustomerProvider.
+  final CustomerProvider _customerProvider =
+      CustomerProvider(customerRepository: customerRepository);
+
+  /// Método getter para obtener la instancia de CustomerProvider.
+  CustomerProvider get customerProvider => _customerProvider;
+}
+
+
+
+/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos 
+final customerProviderSingleton = CustomerProviderSingleton.instance;
