@@ -1,4 +1,6 @@
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
+import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:provider/provider.dart';
@@ -157,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const IndexScreen(),
+                                  builder: (context) => const CustomersScreen(),
                                 ),
                               );
                             }

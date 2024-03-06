@@ -15,7 +15,12 @@ class AppBarColch extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text("Colch Star"),
+            child: Text(
+              "Colch Star",
+              style: TextStyle(
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
           ),
         ],
       ),
