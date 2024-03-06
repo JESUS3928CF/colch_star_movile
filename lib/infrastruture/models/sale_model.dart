@@ -44,9 +44,6 @@ class SaleModel {
 
     Sale toProfileEntity () => Sale(id: idVenta, product: producto, amountProduct: cantidadProducto, montTotal: montoTotal, time: fechaEntrega, description: descripcion, state: estado , fksale: fkCliente );
     
-
-
-
     Map<String, dynamic> toJson() => {
         "id_venta": idVenta,
         "producto": producto,
