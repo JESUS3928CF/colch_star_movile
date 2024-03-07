@@ -17,7 +17,6 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  // int navDrawerIndex = 0;
   late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   @override
@@ -32,107 +31,71 @@ class _SideMenuState extends State<SideMenu> {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
 
     const TextStyle menuTextStyle =
-        TextStyle(fontWeight: FontWeight.w800, fontSize: 20);
+        TextStyle(fontWeight: FontWeight.w800, fontSize: 24, color: Colors.white);
 
     const TextStyle menuItemsTextStyle =
-        TextStyle(fontWeight: FontWeight.w600, fontSize: 17);
+        TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.white);
 
-    return NavigationDrawer(
-        //* Opción para saber que pagina esta seleccionada
-        selectedIndex: widget.navDrawerIndex,
-        onDestinationSelected: (value) {
-          setState(() {
-            widget.navDrawerIndex = value;
-          });
-
-          switch (value) {
-            // case 0: // Dashboard
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => IndexScreen()),
-            //   );
-            //   break;
-            case 0: // Ordenes
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SalesScreen()),
-              );
-              break;
-            case 1: // Clientes
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CustomersScreen()),
-              );
-              break;
-            // case 3:
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            //   );
-            //   break;
-            // case 4:
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const RecoverPassword()),
-            //   );
-            //   break;
-            case 2:
-              profileProvider.singOff();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
-              );
-              break;
-          }
-        },
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text("Menú principal", style: menuTextStyle),
-          ),
-          // const NavigationDrawerDestination(
-          //     icon: Icon(Icons.dashboard),
-          //     label: Text(
-          //       'Dashboard',
-          //       style: menuItemsTextStyle,
-          //     )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.add_shopping_cart_sharp),
-              label: Text('Ordenes', style: menuItemsTextStyle)),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.person),
-              label: Text('Clientes', style: menuItemsTextStyle)),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-            child: Divider(),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text(
-              "Más acciones",
-              style: menuTextStyle,
+    return Drawer(
+      child: Container(
+        color: Color(0xFF14131B), // Color de fondo del menú
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(100, hasNotch ? 20 : 40, 16, 20),
+              child: Text("Colch Star", style: menuTextStyle),
             ),
-          ),
-          // const NavigationDrawerDestination(
-          //     icon: Icon(Icons.account_circle),
-          //     label: Text(
-          //       'Mi perfil',
-          //       style: menuItemsTextStyle,
-          //     )),
-          // const NavigationDrawerDestination(
-          //     icon: Icon(Icons.lock_outlined),
-          //     label: Text(
-          //       'Contraseña',
-          //       style: menuItemsTextStyle,
-          //     )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.logout_rounded),
-              label: Text(
+            ListTile(
+              leading: Icon(Icons.add_shopping_cart_sharp, color: Colors.white, size: 30),
+              title: Text(
+                'Ordenes',
+                style: menuItemsTextStyle,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SalesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person, color: Colors.white, size: 30),
+              title: Text(
+                'Clientes',
+                style: menuItemsTextStyle,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CustomersScreen()),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
+              child: Text(
+                "Más acciones",
+                style: menuTextStyle,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout_rounded, color: Colors.white, size: 30),
+              title: Text(
                 'Cerrar sesión',
                 style: menuItemsTextStyle,
-              )),
-        ]);
+              ),
+              onTap: () {
+                profileProvider.singOff();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

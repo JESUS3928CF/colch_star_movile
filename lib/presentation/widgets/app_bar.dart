@@ -6,19 +6,19 @@ class AppBarColch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black,
-      title: const Row(
+      backgroundColor: Color(0xFF14131B), // Color del menú
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           CircleAvatar(
             backgroundImage: AssetImage('assets/images/logo.png'),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               "Colch Star",
               style: TextStyle(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Colors.white, // Color de texto blanco
               ),
             ),
           ),
