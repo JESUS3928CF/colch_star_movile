@@ -195,6 +195,28 @@ class _CustomersCreateState extends State<CustomersCreate> {
 
                     Row(
                       children: [
+                        SizedBox(
+                          width: 100,
+                          height: 45,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CustomersScreen()));
+                              // Lógica para cancelar aquí
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF252432),
+                              foregroundColor: Colors.white,
+                            ),
+                            child: const Text('Cancelar'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: SizedBox(
@@ -240,33 +262,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
+                                backgroundColor: Color(0xFF47684e),
                                 foregroundColor: Colors.white,
                               ),
                               child: const Text('Agregar'),
                             ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 100,
-                          height: 45,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CustomersScreen()));
-                              // Lógica para cancelar aquí
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                            ),
-                            child: const Text('Cancelar'),
                           ),
                         ),
                       ],
