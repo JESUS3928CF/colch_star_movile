@@ -97,6 +97,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
         body: _CustomerView(),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.person_add_outlined),
+            foregroundColor: const Color(0xFF47684e), 
             onPressed: () {
               Navigator.push(
                 context,
@@ -228,7 +229,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                 IconButton(
                   icon: const Icon(
                     Icons.edit_sharp,
-                    color: Color.fromARGB(255, 7, 135, 194),
+                    color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
                     Navigator.push(

@@ -1,12 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
-import 'package:colch_stat_app/presentation/screens/recover_password_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SideMenu extends StatefulWidget {
   int? navDrawerIndex = 3;
@@ -17,13 +16,16 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  late ProfileProvider profileProvider; // Declara profileProvider aquí
+  late ProfileProvider profileProvider; 
 
   @override
   void initState() {
     super.initState();
-    // Inicializa profileProvider en initState
     profileProvider = context.read<ProfileProvider>();
+  }
+
+  Color getMenuItemColor(int index) {
+    return index == widget.navDrawerIndex ? Colors.blue : Colors.white; // Cambia el color aquí según la opción seleccionada
   }
 
   @override
@@ -34,11 +36,11 @@ class _SideMenuState extends State<SideMenu> {
         TextStyle(fontWeight: FontWeight.w800, fontSize: 24, color: Colors.white);
 
     const TextStyle menuItemsTextStyle =
-        TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.white);
+        TextStyle(fontWeight: FontWeight.w500, fontSize: 20);
 
     return Drawer(
       child: Container(
-        color: Color(0xFF14131B), // Color de fondo del menú
+        color: Color(0xFF14131B),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -47,12 +49,19 @@ class _SideMenuState extends State<SideMenu> {
               child: Text("Colch Star", style: menuTextStyle),
             ),
             ListTile(
-              leading: Icon(Icons.add_shopping_cart_sharp, color: Colors.white, size: 30),
+              leading: Icon(Icons.add_shopping_cart_sharp, color: getMenuItemColor(0), size: 30),
               title: Text(
                 'Ordenes',
-                style: menuItemsTextStyle,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: getMenuItemColor(0),
+                ),
               ),
               onTap: () {
+                setState(() {
+                  widget.navDrawerIndex = 0;
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SalesScreen()),
@@ -60,12 +69,19 @@ class _SideMenuState extends State<SideMenu> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person, color: Colors.white, size: 30),
+              leading: Icon(Icons.person, color: getMenuItemColor(1), size: 30),
               title: Text(
                 'Clientes',
-                style: menuItemsTextStyle,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: getMenuItemColor(1),
+                ),
               ),
               onTap: () {
+                setState(() {
+                  widget.navDrawerIndex = 1;
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CustomersScreen()),
@@ -83,7 +99,7 @@ class _SideMenuState extends State<SideMenu> {
               leading: Icon(Icons.logout_rounded, color: Colors.white, size: 30),
               title: Text(
                 'Cerrar sesión',
-                style: menuItemsTextStyle,
+                style: menuItemsTextStyle.copyWith(color: Colors.white),
               ),
               onTap: () {
                 profileProvider.singOff();
