@@ -201,7 +201,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                   icon: widget.state
                       ? const Icon(
                           Icons.toggle_off,
-                          color: Color.fromARGB(255, 7, 135, 194),
+                          color: Color(0xFF60d480),
                         )
                       : const Icon(Icons.toggle_off,
                           color: Color.fromARGB(255, 194, 29, 7)),

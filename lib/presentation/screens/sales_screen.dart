@@ -1,11 +1,8 @@
-import 'package:colch_stat_app/presentation/screens/sales_edit.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
-import '../providers/sale_provider.dart';
-import 'sales_create.dart';
 
-var saleProvider = SaleProvider();
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -25,7 +22,7 @@ class _SalesScreenState extends State<SalesScreen> {
   Future<void> loadSales() async {
     try {
       // Llama al método en customerProvider para cargar los clientes.
-      await saleProvider.getSales();
+      await orderProviderSingleton.orderProvider.getSales();
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {
@@ -71,12 +68,12 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...saleProvider.saleList.map((sale) => _CardSale(
+          ... orderProviderSingleton.orderProvider.saleList.map((sale) => _CardSale(
                 elevation: 4.0,
                 id: sale.id,
                 product: sale.product,
                 amountProduct: sale.amountProduct,
-                montTotal: int.tryParse(sale.total) ?? 0,
+                montTotal: (sale.total) ?? 0,
                 time: sale.time,
                 description: sale.description,
                 state: sale.state,
@@ -204,50 +201,6 @@ class _CardSaleState extends State<_CardSale> {
                   style: textCardStyle,
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.edit_sharp,
-                    color: Color.fromARGB(255, 7, 135, 194),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SalesEdit()),
-                    );
-
-                    saleProvider.setSale(widget.id);
-
-                    // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
-                  },
-                ),
-                const SizedBox(
-                  width: 100,
-                ),
-                IconButton(
-                  icon: widget.state
-                      ? const Icon(
-                          Icons.toggle_off,
-                          color: Color.fromARGB(255, 7, 135, 194),
-                        )
-                      : const Icon(Icons.toggle_off,
-                          color: Color.fromARGB(255, 194, 29, 7)),
-                  onPressed: () async {
-                    setState(() {
-                      widget.state = !widget.state;
-
-                      //! Llamas el método en esta parte
-                    });
-                    await saleProvider.editStateSale(widget.id, !widget.state);
-                  },
-                ),
-
-                // SwitchListTile(value: true, onChanged: (value) {})
-              ],
             ),
           ]),
         ),

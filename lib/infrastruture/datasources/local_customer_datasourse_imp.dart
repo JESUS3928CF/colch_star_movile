@@ -9,7 +9,7 @@ class LocalCustomerDataSourceImpl implements CustomerDataSource {
   Future<List<Customer>> getCustomers() async {
 
     // Simulando una consulta a una base de datos local o almacenamiento local
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     // Crear una instancia de CustomerModel
 

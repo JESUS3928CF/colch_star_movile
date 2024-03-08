@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             value: customerProviderSingleton.customerProvider),
         ChangeNotifierProvider(
             create: (_) =>
-                SaleProvider()) //* Aca ponen sus provider el de cliente y el de proveedor
+                orderProviderSingleton.orderProvider) //* Aca ponen sus provider el de cliente y el de proveedor
       ],
       child: const MaterialApp(
         title: 'Material App',

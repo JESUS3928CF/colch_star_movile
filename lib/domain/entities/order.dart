@@ -3,7 +3,7 @@ class Order {
   final int id;
   late final String product;
   late final int amountProduct;
-  late final String total;
+  late final int total;
   late final DateTime time;
   late final String description;
   final bool state;
@@ -23,7 +23,7 @@ class Order {
     int? id,
     String? product,
     int? amountProduct,
-    String? total,
+    int? total,
     DateTime? time,
     String? description,
     bool? state,

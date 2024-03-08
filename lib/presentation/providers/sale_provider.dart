@@ -1,37 +1,34 @@
-import 'dart:convert';
-
-import 'package:colch_stat_app/config/helpers/config.dart';
 import 'package:colch_stat_app/domain/entities/order.dart';
-import 'package:dio/dio.dart';
+import 'package:colch_stat_app/infrastruture/datasources/local_order_datasource_imp.dart';
+import 'package:colch_stat_app/infrastruture/repositories/order_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../infrastruture/models/sale_model.dart';
 
 class SaleProvider extends ChangeNotifier {
-  final _dio = Dio(BaseOptions());
+  // final _dio = Dio(BaseOptions());
+
+  
+  final OrdersRepositoryImpl orderRepository;
 
   /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
   List<Order> saleList = []; //* esto es una lista de entidades de usuarios
 
-  /// Propiedad a llenar si alguien se loguea
-  Map<dynamic, dynamic> sale = {
-    "id": "",
-    "product": "",
-    "amountProduct": "",
-    "montTotal": "",
-    "time": "",
-    "description": "",
-    "state": "",
-    "fksale": "",
-  };
 
   int totalSales = 0;
 
-  /// Propiedad a llenar alguien intenta loguearse pero comete errores
-  Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
+
+  SaleProvider({required this.orderRepository});
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getSales() async {
+
+    saleList = await orderRepository.getOrders();
+
+
+    totalSales = saleList.length;
+
+    notifyListeners();
+
     // final response = await _dio
     //     .get("${APIConfig.apiUrl}/ventas");
 
@@ -56,125 +53,39 @@ class SaleProvider extends ChangeNotifier {
     // }
   }
 
-  Future<void> createSale(
-      product, amountProduct, montTotal, time, description, fksale) async {
-    // final data = {
-    //   'producto': product,
-    //   'cantidad_producto': amountProduct,
-    //   'monto_total': montTotal,
-    //   'fecha_entrega': time,
-    //   'descripcion': description,
-    //   'fk_cliente': fksale,
-    // };
-
-    // final jsonData = jsonEncode(data);
-
-    // print("Esto es lo que se agrega");
-    // print(jsonData);
-
-    // try {
-    //   final response = await _dio.post(
-    //     '${APIConfig.apiUrl}/ventas',
-    //     data: jsonData,
-    //   );
-
-    //   if (response.statusCode == 201 || response.statusCode == 200) {
-    //     print('Venta creada exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al crear la venta');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al crear la venta: $error');
-    // }
-
-    notifyListeners();
-  }
-
-  void setSale(id) async {
-    // saleList[id - 1];
-
-    // sale = {
-    //   "id": saleList[id - 1].id,
-    //   "product": saleList[id - 1].product,
-    //   "amountProduct": saleList[id - 1].amountProduct,
-    //   "montTotal": saleList[id - 1].montTotal,
-    //   "time": saleList[id - 1].time,
-    //   "description": saleList[id - 1].description,
-    //   "fksale": saleList[id - 1].fksale,
-    //   "state": saleList[id - 1].state,
-    // };
-
-    // print(sale);
-
-    notifyListeners();
-  }
-
-  Future<void> editSale(
-      product, amountProduct, montTotal, time, description, fksale) async {
-    // final data = {
-    //   'producto': product,
-    //   'cantidad_producto': amountProduct,
-    //   'monto_total': montTotal,
-    //   'fecha_entrega': time,
-    //   'descripcion': description,
-    //   'fk_cliente': fksale,
-    // };
-
-    // final jsonData = jsonEncode(data);
-
-    // var _id = sale["id"];
-    // try {
-    //   final response = await _dio.patch(
-    //     '${APIConfig.apiUrl}/ventas/$_id',
-    //     data: jsonData,
-    //   );
-
-    //   if (response.statusCode == 201) {
-    //     print('Venta Editada exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al editar la venta ');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al editar la venta $error');
-    // }
-
-    notifyListeners();
-  }
-
-  Future<void> editStateSale(id, state) async {
-    // final data = {
-    //   'estado': state,
-    // };
-
-    // final jsonData = jsonEncode(data);
-
-    // try {
-    //   final response = await _dio.patch(
-    //     '${APIConfig.apiUrl}/ventas/estado/$id',
-    //     data: jsonData,
-    //   );
-
-    //   if (response.statusCode == 201) {
-    //     print('Cambio de estado en venta exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al cambiar estado de la venta ');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al cambiar el estado de la venta $error');
-    // }
-
-    notifyListeners();
-  }
 }
+
+
+/// Instanciar el provider una sola ves en toda la app
+class OrderProviderSingleton {
+  /// Creación de una única instancia del repositorio que se usara.
+  static final OrdersRepositoryImpl orderRepository =
+      OrdersRepositoryImpl(orderDataSource: LocalOrderDataSourceImpl());
+
+  /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
+  static final OrderProviderSingleton _instance =
+      OrderProviderSingleton._internal();
+
+  /// Constructor de fábrica privado para crear o devolver la instancia única de CustomerProviderSingleton.
+  factory OrderProviderSingleton() {
+    return _instance;
+  }
+
+  /// Constructor privado interno para evitar la creación de instancias desde fuera de la clase.
+  OrderProviderSingleton._internal();
+
+  /// Método estático para obtener la instancia única de CustomerProviderSingleton.
+  static OrderProviderSingleton get instance => _instance;
+
+  /// Propiedad para almacenar la instancia de CustomerProvider.
+  final SaleProvider _orderProvider =
+      SaleProvider(orderRepository: orderRepository);
+
+  /// Método getter para obtener la instancia de CustomerProvider.
+  SaleProvider get orderProvider => _orderProvider;
+}
+
+
+
+/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos 
+final orderProviderSingleton = OrderProviderSingleton.instance;
