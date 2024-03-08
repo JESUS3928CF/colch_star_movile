@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:colch_stat_app/config/helpers/config.dart';
+import 'package:colch_stat_app/domain/entities/order.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../domain/entities/sale.dart';
 import '../../infrastruture/models/sale_model.dart';
 
 class SaleProvider extends ChangeNotifier {
   final _dio = Dio(BaseOptions());
 
   /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
-  List<Sale> saleList = []; //* esto es una lista de entidades de usuarios
+  List<Order> saleList = []; //* esto es una lista de entidades de usuarios
 
   /// Propiedad a llenar si alguien se loguea
   Map<dynamic, dynamic> sale = {
