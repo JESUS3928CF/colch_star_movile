@@ -39,7 +39,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 margin: const EdgeInsets.only(top: 15),
                 child: const Center(
                   child: Text(
-                    'Agregar Cliente',
+                    'Agregar cliente',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
@@ -51,7 +51,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Center(
                   child: Text(
-                    '!Agregar nuevo cliente de colch star!',
+                    '¡Agregar un nuevo cliente!',
                     style: TextStyle(fontSize: 17),
                   ),
                 ),
