@@ -115,7 +115,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                       child: TextFormField(
                         controller: _phoneController,
                         decoration: const InputDecoration(
-                            hintText: 'Telefono',
+                            hintText: 'Teléfono',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
                             fillColor: Color.fromARGB(255, 221, 216, 216),
                             focusedBorder: OutlineInputBorder(
@@ -129,7 +129,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor ingrese su nombre';
+                            return 'Por favor, ingrese su nombre';
                           }
                           return null;
                         },

@@ -5,59 +5,6 @@ import 'package:flutter/material.dart';
 import '../providers/sale_provider.dart';
 import 'sales_create.dart';
 
-// const Sales = <Map<String, dynamic>>[
-//   {
-//     'elevation': 4.0,
-//     '_Producto': 'Camisa',
-//     '_Cantidad': '3',
-//     '_Precio': '35.000',
-//     '_FechaDeEntrega': '14/12/24',
-//     '_Descripcion': 'Camisa sin estampado',
-//     '_Cliente': 'Juan',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     '_Producto': 'Briana',
-//     '_Cantidad': 'Dispareja',
-//     '_Precio': '32341231',
-//     '_FechaDeEntrega': 'Briana@gmail.com',
-//     '_Descripcion': 'Calle 20 # 80-20',
-//     '_Cliente': 'Juan',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     '_Producto': 'Herlyn',
-//     '_Cantidad': 'Jose',
-//     '_Precio': '32341231',
-//     '_FechaDeEntrega': 'herlyn@gmail.com',
-//     '_Descripcion': 'Calle 20 # 80-20',
-//     '_Cliente': 'Juan',
-//     'state': false,
-//   },
-//   {
-//     'elevation': 4.0,
-//     '_Producto': 'Tomas',
-//     '_Cantidad': 'Sanchez',
-//     '_Precio': '32341231',
-//     '_FechaDeEntrega': 'tomas@gmail.com',
-//     '_Descripcion': 'Calle 20 # 80-20',
-//     '_Cliente': 'Juan',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     '_Producto': 'Brian',
-//     '_Cantidad': 'Pareja',
-//     '_Precio': '32341231',
-//     '_FechaDeEntrega': 'brian@gmail.com',
-//     '_Descripcion': 'Calle 20 # 80-20',
-//     '_Cliente': 'Juan',
-//     'state': false,
-//   },
-// ];
-
 var saleProvider = SaleProvider();
 
 class SalesScreen extends StatefulWidget {
@@ -94,6 +41,9 @@ class _SalesScreenState extends State<SalesScreen> {
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
       floatingActionButton: FloatingActionButton(
+        
+          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: const Color(0xFF47684e),
           child: const Icon(Icons.add_shopping_cart_sharp),
           onPressed: () {
             Navigator.push(
@@ -102,7 +52,7 @@ class _SalesScreenState extends State<SalesScreen> {
             );
           }),
       drawer: SideMenu(
-        navDrawerIndex: 1,
+        navDrawerIndex: 0,
       ),
     );
   }
@@ -117,7 +67,7 @@ class _SalesView extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(17.0),
             child: Text(
-              "Lista de ventas",
+              "Lista de ordenes",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),

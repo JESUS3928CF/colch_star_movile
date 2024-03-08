@@ -8,7 +8,7 @@ import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 
 class SideMenu extends StatefulWidget {
-  int? navDrawerIndex = 3;
+  int? navDrawerIndex = 0;
   SideMenu({Key? key, this.navDrawerIndex}) : super(key: key);
 
   @override
@@ -40,13 +40,13 @@ class _SideMenuState extends State<SideMenu> {
 
     return Drawer(
       child: Container(
-        color: Color(0xFF14131B),
+        color: const Color(0xFF14131B),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(100, hasNotch ? 20 : 40, 16, 20),
-              child: Text("Colch Star", style: menuTextStyle),
+              child: const Text("Colch Star", style: menuTextStyle),
             ),
             ListTile(
               leading: Icon(Icons.add_shopping_cart_sharp, color: getMenuItemColor(0), size: 30),
@@ -90,13 +90,13 @@ class _SideMenuState extends State<SideMenu> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-              child: Text(
+              child: const Text(
                 "Más acciones",
                 style: menuTextStyle,
               ),
             ),
             ListTile(
-              leading: Icon(Icons.logout_rounded, color: Colors.white, size: 30),
+              leading: const Icon(Icons.logout_rounded, color: Colors.white, size: 30),
               title: Text(
                 'Cerrar sesión',
                 style: menuItemsTextStyle.copyWith(color: Colors.white),
