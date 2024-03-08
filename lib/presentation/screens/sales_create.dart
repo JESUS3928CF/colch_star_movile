@@ -109,7 +109,7 @@ class _SalesCreateState extends State<SalesCreate> {
                                       filled: true),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Por favor, digite la cantidad';
+                                      return 'Por favor digite la cantidad';
                                     }
                                     return null;
                                   },

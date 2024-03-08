@@ -4,7 +4,7 @@ import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
-import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 
 class SideMenu extends StatefulWidget {

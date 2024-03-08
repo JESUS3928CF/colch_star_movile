@@ -76,11 +76,11 @@ class _SalesView extends StatelessWidget {
                 id: sale.id,
                 product: sale.product,
                 amountProduct: sale.amountProduct,
-                montTotal: int.tryParse(sale.montTotal) ?? 0,
+                montTotal: int.tryParse(sale.total) ?? 0,
                 time: sale.time,
                 description: sale.description,
                 state: sale.state,
-                fksale: sale.fksale,
+                fksale: sale.fkSale,
               ))
         ],
       ),

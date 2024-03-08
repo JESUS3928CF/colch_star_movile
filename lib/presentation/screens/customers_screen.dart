@@ -56,7 +56,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
               );
             },
             child: const Icon(Icons.person_add_outlined)),
-        drawer: SideMenu(navDrawerIndex: 0));
+        drawer: SideMenu(navDrawerIndex: 1));
   }
 }
 

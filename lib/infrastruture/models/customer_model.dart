@@ -38,7 +38,7 @@ class CustomerModel {
       );
 
   /// Crear un método para retornar ese usuario usamos la entidad
-  Customer toProfileEntity() => Customer(
+  Customer toCustomerEntity() => Customer(
       id: id,
       name: name,
       lastName: lastName,
@@ -57,9 +57,12 @@ class CustomerModel {
         "estado": state,
       };
 
-  static List<Customer> convertClientesToCustomerList(List<Map<String, dynamic>> clientes) {
+  // Para estructurar toda una lista de datos a la forma de la entidad
+
+  static List<Customer> convertClientesToCustomerList(
+      List<Map<String, dynamic>> clientes) {
     List<Customer> customerList = clientes
-        .map((cliente) => CustomerModel.fromJson(cliente).toProfileEntity())
+        .map((cliente) => CustomerModel.fromJson(cliente).toCustomerEntity())
         .toList();
     return customerList;
   }
