@@ -1,60 +1,9 @@
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_edit.dart';
-import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'customers_create.dart';
-
-//* Para no tener que definer tantas beses las tarjas solo una ves
-// const cards = <Map<String, dynamic>>[
-//   {
-//     'elevation': 4.0,
-//     'name': 'Jesús',
-//     'lastName': 'Cochero',
-//     'phone': '32341231',
-//     'email': 'jesus@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Briana',
-//     'lastName': 'Dispareja',
-//     'phone': '32341231',
-//     'email': 'Briana@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Herlyn',
-//     'lastName': 'Jose',
-//     'phone': '32341231',
-//     'email': 'herlyn@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': false,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Tomas',
-//     'lastName': 'Sanchez',
-//     'phone': '32341231',
-//     'email': 'tomas@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Brian',
-//     'lastName': 'Pareja',
-//     'phone': '32341231',
-//     'email': 'brian@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': false,
-//   },
-// ];
 
 // var customerProvider = CustomerProvider();
 
@@ -67,6 +16,7 @@ class CustomersScreen extends StatefulWidget {
 
 class _CustomersScreenState extends State<CustomersScreen> {
 
+  @override
   void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
@@ -96,8 +46,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
             child: AppBarColch()),
         body: _CustomerView(),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.person_add_outlined),
-            foregroundColor: Color.fromARGB(255, 255, 255, 255), 
+            foregroundColor: const Color.fromARGB(255, 255, 255, 255), 
             backgroundColor: const Color(0xFF47684e),
             onPressed: () {
               Navigator.push(
@@ -105,8 +54,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
                 MaterialPageRoute(
                     builder: (context) => const CustomersCreate()),
               );
-            }),
-        drawer: SideMenu(navDrawerIndex: 2));
+            },
+            child: const Icon(Icons.person_add_outlined)),
+        drawer: SideMenu(navDrawerIndex: 1));
   }
 }
 
