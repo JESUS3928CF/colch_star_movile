@@ -40,17 +40,17 @@ class _SalesScreenState extends State<SalesScreen> {
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
-      floatingActionButton: FloatingActionButton(
+      // floatingActionButton: FloatingActionButton(
         
-          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-          backgroundColor: const Color(0xFF47684e),
-          child: const Icon(Icons.add_shopping_cart_sharp),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SalesCreate()),
-            );
-          }),
+      //     foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+      //     backgroundColor: const Color(0xFF47684e),
+      //     child: const Icon(Icons.add_shopping_cart_sharp),
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const SalesCreate()),
+      //       );
+      //     }),
       drawer: SideMenu(
         navDrawerIndex: 0,
       ),
