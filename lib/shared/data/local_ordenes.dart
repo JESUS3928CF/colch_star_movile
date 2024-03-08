@@ -1,20 +1,32 @@
-List<Map<String, dynamic>> clientes = [
+List<Map<String, dynamic>> ordenes = [
   {
-    "id_cliente": 1,
-    "nombre": "Nombre1",
-    "apellido": "Apellido1",
-    "telefono": "123456789",
-    "email": "correo1@example.com",
-    "direccion": "Dirección1",
-    "estado": true
+    "id_venta": 1,
+    "producto": "Camisa RedHat",
+    "cantidad_producto": 10,
+    "monto_total": 20000,
+    "fecha_entrega": "2024-02-20",
+    "descripcion": "Una calle",
+    "estado": true,
+    "fk_cliente" : 1
   },
   {
-    "id_cliente": 2,
-    "nombre": "Nombre2",
-    "apellido": "Apellido2",
-    "telefono": "987654321",
-    "email": "correo2@example.com",
-    "direccion": "Dirección2",
-    "estado": false
+    "id_venta": 2,
+    "producto": "Camisa React",
+    "cantidad_producto": 10,
+    "monto_total": 20000,
+    "fecha_entrega": "2024-02-20",
+    "descripcion": "Una calle",
+    "estado": true,
+    "fk_cliente" : 1
+  },
+  {
+    "id_venta": 1,
+    "producto": "Camisa Git Hub",
+    "cantidad_producto": 10,
+    "monto_total": 20000,
+    "fecha_entrega": "2024-02-20",
+    "descripcion": "Una calle",
+    "estado": false,
+    "fk_cliente" : 1
   },
 ];

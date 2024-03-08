@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:colch_stat_app/domain/entities/customer.dart';
-import 'package:colch_stat_app/config/helpers/config.dart';
-import 'package:colch_stat_app/domain/entities/profile.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
-import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,7 +9,7 @@ class CustomerProvider extends ChangeNotifier {
   List<Customer> customerList =
       []; //* esto es una lista de entidades de usuarios
 
-  Customer _customer = Customer(
+  final Customer _customer = Customer(
       id: 0,
       name: "",
       lastName: "",

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
-import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +85,7 @@ class _DashboardViewState extends State<DashboardView> {
         DashboardBox(
             label: 'Ventas',
             icon: Icons.attach_money,
-            total: saleProvider.totalSales),
+            total: orderProviderSingleton.orderProvider.totalSales),
       ],
     ));
   }

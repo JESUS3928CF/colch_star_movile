@@ -2,8 +2,6 @@
 //
 //     final saleModel = saleModelFromJson(jsonString);
 
-import 'dart:convert';
-
 import '../../domain/entities/order.dart';
 
 // SaleModel saleModelFromJson(String str) => SaleModel.fromJson(json.decode(str));
@@ -14,7 +12,7 @@ class OrderModel {
   final int id;
   final String product;
   final int amountProduct;
-  final String total;
+  final int total;
   final DateTime time;
   final String description;
   final bool state;
@@ -65,7 +63,7 @@ class OrderModel {
       };
 
   // Para estructurar toda una lista de datos a la forma de la entidad
-  static List<Order> convertClientesToCustomerList(
+  static List<Order> convertOrdenesToOrdersList(
       List<Map<String, dynamic>> clientes) {
     List<Order> customerList = clientes
         .map((cliente) => OrderModel.fromJson(cliente).toOrderEntity())
