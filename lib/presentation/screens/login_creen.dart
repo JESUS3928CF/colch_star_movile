@@ -173,13 +173,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Color(0xFF000000),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: const Text(
-                          'Iniciar',
+                          'Iniciar sesión',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
