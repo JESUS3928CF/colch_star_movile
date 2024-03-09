@@ -1,6 +1,9 @@
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
+import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,14 +35,20 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-//! Instanciamos el proveedor para poder usar sus métodos
-var profileProvider = ProfileProvider();
-
-
 
 class _LoginScreenState extends State<LoginScreen> {
+  late ProfileProvider profileProvider; // Declara profileProvider aquí
+
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    profileProvider = context.read<ProfileProvider>();
+  }
+
 
   final _formKey = GlobalKey<FormState>();
   // ignore: unused_field
@@ -90,8 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           // profileProvider.vaciarErrores();
-                          print("Correo invalido");
-                          print(profileProvider.errores);
                           return 'El correo es necesario';
                         } else if (!RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
@@ -118,7 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText:
-
                               /// Usando el provider
                               profileProvider.errores["messagePassword"]),
                       validator: (value) {
@@ -148,12 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {});
 
                             /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            if (profileProvider.profile["name"].isNotEmpty) {
+                            if (profileProvider.profile.name.isNotEmpty) {
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => IndexScreen(),
+                                  builder: (context) => const SalesScreen(),
                                 ),
                               );
                             }
@@ -167,13 +173,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Color(0xFF000000),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         child: const Text(
-                          'Iniciar',
+                          'Iniciar sesión',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),

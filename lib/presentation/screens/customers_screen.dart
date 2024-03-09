@@ -1,63 +1,11 @@
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_edit.dart';
-import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'customers_create.dart';
 
-//* Para no tener que definer tantas beses las tarjas solo una ves
-// const cards = <Map<String, dynamic>>[
-//   {
-//     'elevation': 4.0,
-//     'name': 'Jesús',
-//     'lastName': 'Cochero',
-//     'phone': '32341231',
-//     'email': 'jesus@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Briana',
-//     'lastName': 'Dispareja',
-//     'phone': '32341231',
-//     'email': 'Briana@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Herlyn',
-//     'lastName': 'Jose',
-//     'phone': '32341231',
-//     'email': 'herlyn@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': false,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Tomas',
-//     'lastName': 'Sanchez',
-//     'phone': '32341231',
-//     'email': 'tomas@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': true,
-//   },
-//   {
-//     'elevation': 4.0,
-//     'name': 'Brian',
-//     'lastName': 'Pareja',
-//     'phone': '32341231',
-//     'email': 'brian@gmail.com',
-//     'address': 'Calle 20 # 80-20',
-//     'state': false,
-//   },
-// ];
-
-var customerProvider = CustomerProvider();
-
-
+// var customerProvider = CustomerProvider();
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
@@ -66,20 +14,20 @@ class CustomersScreen extends StatefulWidget {
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
 
-
-
 class _CustomersScreenState extends State<CustomersScreen> {
 
- void initState() {
+  @override
+  void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
     loadCustomers();
   }
- // Método async para cargar los clientes.
+
+  // Método async para cargar los clientes.
   Future<void> loadCustomers() async {
     try {
-      // Llama al método en customerProvider para cargar los clientes.
-      await customerProvider.getCustomers();
+      /// 1) uso en otro archivo Llama al método en customerProvider para cargar los clientes.
+      await customerProviderSingleton.customerProvider.getCustomers();
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {
@@ -87,6 +35,8 @@ class _CustomersScreenState extends State<CustomersScreen> {
       print('Error al cargar clientes: $error');
     }
   }
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,19 +46,22 @@ class _CustomersScreenState extends State<CustomersScreen> {
             child: AppBarColch()),
         body: _CustomerView(),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.person_add_outlined),
+            foregroundColor: const Color.fromARGB(255, 255, 255, 255), 
+            backgroundColor: const Color(0xFF47684e),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const CustomersCreate()),
               );
-            }),
-        drawer: SideMenu(navDrawerIndex: 2));
+            },
+            child: const Icon(Icons.person_add_outlined)),
+        drawer: SideMenu(navDrawerIndex: 1));
   }
 }
 
 class _CustomerView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -121,7 +74,7 @@ class _CustomerView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...customerProvider.customerList.map((customer) => _CardCustomer(
+          ...customerProviderSingleton.customerProvider.customerList.map((customer) => _CardCustomer(
                 elevation: 4.0,
                 id: customer.id,
                 name: customer.name,
@@ -227,18 +180,17 @@ class _CardCustomerState extends State<_CardCustomer> {
                 IconButton(
                   icon: const Icon(
                     Icons.edit_sharp,
-                    color: Color.fromARGB(255, 7, 135, 194),
+                    color: Color.fromARGB(255, 0, 0, 0),
                   ),
-                  onPressed: ()  {
+                  onPressed: () {
                     Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CustomersEdit()),
-              );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CustomersEdit()),
+                    );
 
-                    //  customerProvider.llenarCustomer(widget.id);
+                    customerProviderSingleton.customerProvider.setCustomer(widget.id);
 
-                       
                     // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
                   },
                 ),
@@ -249,7 +201,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                   icon: widget.state
                       ? const Icon(
                           Icons.toggle_off,
-                          color: Color.fromARGB(255, 7, 135, 194),
+                          color: Color(0xFF60d480),
                         )
                       : const Icon(Icons.toggle_off,
                           color: Color.fromARGB(255, 194, 29, 7)),
@@ -258,12 +210,10 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                      await customerProvider.editCustomerState(widget.id, !widget.state);
-
-
+                    await customerProviderSingleton.customerProvider.editStateProvider(
+                        widget.id, !widget.state);
                   },
                 ),
-
                 // SwitchListTile(value: true, onChanged: (value) {})
               ],
             ),
@@ -273,31 +223,3 @@ class _CardCustomerState extends State<_CardCustomer> {
     );
   }
 }
-
-// class _CardType1 extends StatelessWidget {
-//   final String label;
-//   final double elevation;
-//   const _CardType1({required this.label, required this.elevation});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       elevation: elevation,
-//       child: Padding(
-//         padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-//         child: Column(children: [
-//           Align(
-//               alignment: Alignment.topRight,
-//               child: IconButton(
-//                 icon: const Icon(Icons.more_vert_outlined),
-//                 onPressed: () {},
-//               )),
-//           Align(
-//             alignment: Alignment.bottomLeft,
-//             child: Text(label),
-//           )
-//         ]),
-//       ),
-//     );
-//   }
-// }

@@ -1,143 +1,184 @@
-import 'dart:convert';
-
 import 'package:colch_stat_app/domain/entities/customer.dart';
-import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
-import 'package:dio/dio.dart';
+import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
+import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomerProvider extends ChangeNotifier {
-  final _dio = Dio(BaseOptions());
+  final CustomerRepositoryImpl customerRepository;
 
-  /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
   List<Customer> customerList =
       []; //* esto es una lista de entidades de usuarios
 
-  /// Propiedad a llenar si alguien se loguea
-  Map<dynamic, dynamic> customer = {
-    "id": "",
-    "name": "",
-    "lastName": "",
-    "phone": "",
-    "email": "",
-    "address": "",
-    "state": "",
-  };
+  final Customer _customer = Customer(
+      id: 0,
+      name: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      address: "",
+      state: false);
 
-  /// Propiedad a llenar alguien intenta loguearse pero comete errores
+  int totalClients = 0;
+
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
-  //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
+  CustomerProvider({required this.customerRepository});
+
   Future<void> getCustomers() async {
-    final response = await _dio.get("http://localhost:3000/api/clientes");
+    customerList = await customerRepository.getCustomers();
 
-    print("Cnsultando clientes");
-    if (response.statusCode == 200) {
-      final List<dynamic> data = response.data;
-      final List<Customer> newCustomer = data
-          .map((customer) => CustomerModel.fromJson(customer).toProfileEntity())
-          .toList();
+    // customerList.addAll(newCustomer);
 
-      customerList
-          .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
-      customerList.addAll(newCustomer);
+    totalClients = customerList.length;
 
-      notifyListeners();
-      print("Cnsultando clientes");
-      print(customerList[0].name);
-    } else {
-      // Manejar el error aquí si es necesario
-    }
+    notifyListeners();
   }
 
-  Future<void> editCustomer(id, name, lastName, phone, email, address) async {
-// Datos que deseas enviar en el cuerpo de la solicitud
-    final data = {
-      'nombre': name,
-      'apellido': lastName,
-      'telefono': phone,
-      'email': email,
-      'direccion': address
-    };
+  Future<void> createCustomer(name, lastName, phone, email, address) async {
+    // final data = {
+    //   'nombre': name,
+    //   'apellido': lastName,
+    //   'telefono': phone,
+    //   'email': email,
+    //   'direccion': address,
+    // };
 
-    //- Codifica los datos en formato JSON
-    final jsonData = jsonEncode(data);
+    // final jsonData = jsonEncode(data);
 
-    try {
-      final response = await _dio.patch(
-        'http://localhost:3000/api/clientes/$id', // URL de la API
-        data: data, // Datos que deseas enviar en el cuerpo del PATC
-      );
+    // try {
+    //   final response = await _dio.post(
+    //     '${APIConfig.apiUrl}/clientes',
+    //     data: jsonData,
+    //   );
 
-      // Verifica si la respuesta fue exitosa (código de estado 2xx)
-      if (response.statusCode == 200) {
-        print('Solicitud PATCH exitosa');
-        print('Respuesta: ${response.data}');
-      } else {
-        print('Error en la solicitud PATCH');
-        print('Código de estado: ${response.statusCode}');
-        print('Mensaje de error: ${response.statusMessage}');
-      }
-    } catch (error) {
-      // Manejo de errores en caso de que falle la solicitud
-      print('Error en la solicitud PATCH: $error');
-    }
+    //   if (response.statusCode == 201) {
+    //     print('Cliente creado exitosamente');
+    //     print('Respuesta: ${response.data}');
+    //     // Puedes realizar alguna acción adicional si es necesario
+    //   } else {
+    //     print('Error al crear el cliente');
+    //     print('Código de estado: ${response.statusCode}');
+    //     print('Mensaje de error: ${response.statusMessage}');
+    //   }
+    // } catch (error) {
+    //   print('Error al crear el cliente: $error');
+    // }
   }
 
-  Future<void> editCustomerState(id, state) async {
-// Datos que deseas enviar en el cuerpo de la solicitud
-    final data = {
-      'estado': state,
-    };
+  /// Esto es para llenar el cliente que se va a editar
+  void setCustomer(id) async {
+    // customerList[id - 1];
 
-    //- Codifica los datos en formato JSON
-    final jsonData = jsonEncode(data);
+    // customer = {
+    //   "id": customerList[id - 1].id,
+    //   "name": customerList[id - 1].name,
+    //   "lastName": customerList[id - 1].lastName,
+    //   "phone": customerList[id - 1].phone,
+    //   "email": customerList[id - 1].email,
+    //   "address": customerList[id - 1].address,
+    //   "state": customerList[id - 1].state,
+    // };
 
-    try {
-      final response = await _dio.patch(
-        'http://localhost:3000/api/clientes/estado/$id', // URL de la API
-        data: data, // Datos que deseas enviar en el cuerpo del PATC
-      );
-
-      // Verifica si la respuesta fue exitosa (código de estado 2xx)
-      if (response.statusCode == 200) {
-        print('Solicitud PATCH exitosa cambio de estado');
-        print('Respuesta: ${response.data}');
-      } else {
-        print('Error en la solicitud PATCH');
-        print('Código de estado: ${response.statusCode}');
-        print('Mensaje de error: ${response.statusMessage}');
-      }
-    } catch (error) {
-      // Manejo de errores en caso de que falle la solicitud
-      print('Error en la solicitud PATCH: $error');
-    }
+    notifyListeners();
   }
 
-  void llenarCustomer(id) {
+  Future<void> editCustomer(name, lastName, phone, email, address) async {
+    // final data = {
+    //   'nombre': name,
+    //   'apellido': lastName,
+    //   'telefono': phone,
+    //   'email': email,
+    //   'direccion': address,
+    // };
 
-    print(" Metodo iniciando");
-    // customerList
-  //  
-    for (int i = 0; i < customerList.length; i++) {
-      if(customer[i].id == id){
-        customer = {
-      "id": customer["id"],
-      "name": customer["name"],
-      "lastName": customer["lastName"],
-      "phone": customer["phone"],
-      "email": customer["email"],
-      "address": customer["address"],
-      "state": customer["state"],
-    };
+    // final jsonData = jsonEncode(data);
 
-print("Llenando customer");
-print(customer);
+    // var _id = customer["id"];
+    // try {
+    //   final response = await _dio.patch(
+    //     '${APIConfig.apiUrl}/clientes/$_id',
+    //     data: jsonData,
+    //   );
 
-    return notifyListeners();  
-      }
-    }
+    //   if (response.statusCode == 201) {
+    //     print('Cliente creado exitosamente');
+    //     print('Respuesta: ${response.data}');
+    //     // Puedes realizar alguna acción adicional si es necesario
+    //   } else {
+    //     print('Error al crear el cliente');
+    //     print('Código de estado: ${response.statusCode}');
+    //     print('Mensaje de error: ${response.statusMessage}');
+    //   }
+    // } catch (error) {
+    //   print('Error al edita el cliente: $error');
+    // }
 
-    
-    
+    notifyListeners();
   }
+
+  Future<void> editStateProvider(id, state) async {
+    // final data = {
+    //   'estado': state,
+    // };
+
+    // final jsonData = jsonEncode(data);
+
+    // try {
+    //   final response = await _dio.patch(
+    //     '${APIConfig.apiUrl}/clientes/estado/$id',
+    //     data: jsonData,
+    //   );
+
+    //   if (response.statusCode == 201) {
+    //     print('Estado modificado exitosamente');
+    //     print('Respuesta: ${response.data}');
+    //     // Puedes realizar alguna acción adicional si es necesario
+    //   } else {
+    //     print('Error al cambiar el estado');
+    //     print('Código de estado: ${response.statusCode}');
+    //     print('Mensaje de error: ${response.statusMessage}');
+    //   }
+    // } catch (error) {
+    //   print('Error al cambiar el estado del cliente: $error');
+    // }
+
+    notifyListeners();
+  }
+
+  // Método getter para acceder al perfil
+  Customer get customer => _customer;
 }
+
+/// Instanciar el provider una sola ves en toda la app
+class CustomerProviderSingleton {
+  /// Creación de una única instancia del repositorio que se usara.
+  static final CustomerRepositoryImpl customerRepository =
+      CustomerRepositoryImpl(customerDataSource: LocalCustomerDataSourceImpl());
+
+  /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
+  static final CustomerProviderSingleton _instance =
+      CustomerProviderSingleton._internal();
+
+  /// Constructor de fábrica privado para crear o devolver la instancia única de CustomerProviderSingleton.
+  factory CustomerProviderSingleton() {
+    return _instance;
+  }
+
+  /// Constructor privado interno para evitar la creación de instancias desde fuera de la clase.
+  CustomerProviderSingleton._internal();
+
+  /// Método estático para obtener la instancia única de CustomerProviderSingleton.
+  static CustomerProviderSingleton get instance => _instance;
+
+  /// Propiedad para almacenar la instancia de CustomerProvider.
+  final CustomerProvider _customerProvider =
+      CustomerProvider(customerRepository: customerRepository);
+
+  /// Método getter para obtener la instancia de CustomerProvider.
+  CustomerProvider get customerProvider => _customerProvider;
+}
+
+
+
+/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos 
+final customerProviderSingleton = CustomerProviderSingleton.instance;

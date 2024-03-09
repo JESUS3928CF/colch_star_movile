@@ -2,8 +2,6 @@
 //
 //     final customerModel = customerModelFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:colch_stat_app/domain/entities/customer.dart';
 
 // CustomerModel customerModelFromJson(String str) => CustomerModel.fromJson(json.decode(str));
@@ -11,45 +9,61 @@ import 'package:colch_stat_app/domain/entities/customer.dart';
 // String customerModelToJson(CustomerModel data) => json.encode(data.toJson());
 
 class CustomerModel {
-    final int idCliente;
-    final String nombre;
-    final String apellido;
-    final String telefono;
-    final String email;
-    final String direccion;
-    final bool estado;
+  final int id;
+  final String name;
+  final String lastName;
+  final String phone;
+  final String email;
+  final String address;
+  final bool state;
 
-    CustomerModel({
-        required this.idCliente,
-        required this.nombre,
-        required this.apellido,
-        required this.telefono,
-        required this.email,
-        required this.direccion,
-        required this.estado,
-    });
+  CustomerModel({
+    required this.id,
+    required this.name,
+    required this.lastName,
+    required this.phone,
+    required this.email,
+    required this.address,
+    required this.state,
+  });
 
-    factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
-        idCliente: json["id_cliente"],
-        nombre: json["nombre"],
-        apellido: json["apellido"],
-        telefono: json["telefono"],
+  factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
+        id: json["id_cliente"],
+        name: json["nombre"],
+        lastName: json["apellido"],
+        phone: json["telefono"],
         email: json["email"],
-        direccion: json["direccion"],
-        estado: json["estado"],
-    );
+        address: json["direccion"],
+        state: json["estado"],
+      );
 
-     /// Crear un método para retornar ese usuario usamos la entidad
-    Customer toProfileEntity () => Customer(id: idCliente, name: nombre, lastName: apellido, phone: telefono, email: email, address: direccion, state: estado );
-    
+  /// Crear un método para retornar ese usuario usamos la entidad
+  Customer toCustomerEntity() => Customer(
+      id: id,
+      name: name,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      address: address,
+      state: state);
 
-    Map<String, dynamic> toJson() => {
-        "id_cliente": idCliente,
-        "nombre": nombre,
-        "apellido": apellido,
-        "telefono": telefono,
+  Map<String, dynamic> toJson() => {
+        "id_cliente": id,
+        "nombre": name,
+        "apellido": lastName,
+        "telefono": pragma,
         "email": email,
-        "direccion": direccion,
-        "estado": estado,
-    };
+        "direccion": address,
+        "estado": state,
+      };
+
+  // Para estructurar toda una lista de datos a la forma de la entidad
+
+  static List<Customer> convertClientesToCustomerList(
+      List<Map<String, dynamic>> clientes) {
+    List<Customer> customerList = clientes
+        .map((cliente) => CustomerModel.fromJson(cliente).toCustomerEntity())
+        .toList();
+    return customerList;
+  }
 }

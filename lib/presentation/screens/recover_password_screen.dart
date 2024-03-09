@@ -1,7 +1,9 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecoverPassword extends StatefulWidget {
   const RecoverPassword({super.key});
@@ -12,11 +14,22 @@ class RecoverPassword extends StatefulWidget {
 
 class _RecoverPasswordState extends State<RecoverPassword> {
   /// Instanciamos el proveedor para poder usar sus métodos
+  late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   // ignore: unused_field
   String _nombre = '';
   final _formKey = GlobalKey<FormState>();
   String _password = '';
+
+  final TextEditingController _currentPassword = TextEditingController();
+  final TextEditingController _newPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa profileProvider en initState
+    profileProvider = context.read<ProfileProvider>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +59,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                     padding: EdgeInsets.symmetric(vertical: 7),
                     child: Center(
                         child: Text(
-                      'Modifica tu contraseña aqui',
+                      'Modifica tu contraseña aquí',
                       style: TextStyle(fontSize: 17),
                     )),
                   ),
@@ -57,17 +70,20 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                decoration: const InputDecoration(
+                                controller: _currentPassword,
+                                decoration: InputDecoration(
+                                    errorText: profileProvider
+                                        .errores["messagePassword"],
                                     hintText: 'Contraseña actual',
-                                    hintStyle:
-                                        TextStyle(fontWeight: FontWeight.w700),
-                                    fillColor:
-                                        Color.fromARGB(255, 221, 216, 216),
-                                    focusedBorder: OutlineInputBorder(
+                                    hintStyle: const TextStyle(
+                                        fontWeight: FontWeight.w700),
+                                    fillColor: const Color.fromARGB(
+                                        255, 221, 216, 216),
+                                    focusedBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 0, style: BorderStyle.none),
                                     ),
-                                    enabledBorder: OutlineInputBorder(
+                                    enabledBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
                                           width: 0, style: BorderStyle.none),
                                     ),
@@ -76,6 +92,12 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                   if (value!.isEmpty) {
                                     return 'Ingrese su contraseña actual';
                                   }
+
+                                  // if (profileProvider
+                                  //         .errores["messagePassword"] !=
+                                  //     "") {
+                                  //   return
+                                  // }
                                   return null;
                                 },
                                 onSaved: (value) {
@@ -87,7 +109,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                           Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: TextFormField(
-                                initialValue: profileProvider.profile[""],
+                                controller: _newPassword,
                                 decoration: const InputDecoration(
                                     hintText: 'Nueva contraseña',
                                     hintStyle:
@@ -106,6 +128,8 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Ingrese su nueva contraseña';
+                                  } else if (value.length < 6) {
+                                    return "La contraseña es muy insegura agregue más de 5 caracteres";
                                   }
                                   return null;
                                 },
@@ -123,9 +147,34 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                           0.7,
                                       height: 45,
                                       child: ElevatedButton(
-                                          onPressed: () {
+                                          onPressed: () async {
+                                            profileProvider.vaciarErrores();
                                             if (_formKey.currentState!
                                                 .validate()) {
+                                              String cp = _currentPassword.text;
+                                              String np = _newPassword.text;
+
+                                              profileProvider
+                                                  .changePassword(cp, np);
+
+                                              print("Mensaje de error");
+                                              print(profileProvider
+                                                  .errores["messagePassword"]);
+
+                                              if (profileProvider.errores[
+                                                      "messagePassword"] !=
+                                                  "") {
+                                                setState(() {});
+
+                                                // profileProvider.vaciarErrores();
+
+                                                return;
+                                              }
+
+                                              profileProvider.vaciarErrores();
+
+                                              setState(() {});
+
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
                                                 content: Row(
@@ -141,7 +190,7 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                                       width: 5,
                                                     ),
                                                     Text(
-                                                      "Cambio de Contraseña exitoso",
+                                                      "Cambio de contraseña exitoso",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255,
@@ -160,7 +209,8 @@ class _RecoverPasswordState extends State<RecoverPassword> {
                                             foregroundColor: Colors
                                                 .white, // foreground (text) color
                                           ),
-                                          child: const Text('Guardar Cambios')),
+                                          child:
+                                              const Text('Cambiar Contraseña')),
                                     ),
                                   )),
                             ],

@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +22,12 @@ class IndexScreen extends StatelessWidget {
             Padding(
               /// de esta forma damos padding horizontal a un widget
               padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text("Colch Star"),
+              child: Text(
+                "Colch Star",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
             )
           ],
         ),
@@ -33,8 +40,6 @@ class IndexScreen extends StatelessWidget {
   }
 }
 
-
-
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
 
@@ -43,15 +48,44 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  void initState() {
+    super.initState();
+    // Llama al método async para cargar los clientes cuando se inicie la pantalla.
+    loadCustomers();
+  }
+
+  // Método async para cargar los clientes.
+  Future<void> loadCustomers() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await customerProviderSingleton.customerProvider.getCustomers();
+
+      /// se comenta para que no de error
+      // await saleProvider.getSales();
+
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar clientes: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        DashboardBox(label: 'Clientes', icon: Icons.people, total: 0),
+      children: [
+        DashboardBox(
+            label: 'Clientes',
+            icon: Icons.people,
+            total: customerProviderSingleton.customerProvider.totalClients),
         SizedBox(height: 20),
-        DashboardBox(label: 'Ventas', icon: Icons.attach_money, total: 0),
+        DashboardBox(
+            label: 'Ordenes',
+            icon: Icons.attach_money,
+            total: orderProviderSingleton.orderProvider.totalSales),
       ],
     ));
   }

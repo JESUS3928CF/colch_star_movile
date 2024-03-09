@@ -7,70 +7,60 @@ import 'package:colch_stat_app/domain/entities/profile.dart';
 // String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 
 class ProfileModel {
-  final int idUsuario;
-  final String nombre;
-  final String apellido;
-  final String telefono;
+  final int id;
+  final String name;
+  final String lastName;
+  final String phone;
   final String email;
-  final String contrasena;
-  final bool estado;
-  final int fkRol;
-  final Role role;
+  final String password;
+  final bool state;
+  final String rolName;
 
   ProfileModel({
-    required this.idUsuario,
-    required this.nombre,
-    required this.apellido,
-    required this.telefono,
+    required this.id,
+    required this.name,
+    required this.lastName,
+    required this.phone,
     required this.email,
-    required this.contrasena,
-    required this.estado,
-    required this.fkRol,
-    required this.role,
+    required this.password,
+    required this.state,
+    required this.rolName,
   });
 
+  // este método lo que hará es recibir un JSON y moldearlo a como nosotros lo usamos en nuestra app
+
+  // Ejemplo de utilidad, digamos que más adelante cambia la forma en que la api nos envía los datos, no tenemos que cambiar esa estructura en todos los lugares donde se usa esa información, solo aquí en en este método y ya
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-        idUsuario: json["id_usuario"],
-        nombre: json["nombre"],
-        apellido: json["apellido"],
-        telefono: json["telefono"],
+        id: json["id_usuario"],
+        name: json["nombre"],
+        lastName: json["apellido"],
+        phone: json["telefono"],
         email: json["email"],
-        contrasena: json["contrasena"],
-        estado: json["estado"],
-        fkRol: json["fk_rol"],
-        role: Role.fromJson(json["role"]),
+        password: json["contrasena"],
+        state: json["estado"],
+        rolName: json["rol"],
       );
 
+  //* Esto es para estructurar nuestra entidad de forma que nuestra api la reciba en la forma que se espera
   Map<String, dynamic> toJson() => {
-        "id_usuario": idUsuario,
-        "nombre": nombre,
-        "apellido": apellido,
-        "telefono": telefono,
+        "id_usuario": id,
+        "nombre": name,
+        "apellido": lastName,
+        "telefono": phone,
         "email": email,
-        "contrasena": contrasena,
-        "estado": estado,
-        "fk_rol": fkRol,
-        "role": role.toJson(),
+        "contrasena": password,
+        "estado": state,
+        "rol": rolName,
       };
 
-
-    /// Crear un método para retornar ese usuario usamos la entidad
-    Profile toProfileEntity () => Profile(id: idUsuario, name: nombre, lastName: apellido, phone: telefono, email: email, password: contrasena, state: estado, rolName: role.nombre );
-    
-}
-
-class Role {
-  final String nombre;
-
-  Role({
-    required this.nombre,
-  });
-
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
-        nombre: json["nombre"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "nombre": nombre,
-      };
+  /// Crear un método para retornar ese usuario usamos la entidad
+  Profile toProfileEntity() => Profile(
+      id: id,
+      name: name,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      password: password,
+      state: state,
+      rolName: rolName);
 }

@@ -6,7 +6,7 @@ class AppBarColch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF14131B), // Color del menú
       title: const Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -15,7 +15,12 @@ class AppBarColch extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text("Colch Star"),
+            child: Text(
+              "Colch Star",
+              style: TextStyle(
+                color: Colors.white, // Color de texto blanco
+              ),
+            ),
           ),
         ],
       ),

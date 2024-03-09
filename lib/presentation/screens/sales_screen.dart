@@ -1,8 +1,8 @@
-import 'package:colch_stat_app/presentation/providers/sales_provider.dart';
-import 'package:colch_stat_app/presentation/screens/sales_edit.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+
 import 'sales_create.dart';
 
 // const Sales = <Map<String, dynamic>>[
@@ -102,25 +102,24 @@ class SalesScreen extends StatefulWidget {
 }
 
 class _SalesScreenState extends State<SalesScreen> {
-
   void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
     loadSales();
   }
- // Método async para cargar los clientes.
+
+  // Método async para cargar los clientes.
   Future<void> loadSales() async {
     try {
       // Llama al método en customerProvider para cargar los clientes.
-      await salesProviders.getSales();
+      await orderProviderSingleton.orderProvider.getSales();
       // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
       setState(() {});
     } catch (error) {
       // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-      print('Error al cargar de ventas: $error');
+      print('Error al cargar la venta: $error');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -128,16 +127,19 @@ class _SalesScreenState extends State<SalesScreen> {
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.person_add_outlined),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SalesCreate()),
-            );
-          }),
+      // floatingActionButton: FloatingActionButton(
+        
+      //     foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+      //     backgroundColor: const Color(0xFF47684e),
+      //     child: const Icon(Icons.add_shopping_cart_sharp),
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => const SalesCreate()),
+      //       );
+      //     }),
       drawer: SideMenu(
-        navDrawerIndex: 2,
+        navDrawerIndex: 0,
       ),
     );
   }
@@ -152,19 +154,20 @@ class _SalesView extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(17.0),
             child: Text(
-              "Lista de ventas",
+              "Lista de ordenes",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...salesProviders.salesList.map((sale) => _CardSales(
+          ... orderProviderSingleton.orderProvider.saleList.map((sale) => _CardSale(
                 elevation: 4.0,
                 id: sale.id,
-                products: sale.products,
-                amountProducts: sale.amountProducts,
-                price: sale.price,
-                deliverDate:sale.deliverDate,
-                description:sale.description,
+                product: sale.product,
+                amountProduct: sale.amountProduct,
+                montTotal: (sale.total) ?? 0,
+                time: sale.time,
+                description: sale.description,
                 state: sale.state,
+                fksale: sale.fkSale,
               ))
         ],
       ),
@@ -177,35 +180,34 @@ const labelCardStyle = TextStyle(
   fontSize: 20,
 );
 
-class _CardSales extends StatefulWidget {
+class _CardSale extends StatefulWidget {
+  final int id;
+  final String product;
+  final int amountProduct;
+  final int montTotal;
+  final DateTime time;
+  final String description;
+  final int fksale;
+  bool state;
+  final double elevation;
 
-  late final int id;
-  late final String products;
-  late final int amountProducts;
-  late final double price;
-  late final DateTime deliverDate;
-  late final String description;
-  late final bool state;
-  late final double elevation;
-
-  _CardSales(
-
-      {
-      required this.id,
-      required this.products,
-      required this.amountProducts,
-      required this.price,
-      required this.deliverDate,
-      required this.description,
-      required this.state,
-      required this.elevation
-      });
+  _CardSale({
+    required this.id,
+    required this.product,
+    required this.amountProduct,
+    required this.montTotal,
+    required this.time,
+    required this.description,
+    required this.state,
+    required this.fksale,
+    required this.elevation,
+  });
 
   @override
-  State<_CardSales> createState() => _CardSalesState();
+  State<_CardSale> createState() => _CardSaleState();
 }
 
-class _CardSalesState extends State<_CardSales> {
+class _CardSaleState extends State<_CardSale> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -225,7 +227,7 @@ class _CardSalesState extends State<_CardSales> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.products}',
+                  '${widget.product} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -235,7 +237,7 @@ class _CardSalesState extends State<_CardSales> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cantidad : ${widget.amountProducts}',
+                  'Cantidad : ${widget.amountProduct}',
                   style: textCardStyle,
                 ),
               ),
@@ -245,7 +247,7 @@ class _CardSalesState extends State<_CardSales> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.price}',
+                  'Precio Unitario: ${widget.montTotal}',
                   style: textCardStyle,
                 ),
               ),
@@ -255,7 +257,7 @@ class _CardSalesState extends State<_CardSales> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.deliverDate}',
+                  'Precio Total: ${widget.montTotal * widget.amountProduct}',
                   style: textCardStyle,
                 ),
               ),
@@ -265,43 +267,30 @@ class _CardSalesState extends State<_CardSales> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: : ${widget.description}',
+                  'Fecha De Entrega: : ${widget.time}',
                   style: textCardStyle,
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.edit_sharp,
-                    color: Color.fromARGB(255, 7, 135, 194),
-                  ),
-                  onPressed: () { Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SalesEdit()),);},
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Descripción: ${widget.description}',
+                  style: textCardStyle,
                 ),
-                const SizedBox(
-                  width: 100,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Id Cliente: ${widget.fksale}',
+                  style: textCardStyle,
                 ),
-                IconButton(
-                  icon: widget.state
-                      ? const Icon(
-                          Icons.toggle_off,
-                          color: Color.fromARGB(255, 7, 135, 194),
-                        )
-                      : const Icon(Icons.toggle_off,
-                          color: Color.fromARGB(255, 194, 29, 7)),
-                  onPressed: () {
-                    setState(() {
-                      widget.state = !widget.state;
-                    });
-                  },
-                ),
-                // SwitchListTile(value: true, onChanged: (value) {})
-              ],
+              ),
             ),
           ]),
         ),

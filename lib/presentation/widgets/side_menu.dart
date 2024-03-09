@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
-import 'package:colch_stat_app/presentation/screens/profile_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
-import 'package:colch_stat_app/presentation/screens/recover_password_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 
 class SideMenu extends StatefulWidget {
-  int? navDrawerIndex = 3;
+  int? navDrawerIndex = 0;
   SideMenu({Key? key, this.navDrawerIndex}) : super(key: key);
 
   @override
@@ -15,114 +16,102 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  // int navDrawerIndex = 0;
+  late ProfileProvider profileProvider; 
+
+  @override
+  void initState() {
+    super.initState();
+    profileProvider = context.read<ProfileProvider>();
+  }
+
+  Color getMenuItemColor(int index) {
+    return index == widget.navDrawerIndex ? Colors.blue : Colors.white; // Cambia el color aquí según la opción seleccionada
+  }
 
   @override
   Widget build(BuildContext context) {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
 
     const TextStyle menuTextStyle =
-        TextStyle(fontWeight: FontWeight.w800, fontSize: 20);
+        TextStyle(fontWeight: FontWeight.w800, fontSize: 24, color: Colors.white);
 
     const TextStyle menuItemsTextStyle =
-        TextStyle(fontWeight: FontWeight.w600, fontSize: 17);
+        TextStyle(fontWeight: FontWeight.w500, fontSize: 20);
 
-    return NavigationDrawer(
-        //* Opción para saber que pagina esta seleccionada
-        selectedIndex: widget.navDrawerIndex,
-        onDestinationSelected: (value) {
-          setState(() {
-            widget.navDrawerIndex = value;
-          });
-
-          switch (value) {
-            case 0: // Dashboard
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => IndexScreen()),
-              );
-              break;
-            case 1: // Ventas
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SalesScreen()),
-              );
-              break;
-            case 2: // Clientes
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CustomersScreen()),
-              );
-              break;
-            case 3:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfileScreen()),
-              );
-              break;
-            case 4:
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RecoverPassword()),
-              );
-              break;
-            case 5:
-              profileProvider.singOff();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
-              );
-              break;
-          }
-        },
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text("Menú principal", style: menuTextStyle),
-          ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.dashboard),
-              label: Text(
-                'Dashboard',
-                style: menuItemsTextStyle,
-              )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.add_shopping_cart_sharp),
-              label: Text('Ventas', style: menuItemsTextStyle)),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.person),
-              label: Text('Clientes', style: menuItemsTextStyle)),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-            child: Divider(),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-            child: const Text(
-              "Más acciones",
-              style: menuTextStyle,
+    return Drawer(
+      child: Container(
+        color: const Color(0xFF14131B),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(100, hasNotch ? 20 : 40, 16, 20),
+              child: const Text("Colch Star", style: menuTextStyle),
             ),
-          ),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.account_circle),
-              label: Text(
-                'Mi perfil',
-                style: menuItemsTextStyle,
-              )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.lock_outlined),
-              label: Text(
-                'Contraseña',
-                style: menuItemsTextStyle,
-              )),
-          const NavigationDrawerDestination(
-              icon: Icon(Icons.logout_rounded),
-              label: Text(
+            ListTile(
+              leading: Icon(Icons.add_shopping_cart_sharp, color: getMenuItemColor(0), size: 30),
+              title: Text(
+                'Ordenes',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: getMenuItemColor(0),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  widget.navDrawerIndex = 0;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SalesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person, color: getMenuItemColor(1), size: 30),
+              title: Text(
+                'Clientes',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: getMenuItemColor(1),
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  widget.navDrawerIndex = 1;
+                });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CustomersScreen()),
+                );
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
+              child: const Text(
+                "Más acciones",
+                style: menuTextStyle,
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout_rounded, color: Colors.white, size: 30),
+              title: Text(
                 'Cerrar sesión',
-                style: menuItemsTextStyle,
-              )),
-        ]);
+                style: menuItemsTextStyle.copyWith(color: Colors.white),
+              ),
+              onTap: () {
+                profileProvider.singOff();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyApp()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
