@@ -35,7 +35,6 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
   late ProfileProvider profileProvider; // Declara profileProvider aquí
 
@@ -48,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
     // Inicializa profileProvider en initState
     profileProvider = context.read<ProfileProvider>();
   }
-
 
   final _formKey = GlobalKey<FormState>();
   // ignore: unused_field
@@ -78,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.center,
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
-                  child: Image.asset('assets/images/Logooo.jpeg'),
+                  child: Image.asset('assets/images/LogoPNG.png'),
                 ),
               ),
               Form(
@@ -88,10 +86,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        hintText: 'Correo Electrónico',
-                        prefixIcon: const Icon(Icons.email),
+                        hintText: 'Usuario',
+                        hintStyle: const TextStyle(color: Colors.black),
+                        prefixIcon: const Icon(Icons.email,
+                            color: Colors.black), // Cambia el color del ícono
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                              color: Colors.black), // Cambia el color del borde
                         ),
                         //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
                         errorText: profileProvider.errores["messageEmail"],
@@ -120,11 +122,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       decoration: InputDecoration(
                           hintText: 'Contraseña',
-                          prefixIcon: const Icon(Icons.lock),
+                          hintStyle: const TextStyle(color: Colors.black),
+                          prefixIcon:
+                              const Icon(Icons.lock, color: Colors.black),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                           errorText:
+
                               /// Usando el provider
                               profileProvider.errores["messagePassword"]),
                       validator: (value) {
@@ -180,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: const Text(
                           'Iniciar sesión',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     ),
