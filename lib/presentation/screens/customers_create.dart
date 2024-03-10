@@ -47,15 +47,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Center(
-                  child: Text(
-                    '¡Agregar un nuevo cliente!',
-                    style: TextStyle(fontSize: 17),
-                  ),
-                ),
-              ),
               Form(
                 key: _formKey,
                 child: Column(
@@ -65,7 +56,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                       child: TextFormField(
                         controller: _nameController,
                         decoration: const InputDecoration(
-                            hintText: 'Nombre',
+                            hintText: 'Nombres',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
                             fillColor: Color.fromARGB(255, 221, 216, 216),
                             focusedBorder: OutlineInputBorder(
@@ -79,7 +70,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor ingrese su nombre';
+                            return 'Por favor, ingrese el nombre';
                           }
                           return null;
                         },
@@ -90,7 +81,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                       child: TextFormField(
                         controller: _lastNameController,
                         decoration: const InputDecoration(
-                            hintText: 'Apellido',
+                            hintText: 'Apellidos',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
                             fillColor: Color.fromARGB(255, 221, 216, 216),
                             focusedBorder: OutlineInputBorder(
@@ -104,7 +95,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor ingrese su nombre';
+                            return 'Por favor, ingrese el apellido';
                           }
                           return null;
                         },
@@ -129,7 +120,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, ingrese su nombre';
+                            return 'Por favor, ingrese el teléfono';
                           }
                           return null;
                         },
@@ -139,9 +130,35 @@ class _CustomersCreateState extends State<CustomersCreate> {
                     Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: TextFormField(
+                          controller: _addressController,
+                          decoration: const InputDecoration(
+                              hintText: 'Dirección',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Por favor, ingrese la Dirección';
+                            }
+                            return null;
+                          },
+                        )),
+
+
+                    Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: TextFormField(
                           controller: _emailController,
                           decoration: const InputDecoration(
-                              hintText: 'Email',
+                              hintText: 'Correo electrónico',
                               hintStyle: TextStyle(fontWeight: FontWeight.w700),
                               fillColor: Color.fromARGB(255, 221, 216, 216),
                               focusedBorder: OutlineInputBorder(
@@ -166,37 +183,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             }
                           },
                         )),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: TextFormField(
-                          controller: _addressController,
-                          decoration: const InputDecoration(
-                              hintText: 'Dirección',
-                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
-                              fillColor: Color.fromARGB(255, 221, 216, 216),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 0, style: BorderStyle.none),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 0, style: BorderStyle.none),
-                              ),
-                              filled: true),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Por favor ingrese su Dirección';
-                            }
-                            return null;
-                          },
-                        )),
-
+                    
                     // Resto de los campos de entrada aquí...
 
                     Row(
                       children: [
                         SizedBox(
-                          width: 100,
+                          width: 110,
                           height: 45,
                           child: ElevatedButton(
                             onPressed: () {
@@ -208,7 +201,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               // Lógica para cancelar aquí
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF252432),
+                              backgroundColor: const Color(0xFF252432),
                               foregroundColor: Colors.white,
                             ),
                             child: const Text('Cancelar'),
@@ -220,7 +213,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: SizedBox(
-                            width: 100,
+                            width: 110,
                             height: 45,
                             child: ElevatedButton(
                               onPressed: () async {
@@ -265,7 +258,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                 backgroundColor: Color(0xFF47684e),
                                 foregroundColor: Colors.white,
                               ),
-                              child: const Text('Agregar'),
+                              child: const Text('Guardar'),
                             ),
                           ),
                         ),

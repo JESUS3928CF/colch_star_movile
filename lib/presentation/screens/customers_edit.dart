@@ -68,14 +68,6 @@ class _CustomersEditState extends State<CustomersEdit> {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Center(
-                          child: Text(
-                        '!Editar cliente de colch star!',
-                        style: TextStyle(fontSize: 17),
-                      )),
-                    ),
                     Form(
                         key: _formKey,
                         child: Column(
@@ -85,7 +77,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                 child: TextFormField(
                                   controller: _nombreController,
                                   decoration: const InputDecoration(
-                                      hintText: 'Nombre',
+                                      hintText: 'Nombres',
                                       hintStyle: TextStyle(
                                           fontWeight: FontWeight.w700),
                                       fillColor:
@@ -158,38 +150,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     return null;
                                   },
                                 )),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 15),
-                                child: TextFormField(
-                                  controller: _emailController,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Email',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                  validator: (value) {
-                                    String pattern =
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                    RegExp regExp = RegExp(pattern);
-                                    if (value!.isEmpty) {
-                                      return "El correo es necesario";
-                                    } else if (!regExp.hasMatch(value)) {
-                                      return "Correo invalido";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
-                                )),
+                            
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
@@ -216,13 +177,67 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     return null;
                                   },
                                 )),
+                                Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: TextFormField(
+                                  controller: _emailController,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Correo electrónico',
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                      fillColor:
+                                          Color.fromARGB(255, 221, 216, 216),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      filled: true),
+                                  validator: (value) {
+                                    String pattern =
+                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                    RegExp regExp = RegExp(pattern);
+                                    if (value!.isEmpty) {
+                                      return "El correo es necesario";
+                                    } else if (!regExp.hasMatch(value)) {
+                                      return "Correo invalido";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                )),
                             Row(
                               children: [
+                                SizedBox(
+                                  width: 110,
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Lógica para cancelar aquí
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CustomersScreen()));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF252432),
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    child: const Text('Cancelar'),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
                                     child: SizedBox(
-                                      width: 100,
+                                      width: 110,
                                       height: 45,
                                       child: ElevatedButton(
                                           onPressed: () async {
@@ -294,36 +309,11 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                         const CustomersScreen()));
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors
-                                                .green, // background (button) color
-                                            foregroundColor: Colors
-                                                .white, // foreground (text) color
+                                            backgroundColor: Color(0xFF47684e),
+                                            foregroundColor: Colors.white,
                                           ),
-                                          child: const Text('Editar')),
+                                          child: const Text('Guardar')),
                                     )),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                SizedBox(
-                                  width: 100,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      // Lógica para cancelar aquí
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const CustomersScreen()));
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors
-                                          .red, // Puedes cambiar el color según tus preferencias
-                                      foregroundColor: Colors.white,
-                                    ),
-                                    child: const Text('Cancelar'),
-                                  ),
-                                ),
                               ],
                             ),
                             // Añade un espacio entre los botones
