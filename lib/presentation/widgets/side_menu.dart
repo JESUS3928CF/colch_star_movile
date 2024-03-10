@@ -16,12 +16,10 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  late ProfileProvider profileProvider; 
 
   @override
   void initState() {
     super.initState();
-    profileProvider = context.read<ProfileProvider>();
   }
 
   Color getMenuItemColor(int index) {
@@ -102,7 +100,7 @@ class _SideMenuState extends State<SideMenu> {
                 style: menuItemsTextStyle.copyWith(color: Colors.white),
               ),
               onTap: () {
-                profileProvider.singOff();
+                profileProviderSingleton.profileProvider.singOff();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const MyApp()),

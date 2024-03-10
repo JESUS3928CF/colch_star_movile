@@ -37,6 +37,8 @@ class _SalesScreenState extends State<SalesScreen> {
 
   @override
   void didChangeDependencies() {
+    print(profileProviderSingleton.profileProvider.profile.name.isEmpty);
+    print(profileProviderSingleton.profileProvider.profile.name);
     super.didChangeDependencies();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
