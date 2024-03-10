@@ -17,6 +17,21 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
 
+   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(title: "...."),
+          ),
+        );
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,9 +58,15 @@ class _SideMenuState extends State<SideMenu> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(100, hasNotch ? 20 : 40, 16, 20),
-              child: const Text("Colch Star", style: menuTextStyle),
+              padding: EdgeInsets.fromLTRB(0, hasNotch ? 25 : 25, 0, 0,),
+              child: Center(
+                child: Text(
+                  "${profileProviderSingleton.profileProvider.profile.name} ${profileProviderSingleton.profileProvider.profile.lastName}",
+                  style: menuTextStyle,
+                ),
+              ),
             ),
+
             ListTile(
               leading: Icon(Icons.add_shopping_cart_sharp, color: getMenuItemColor(0), size: 30),
               title: Text(

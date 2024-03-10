@@ -14,11 +14,8 @@ class ProfileProvider extends ChangeNotifier {
     id: 0,
     name: '',
     lastName: '',
-    phone: '',
-    email: '',
-    password: '',
     state: false,
-    rolName: ''
+    permissions: [],
   );
 
   //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
@@ -31,14 +28,22 @@ class ProfileProvider extends ChangeNotifier {
 
     try {
       final userLogin = await profileRepository.getProfile(email, password);
-      _profile = userLogin;
+      
+      if(userLogin.state == false) {
+        _error = "Este usuario de encuentra deshabilitado";
+      } else if(!userLogin.permissions.contains("clientes") || !userLogin.permissions.contains("ordenes")) {
+        _error = "Este usuario no cuenta con los permisos necesarios";
+      }
+      else {
+
+        _profile = userLogin;
+      }
     } on CustomError catch (e) {
       _error = e.message;
     } catch (e) {
       _error = "Error no controlado";
     }
 
-    
     notifyListeners(); // Notificar a los oyentes (listeners) sobre el cambio en el perfil
   }
 
@@ -53,11 +58,8 @@ class ProfileProvider extends ChangeNotifier {
       id: 0,
       name: '',
       lastName: '',
-      phone: '',
-      email: '',
-      password: '',
       state: false,
-      rolName: '',
+      permissions: [],
     );
     notifyListeners();
   }
@@ -105,7 +107,6 @@ class ProfileProviderSingleton {
 
   /// Método getter para obtener la instancia de CustomerProvider.
   ProfileProvider get profileProvider => _profileProvider;
-
 }
 
 /// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos
