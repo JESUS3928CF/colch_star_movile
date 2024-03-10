@@ -22,6 +22,8 @@ class ProfileProvider extends ChangeNotifier {
     errorMessagePassword: 'La contraseña ingresada no es válida.',
   );
 
+  
+
   ProfileProvider({required this.profileRepository});
 
   Future<void> getProfile(String email, String password) async {

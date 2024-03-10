@@ -1,5 +1,6 @@
 import 'package:colch_stat_app/domain/datasources/profile_datasource.dart';
 import 'package:colch_stat_app/domain/entities/profile.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
 import 'package:colch_stat_app/shared/data/local_usuario.dart';
 
@@ -16,7 +17,7 @@ class LocalProfileDataSourceImpl implements ProfileDataSource {
       return ProfileModel.fromJson(usuario).toProfileEntity();
     } else {
       // Si las credenciales no coinciden, lanzamos una excepción con un mensaje de error
-      throw Exception("Credenciales incorrectas");
+      throw CustomError("Credenciales incorrectas");
     }
   }
 

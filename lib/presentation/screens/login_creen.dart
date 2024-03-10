@@ -150,11 +150,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             profileProviderSingleton.profileProvider
                                 .vaciarErrores();
 
-                            //! Lo que hago es buscar el perfil en la API
-                            await profileProviderSingleton.profileProvider
-                                .getProfile(email, password);
-                            // Agrega setState para que la vista se actualice
-                            setState(() {});
+                            // //! Lo que hago es buscar el perfil en la API
+                            // await profileProviderSingleton.profileProvider
+                            //     .getProfile(email, password);
+                            // // Agrega setState para que la vista se actualice
+                            // setState(() {});
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Incorrectas",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                backgroundColor: Colors.red,
+
+                              ),
+                            );
+
 
                             /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
                             if (profileProviderSingleton
