@@ -7,7 +7,6 @@ import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'customers_create.dart';
 
-// var customerProvider = CustomerProvider();
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
@@ -41,17 +40,24 @@ class _CustomersScreenState extends State<CustomersScreen> {
   }
 
   // Método async para cargar los clientes.
-  Future<void> loadCustomers() async {
-    try {
-      /// 1) uso en otro archivo Llama al método en customerProvider para cargar los clientes.
-      await customerProviderSingleton.customerProvider.getCustomers();
-      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
-      setState(() {});
-    } catch (error) {
-      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-      print('Error al cargar clientes: $error');
+ Future<void> loadCustomers() async {
+  try {
+    // Llama al método en customerProvider para cargar los clientes.
+    await customerProviderSingleton.customerProvider.getCustomers();
+    
+    // Obtén el primer cliente de la lista (si hay alguno) y muestra su nombre
+    if (customerProviderSingleton.customerProvider.customerList.isNotEmpty) {
+      String primerNombre = customerProviderSingleton.customerProvider.customerList[0].name;
+      print('El nombre del primer cliente es: $primerNombre');
     }
+
+    // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+    setState(() {});
+  } catch (error) {
+    // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+    print('Error al cargar clientes: $error');
   }
+}
   
 
 

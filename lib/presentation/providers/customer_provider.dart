@@ -27,7 +27,6 @@ class CustomerProvider extends ChangeNotifier {
   Future<void> getCustomers() async {
     customerList = await customerRepository.getCustomers();
 
-    // customerList.addAll(newCustomer);
 
     totalClients = customerList.length;
 
