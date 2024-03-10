@@ -1,9 +1,7 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:colch_stat_app/presentation/screens/index_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,9 +33,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-
 class _LoginScreenState extends State<LoginScreen> {
-  late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -45,10 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // Inicializa profileProvider en initState
-    profileProvider = context.read<ProfileProvider>();
   }
-
 
   final _formKey = GlobalKey<FormState>();
   // ignore: unused_field
@@ -78,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.center,
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
-                  child: Image.asset('assets/images/Logooo.jpeg'),
+                  child: Image.asset('assets/images/LogoPNG.png'),
                 ),
               ),
               Form(
@@ -88,13 +81,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        hintText: 'Correo Electrónico',
-                        prefixIcon: const Icon(Icons.email),
+                        hintText: 'Usuario',
+                        hintStyle: const TextStyle(color: Colors.black),
+                        prefixIcon: const Icon(Icons.email,
+                            color: Colors.black), // Cambia el color del ícono
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                              color: Colors.black), // Cambia el color del borde
                         ),
-                        //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
-                        errorText: profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -119,17 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                          hintText: 'Contraseña',
-                          prefixIcon: const Icon(Icons.lock),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          errorText:
-                              /// Usando el provider
-                              profileProvider.errores["messagePassword"]),
+                        hintText: 'Contraseña',
+                        hintStyle: const TextStyle(color: Colors.black),
+                        prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          // profileProvider.vaciarErrores();
+                        if (value == null || value.isEmpty) {
                           return 'La contraseña es necesaria';
                         }
                         return null;
@@ -145,24 +138,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           String email = _emailController.text;
 
                           if (_formKey.currentState!.validate()) {
-                            /// Vaciamos los erres que se presentaron
-                            profileProvider.vaciarErrores();
 
-                            //! Lo que hago es buscar el perfil en la API
-                            await profileProvider.getProfile(email, password);
+                            // //! Lo que hago es buscar el perfil en la API
+                            await profileProviderSingleton.profileProvider
+                                .getProfile(email, password);
                             // Agrega setState para que la vista se actualice
                             setState(() {});
 
-                            /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            if (profileProvider.profile.name.isNotEmpty) {
-                              // ignore: use_build_context_synchronously
+                            /// Mandar alerta por si algo ocurrió o si es usuario de encontró correctamente lo dejamos pasar
+
+                            if(profileProviderSingleton.profileProvider.error == "") {
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const SalesScreen(),
                                 ),
                               );
+
+                            } else {
+
+                              AlertHelper.showErrorSnackBar(context, profileProviderSingleton.profileProvider.error);
+                              
+                              profileProviderSingleton.profileProvider.vaciarError();
+
                             }
+                            
+
+                            
+
+                            // /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
+                            // if (profileProviderSingleton
+                            //     .profileProvider.profile.name.isNotEmpty) {
+                            //   // ignore: use_build_context_synchronously
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const SalesScreen(),
+                            //     ),
+                            //   );
+                            // }
 
                             try {
                               // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.
@@ -180,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: const Text(
                           'Iniciar sesión',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     ),

@@ -1,7 +1,10 @@
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
+import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'sales_create.dart';
 
@@ -102,6 +105,7 @@ class SalesScreen extends StatefulWidget {
 }
 
 class _SalesScreenState extends State<SalesScreen> {
+  @override
   void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
@@ -119,6 +123,23 @@ class _SalesScreenState extends State<SalesScreen> {
       // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
       print('Error al cargar la venta: $error');
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    print(profileProviderSingleton.profileProvider.profile.name.isEmpty);
+    print(profileProviderSingleton.profileProvider.profile.name);
+    super.didChangeDependencies();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(title: "nada"),
+          ),
+        );
+      }
+    });
   }
 
   @override

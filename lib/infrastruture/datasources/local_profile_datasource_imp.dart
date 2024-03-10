@@ -1,5 +1,6 @@
 import 'package:colch_stat_app/domain/datasources/profile_datasource.dart';
 import 'package:colch_stat_app/domain/entities/profile.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/models/profile_model.dart';
 import 'package:colch_stat_app/shared/data/local_usuario.dart';
 
@@ -8,7 +9,7 @@ class LocalProfileDataSourceImpl implements ProfileDataSource {
   @override
   Future<Profile> getProfile(String email, String password) async {
     // Simulando una consulta a una base de datos local o almacenamiento local
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 250));
     
     // En este ejemplo, estamos utilizando el mapa de usuario importado
     if (email == usuario["email"] && password == usuario["contrasena"]) {
@@ -16,7 +17,7 @@ class LocalProfileDataSourceImpl implements ProfileDataSource {
       return ProfileModel.fromJson(usuario).toProfileEntity();
     } else {
       // Si las credenciales no coinciden, lanzamos una excepción con un mensaje de error
-      throw Exception("Credenciales incorrectas");
+      throw CustomError("Usuario o contraseña son incorrectas");
     }
   }
 

@@ -38,10 +38,24 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(
-          title: 'Hola',
+        home: MyPopScope(
+          child: LoginScreen(title: 'Hola'),
         ),
       ),
+    );
+  }
+}
+
+class MyPopScope extends StatelessWidget {
+  final Widget child;
+
+  const MyPopScope({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => false, // Prevent back button
+      child: child,
     );
   }
 }
