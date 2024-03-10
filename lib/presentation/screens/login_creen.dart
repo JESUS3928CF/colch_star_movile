@@ -1,9 +1,6 @@
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
-import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:colch_stat_app/presentation/screens/index_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +33,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late ProfileProvider profileProvider; // Declara profileProvider aquí
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -44,8 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // Inicializa profileProvider en initState
-    profileProvider = context.read<ProfileProvider>();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -96,7 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.black), // Cambia el color del borde
                         ),
                         //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
-                        errorText: profileProvider.errores["messageEmail"],
+                        errorText: profileProviderSingleton
+                            .profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -131,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           errorText:
 
                               /// Usando el provider
-                              profileProvider.errores["messagePassword"]),
+                              profileProviderSingleton
+                                  .profileProvider.errores["messagePassword"]),
                       validator: (value) {
                         if (value!.isEmpty) {
                           // profileProvider.vaciarErrores();
@@ -151,15 +147,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (_formKey.currentState!.validate()) {
                             /// Vaciamos los erres que se presentaron
-                            profileProvider.vaciarErrores();
+                            profileProviderSingleton.profileProvider
+                                .vaciarErrores();
 
                             //! Lo que hago es buscar el perfil en la API
-                            await profileProvider.getProfile(email, password);
+                            await profileProviderSingleton.profileProvider
+                                .getProfile(email, password);
                             // Agrega setState para que la vista se actualice
                             setState(() {});
 
                             /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            if (profileProvider.profile.name.isNotEmpty) {
+                            if (profileProviderSingleton
+                                .profileProvider.profile.name.isNotEmpty) {
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,
