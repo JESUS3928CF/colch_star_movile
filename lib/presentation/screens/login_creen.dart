@@ -89,9 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderSide: const BorderSide(
                               color: Colors.black), // Cambia el color del borde
                         ),
-                        //! Si el método utilizado anteriormente Llena la propiedad de erres mostrar esos errores
-                        errorText: profileProviderSingleton
-                            .profileProvider.errores["messageEmail"],
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -116,21 +113,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                          hintText: 'Contraseña',
-                          hintStyle: const TextStyle(color: Colors.black),
-                          prefixIcon:
-                              const Icon(Icons.lock, color: Colors.black),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          errorText:
-
-                              /// Usando el provider
-                              profileProviderSingleton
-                                  .profileProvider.errores["messagePassword"]),
+                        hintText: 'Contraseña',
+                        hintStyle: const TextStyle(color: Colors.black),
+                        prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          // profileProvider.vaciarErrores();
+                        if (value == null || value.isEmpty) {
                           return 'La contraseña es necesaria';
                         }
                         return null;
@@ -146,41 +137,55 @@ class _LoginScreenState extends State<LoginScreen> {
                           String email = _emailController.text;
 
                           if (_formKey.currentState!.validate()) {
-                            /// Vaciamos los erres que se presentaron
-                            profileProviderSingleton.profileProvider
-                                .vaciarErrores();
 
                             // //! Lo que hago es buscar el perfil en la API
-                            // await profileProviderSingleton.profileProvider
-                            //     .getProfile(email, password);
-                            // // Agrega setState para que la vista se actualice
-                            // setState(() {});
+                            await profileProviderSingleton.profileProvider
+                                .getProfile(email, password);
+                            // Agrega setState para que la vista se actualice
+                            setState(() {});
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  "Incorrectas",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                backgroundColor: Colors.red,
+                            /// Mandar alerta por si algo ocurrió o si es usuario de encontró correctamente lo dejamos pasar
 
-                              ),
-                            );
+                            if(profileProviderSingleton.profileProvider.error == "") {
 
-
-                            /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            if (profileProviderSingleton
-                                .profileProvider.profile.name.isNotEmpty) {
-                              // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const SalesScreen(),
                                 ),
                               );
+
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(
+                                  content: Text(
+                                    profileProviderSingleton.profileProvider.error,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              
+                              profileProviderSingleton.profileProvider.vaciarError();
+
                             }
+                            
+
+                            
+
+                            // /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
+                            // if (profileProviderSingleton
+                            //     .profileProvider.profile.name.isNotEmpty) {
+                            //   // ignore: use_build_context_synchronously
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => const SalesScreen(),
+                            //     ),
+                            //   );
+                            // }
 
                             try {
                               // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.

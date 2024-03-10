@@ -1,5 +1,6 @@
 import 'package:colch_stat_app/domain/entities/profile.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
@@ -17,37 +18,32 @@ class ProfileProvider extends ChangeNotifier {
     email: '',
     password: '',
     state: false,
-    rolName: '',
-    errorMessageEmail: 'El email ingresado no es válido.',
-    errorMessagePassword: 'La contraseña ingresada no es válida.',
+    rolName: ''
   );
 
-  
+  //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
+  String _error = "";
 
   ProfileProvider({required this.profileRepository});
 
   Future<void> getProfile(String email, String password) async {
     await Future.delayed(const Duration(seconds: 1));
 
-    final userLogin = await profileRepository.getProfile(email, password);
-    _profile = userLogin;
+    try {
+      final userLogin = await profileRepository.getProfile(email, password);
+      _profile = userLogin;
+    } on CustomError catch (e) {
+      _error = e.message;
+    } catch (e) {
+      _error = "Error no controlado";
+    }
+
+    
     notifyListeners(); // Notificar a los oyentes (listeners) sobre el cambio en el perfil
   }
 
-  //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
-  Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
-
-  // void vaciarErrores() {
-  //   errores = {"messageEmail": "", "messagePassword": ""};
-  //   notifyListeners();
-  // }
-
-  void vaciarErrores() {
-    // Modificar solo las propiedades de errores
-    _profile = _profile.copyWith(
-      errorMessageEmail: "",
-      errorMessagePassword: "",
-    );
+  void vaciarError() {
+    _error = "";
 
     notifyListeners();
   }
@@ -68,6 +64,8 @@ class ProfileProvider extends ChangeNotifier {
 
   // Método getter para acceder al perfil
   Profile get profile => _profile;
+
+  String get error => _error;
 
   // Método para actualizar el perfil
   void editProfile(name, lastName, phone, email) {
@@ -107,6 +105,7 @@ class ProfileProviderSingleton {
 
   /// Método getter para obtener la instancia de CustomerProvider.
   ProfileProvider get profileProvider => _profileProvider;
+
 }
 
 /// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos

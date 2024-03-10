@@ -8,8 +8,6 @@ class Profile {
   final String password;
   final bool state;
   final String rolName;
-  final String? errorMessageEmail;
-  final String? errorMessagePassword;
 
   /// Creamos el constructor
    Profile({
@@ -21,8 +19,6 @@ class Profile {
     required this.password,
     required this.state,
     required this.rolName,
-    this.errorMessageEmail,
-    this.errorMessagePassword,
   });
 
 
@@ -48,8 +44,6 @@ class Profile {
       password: password ?? this.password,
       state: state ?? this.state,
       rolName: rolName ?? this.rolName,
-      errorMessageEmail: errorMessageEmail ?? this.errorMessageEmail,
-      errorMessagePassword: errorMessagePassword ?? this.errorMessagePassword,
     );
   }
   
