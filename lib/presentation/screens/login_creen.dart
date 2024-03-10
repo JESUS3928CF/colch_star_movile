@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
@@ -156,17 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
 
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                 SnackBar(
-                                  content: Text(
-                                    profileProviderSingleton.profileProvider.error,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
+
+                              AlertHelper.showErrorSnackBar(context, profileProviderSingleton.profileProvider.error);
                               
                               profileProviderSingleton.profileProvider.vaciarError();
 
