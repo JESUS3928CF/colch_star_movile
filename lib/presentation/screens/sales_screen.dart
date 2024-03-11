@@ -107,7 +107,10 @@ class _SalesView extends StatelessWidget {
   }
 }
 
-const textCardStyle = TextStyle(fontSize: 17);
+const textCardStyle = TextStyle(fontSize: 17,  color: Colors.black);
+
+const textOrderStyle = TextStyle(fontSize: 17,  color: Colors.black);
+
 const labelCardStyle = TextStyle(
   fontSize: 20,
 );
@@ -170,7 +173,7 @@ class _CardSaleState extends State<_CardSale> {
                     children: [
                       const TextSpan(
                         text: 'Precio Total: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                       ),
                       TextSpan(
                         text: '${widget.totalPrice}',
@@ -190,7 +193,7 @@ class _CardSaleState extends State<_CardSale> {
                     children: [
                       const TextSpan(
                         text: 'Dirección: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                       ),
                       TextSpan(
                         text: '${widget.address}',
@@ -210,7 +213,7 @@ class _CardSaleState extends State<_CardSale> {
                     children: [
                       const TextSpan(
                         text: 'Fecha de creación: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                       ),
                       TextSpan(
                         text: '${widget.creationDate}',
@@ -230,7 +233,7 @@ class _CardSaleState extends State<_CardSale> {
                     children: [
                       const TextSpan(
                         text: 'Fecha de Entrega: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                       ),
                       TextSpan(
                         text: '${widget.deliverDate}',
@@ -250,7 +253,7 @@ class _CardSaleState extends State<_CardSale> {
                     children: [
                       const TextSpan(
                         text: 'Estado orden: ',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                       ),
                       TextSpan(
                         text: '${widget.orderStatus}',
@@ -296,6 +299,9 @@ class _CardSaleState extends State<_CardSale> {
   }
 }
 
+const titleOrderStyle = TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
+
+
 class OrderDetailsScreen extends StatelessWidget {
   final _CardSale order;
 
@@ -309,8 +315,10 @@ class OrderDetailsScreen extends StatelessWidget {
         title: Text(
           'Detalles orden',
           textAlign: TextAlign.center, // Para centrar el texto
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true, // Para centrar el título
+        iconTheme: IconThemeData(color: Colors.white), // Cambia el color del icono aquí
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -321,10 +329,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   const TextSpan(
                     text: 'Producto: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: titleOrderStyle,
                   ),
                   TextSpan(
                     text: '${order.totalPrice}',
+                    style: textOrderStyle
                   ),
                 ],
               ),
@@ -334,10 +343,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   const TextSpan(
                     text: 'cantidad: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: titleOrderStyle,
                   ),
                   TextSpan(
                     text: '${order.address}',
+                    style: textOrderStyle
                   ),
                 ],
               ),
@@ -347,10 +357,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   const TextSpan(
                     text: 'Talla: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: titleOrderStyle,
                   ),
                   TextSpan(
                     text: '${order.creationDate}',
+                    style: textOrderStyle
                   ),
                 ],
               ),
@@ -360,10 +371,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   const TextSpan(
                     text: 'Color: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: titleOrderStyle,
                   ),
                   TextSpan(
                     text: '${order.deliverDate}',
+                    style : textOrderStyle
                   ),
                 ],
               ),
@@ -373,10 +385,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   const TextSpan(
                     text: 'Descripción: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: titleOrderStyle,
                   ),
                   TextSpan(
                     text: '${order.orderStatus}',
+                    style: textOrderStyle
                   ),
                 ],
               ),
