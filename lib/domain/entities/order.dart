@@ -1,44 +1,40 @@
 class Order {
   /// sus atributos - estos tienes que ser de el mismo tipo que los de la DB
   final int id;
-  late final String product;
-  late final int amountProduct;
-  late final int total;
-  late final DateTime time;
-  late final String description;
-  final bool state;
-  late final int fkSale;
+  late final double precio_total;
+  late final String direccion;
+  late final DateTime fecha_creacion;
+  late final DateTime fecha_entrega;
+  late final String estado_de_orden;
+  late final int fk_cliente;
 
   Order(
       {required this.id,
-      required this.product,
-      required this.amountProduct,
-      required this.total,
-      required this.time,
-      required this.description,
-      required this.state,
-      required this.fkSale});
+      required this.precio_total,
+      required this.direccion,
+      required this.fecha_creacion,
+      required this.fecha_entrega,
+      required this.estado_de_orden,
+      required this.fk_cliente});
     
   Order copyWith({
     int? id,
-    String? product,
-    int? amountProduct,
-    int? total,
-    DateTime? time,
-    String? description,
-    bool? state,
-    int? fkSale,
+    double? precio_total,
+    String? direccion,
+    DateTime? fecha_creacion,
+    DateTime? fecha_entrega,
+    String? estado_de_orden,
+    int? fk_cliente,
 
   }) {
     return Order(
       id: id ?? this.id,
-      product: product ?? this.product,
-      amountProduct: amountProduct ?? this.amountProduct,
-      total: total ?? this.total,
-      time: time ?? this.time,
-      description: description ?? this.description,
-      state: state ?? this.state,
-      fkSale: fkSale ?? this.fkSale
+      precio_total: precio_total ?? this.precio_total,
+      direccion: direccion ?? this.direccion,
+      fecha_creacion: fecha_creacion ?? this.fecha_creacion,
+      fecha_entrega: fecha_entrega ?? this.fecha_entrega,
+      estado_de_orden: estado_de_orden ?? this.estado_de_orden,
+      fk_cliente: fk_cliente ?? this.fk_cliente,
     );
   }
 }
