@@ -1,5 +1,4 @@
-import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
-import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
+import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
@@ -7,7 +6,14 @@ import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+
+  // cangamos el archivo de forma asíncrona
+  await Environment.initEnvironment();
+
+  runApp(const MyApp());
+  
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

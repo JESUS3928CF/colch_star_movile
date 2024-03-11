@@ -1,3 +1,6 @@
+#/ Ignoramos el .env
+.env
+
 # Miscellaneous
 *.class
 *.log
