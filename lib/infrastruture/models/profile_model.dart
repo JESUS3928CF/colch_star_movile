@@ -11,7 +11,7 @@ class ProfileModel {
   final String name;
   final String lastName;
   final bool state;
-  final List<String> permissions;
+  final List<dynamic> permissions;
   final String token;
 
   ProfileModel({

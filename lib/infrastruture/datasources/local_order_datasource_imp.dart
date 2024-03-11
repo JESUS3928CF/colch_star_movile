@@ -10,8 +10,8 @@ class LocalOrderDataSourceImpl implements OrderDataSource {
   Future<List<Order>> getOrders() async {
     await Future.delayed(const Duration(seconds: 1));
 
-    if (profileProviderSingleton.profileProvider.profile.token ==
-        "token valido") {
+    if (profileProviderSingleton.profileProvider.profile.token !=
+        "") {
       // Llamar al método usando el metodo estatico
       List<Order> orders = OrderModel.convertOrdenesToOrdersList(ordenes);
       return orders;

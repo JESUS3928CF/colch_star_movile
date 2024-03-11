@@ -4,7 +4,7 @@ class Profile {
   final String name;
   final String lastName;
   final bool state;
-  final List<String> permissions; 
+  final List<dynamic> permissions; 
   final String token;
 
   /// Creamos el constructor

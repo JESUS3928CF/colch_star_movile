@@ -12,8 +12,8 @@ class LocalCustomerDataSourceImpl implements CustomerDataSource {
     await Future.delayed(const Duration(milliseconds: 500));
 
     // Crear una instancia de CustomerModel
-    if (profileProviderSingleton.profileProvider.profile.token ==
-        "token valido") {
+    if (profileProviderSingleton.profileProvider.profile.token !=
+        "") {
       // Llamar al método usando el metodo estatico
       List<Customer> customers =
           CustomerModel.convertClientesToCustomerList(clientes);
