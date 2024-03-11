@@ -26,12 +26,8 @@ class ApiProfileDataSourceImpl implements ProfileDataSource {
 
       return user;
 
-    } on DioException catch (e) {
-      print(e);
-      
-      throw UnimplementedError();
     } catch (e) {
-      throw Exception();
+      throw WrongCredentials();
     }
   }
   
