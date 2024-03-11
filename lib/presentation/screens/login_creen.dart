@@ -94,12 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           // profileProvider.vaciarErrores();
-                          return 'El correo es necesario';
+                          return 'El usuario es obligatorio';
                         } else if (!RegExp(
                                 r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                             .hasMatch(value)) {
                           // profileProvider.vaciarErrores();
-                          return 'Correo inválido';
+                          return 'El correo electrónico no tiene un formato válido';
                         }
                         return null;
                       },
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'La contraseña es necesaria';
+                          return 'La contraseña es obligatoria';
                         }
                         return null;
                       },
@@ -163,21 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               profileProviderSingleton.profileProvider.vaciarError();
 
                             }
-                            
-
-                            
-
-                            // /// Si el método anterior el que esta en la linea 148 me retorno un perfil es decir que el logueo fue exitoso enteses dejamos ingresar a la app
-                            // if (profileProviderSingleton
-                            //     .profileProvider.profile.name.isNotEmpty) {
-                            //   // ignore: use_build_context_synchronously
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => const SalesScreen(),
-                            //     ),
-                            //   );
-                            // }
 
                             try {
                               // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.

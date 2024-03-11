@@ -1,3 +1,5 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
@@ -5,7 +7,6 @@ import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -31,14 +32,12 @@ class _SalesScreenState extends State<SalesScreen> {
       setState(() {});
     } catch (error) {
       // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-      print('Error al cargar la venta: $error');
+      print('Error al cargar la orden: $error');
     }
   }
 
   @override
   void didChangeDependencies() {
-    print(profileProviderSingleton.profileProvider.profile.name.isEmpty);
-    print(profileProviderSingleton.profileProvider.profile.name);
     super.didChangeDependencies();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
@@ -58,17 +57,6 @@ class _SalesScreenState extends State<SalesScreen> {
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
-      // floatingActionButton: FloatingActionButton(
-        
-      //     foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-      //     backgroundColor: const Color(0xFF47684e),
-      //     child: const Icon(Icons.add_shopping_cart_sharp),
-      //     onPressed: () {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => const SalesCreate()),
-      //       );
-      //     }),
       drawer: SideMenu(
         navDrawerIndex: 0,
       ),
@@ -79,6 +67,18 @@ class _SalesScreenState extends State<SalesScreen> {
 class _SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
+      if (orderProviderSingleton.orderProvider.error != "") {
+        AlertHelper.showErrorSnackBar(
+          context,
+          orderProviderSingleton.orderProvider.error,
+        );
+
+        // vaciar error
+      }
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -89,17 +89,20 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ... orderProviderSingleton.orderProvider.saleList.map((sale) => _CardSale(
-                elevation: 4.0,
-                id: sale.id,
-                product: sale.product,
-                amountProduct: sale.amountProduct,
-                montTotal: (sale.total) ?? 0,
-                time: sale.time,
-                description: sale.description,
-                state: sale.state,
-                fksale: sale.fkSale,
-              ))
+          ...orderProviderSingleton.orderProvider.orderList
+              .map(
+                (sale) => _CardSale(
+                  elevation: 4.0,
+                  id: sale.id,
+                  precio_total: sale.precio_total,
+                  direccion: sale.direccion,
+                  fecha_creacion: sale.fecha_creacion,
+                  fecha_entrega: sale.fecha_entrega,
+                  estado_de_orden: sale.estado_de_orden,
+                  fk_cliente: sale.fk_cliente,
+                ),
+              )
+              .toList(),
         ],
       ),
     );
@@ -113,24 +116,22 @@ const labelCardStyle = TextStyle(
 
 class _CardSale extends StatefulWidget {
   final int id;
-  final String product;
-  final int amountProduct;
-  final int montTotal;
-  final DateTime time;
-  final String description;
-  final int fksale;
-  bool state;
+  final double precio_total;
+  final String direccion;
+  final DateTime fecha_creacion;
+  final DateTime fecha_entrega;
+  final String estado_de_orden;
+  final int fk_cliente;
   final double elevation;
 
   _CardSale({
     required this.id,
-    required this.product,
-    required this.amountProduct,
-    required this.montTotal,
-    required this.time,
-    required this.description,
-    required this.state,
-    required this.fksale,
+    required this.precio_total,
+    required this.direccion,
+    required this.fecha_creacion,
+    required this.fecha_entrega,
+    required this.estado_de_orden,
+    required this.fk_cliente,
     required this.elevation,
   });
 
@@ -158,7 +159,7 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.product} ',
+                  'Cliente: ${widget.fk_cliente} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -168,7 +169,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cantidad : ${widget.amountProduct}',
+                  'Precio Total: ${widget.precio_total}',
                   style: textCardStyle,
                 ),
               ),
@@ -178,7 +179,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Unitario: ${widget.montTotal}',
+                  'Dirección: ${widget.direccion}',
                   style: textCardStyle,
                 ),
               ),
@@ -188,7 +189,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.montTotal * widget.amountProduct}',
+                  'Fecha de creación: ${widget.fecha_creacion}',
                   style: textCardStyle,
                 ),
               ),
@@ -198,7 +199,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.time}',
+                  'Fecha de Entrega: ${widget.fecha_entrega}',
                   style: textCardStyle,
                 ),
               ),
@@ -208,21 +209,21 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: ${widget.description}',
+                  'Estado orden: ${widget.estado_de_orden}',
                   style: textCardStyle,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Id Cliente: ${widget.fksale}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Align(
+            //     alignment: Alignment.bottomLeft,
+            //     child: Text(
+            //       'Id Cliente: ${widget.fksale}',
+            //       style: textCardStyle,
+            //     ),
+            //   ),
+            // ),
           ]),
         ),
       ),

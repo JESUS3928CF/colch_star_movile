@@ -1,7 +1,9 @@
 import 'package:colch_stat_app/domain/entities/profile.dart';
-import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
+import 'package:colch_stat_app/infrastruture/datasources/api_profile_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,7 @@ class ProfileProvider extends ChangeNotifier {
     lastName: '',
     state: false,
     permissions: [],
+    token: "",
   );
 
   //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
@@ -24,13 +27,12 @@ class ProfileProvider extends ChangeNotifier {
   ProfileProvider({required this.profileRepository});
 
   Future<void> getProfile(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 1));
 
     try {
       final userLogin = await profileRepository.getProfile(email, password);
       
       if(userLogin.state == false) {
-        _error = "Este usuario de encuentra deshabilitado";
+        _error = "Este usuario se encuentra deshabilitado";
       } else if(!userLogin.permissions.contains("clientes") || !userLogin.permissions.contains("ordenes")) {
         _error = "Este usuario no cuenta con los permisos necesarios";
       }
@@ -40,7 +42,10 @@ class ProfileProvider extends ChangeNotifier {
       }
     } on CustomError catch (e) {
       _error = e.message;
-    } catch (e) {
+    } on WrongCredentials {
+      _error = "El usuario o la contraseña son incorrectos";
+    } 
+    catch (e) {
       _error = "Error no controlado";
     }
 
@@ -60,7 +65,13 @@ class ProfileProvider extends ChangeNotifier {
       lastName: '',
       state: false,
       permissions: [],
+      token: "",
     );
+
+    orderProviderSingleton.orderProvider.emptyOrders();
+    customerProviderSingleton.customerProvider.emptyCustomers();
+
+
     notifyListeners();
   }
 
@@ -84,7 +95,7 @@ class ProfileProvider extends ChangeNotifier {
 class ProfileProviderSingleton {
   /// Creación de una única instancia del repositorio que se usara.
   static final ProfileRepositoryImpl profileRepository =
-      ProfileRepositoryImpl(profileDataSource: LocalProfileDataSourceImpl());
+      ProfileRepositoryImpl(profileDataSource: ApiProfileDataSourceImpl());
 
   /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
   static final ProfileProviderSingleton _instance =

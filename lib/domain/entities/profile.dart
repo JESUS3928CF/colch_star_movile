@@ -4,7 +4,8 @@ class Profile {
   final String name;
   final String lastName;
   final bool state;
-  final List<String> permissions; 
+  final List<dynamic> permissions; 
+  final String token;
 
   /// Creamos el constructor
   Profile({
@@ -13,6 +14,7 @@ class Profile {
     required this.lastName,
     required this.state,
     required this.permissions,
+    required this.token,
   });
 
   // Método copyWith es como los setter algo asi
@@ -25,6 +27,7 @@ class Profile {
     String? password,
     bool? state,
     List<String>? permissions,
+    String? token,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -32,6 +35,7 @@ class Profile {
       lastName: lastName ?? this.lastName,
       state: state ?? this.state,
       permissions: permissions ?? this.permissions,
+      token : token ?? this.token,
     );
   }
 }

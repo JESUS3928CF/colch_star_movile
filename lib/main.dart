@@ -1,5 +1,4 @@
-import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
-import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
+import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
@@ -7,7 +6,14 @@ import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+
+  // cangamos el archivo de forma asíncrona
+  await Environment.initEnvironment();
+
+  runApp(const MyApp());
+  
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,44 +24,24 @@ class MyApp extends StatelessWidget {
   /// 1 envolvemos el provider en el árbol principal para hacer disponible la info en toda nuestra app
   Widget build(BuildContext context) {
 
-
-    // todo: instanciar el repository y el data source aquí de cada provider
-    final profileRepository = ProfileRepositoryImpl(profileDataSource: LocalProfileDataSourceImpl());
-
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProfileProvider( profileRepository: profileRepository),
+          create: (_) => profileProviderSingleton.profileProvider,
         ),
+
         /// 1) Usar el CustomerProviderSingleton en lugar de instanciar directamente CustomerProvider
         ChangeNotifierProvider.value(
             value: customerProviderSingleton.customerProvider),
         ChangeNotifierProvider(
-            create: (_) =>
-                orderProviderSingleton.orderProvider) //* Aca ponen sus provider el de cliente y el de proveedor
+            create: (_) => orderProviderSingleton
+                .orderProvider) //* Aca ponen sus provider el de cliente y el de proveedor
       ],
       child: const MaterialApp(
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: MyPopScope(
-          child: LoginScreen(title: 'Hola'),
-        ),
+        home: LoginScreen(title: 'Hola'),
       ),
-    );
-  }
-}
-
-class MyPopScope extends StatelessWidget {
-  final Widget child;
-
-  const MyPopScope({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, // Prevent back button
-      child: child,
     );
   }
 }

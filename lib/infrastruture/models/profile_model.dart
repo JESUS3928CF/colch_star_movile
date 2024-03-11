@@ -11,7 +11,8 @@ class ProfileModel {
   final String name;
   final String lastName;
   final bool state;
-  final List<String> permissions;
+  final List<dynamic> permissions;
+  final String token;
 
   ProfileModel({
     required this.id,
@@ -19,6 +20,7 @@ class ProfileModel {
     required this.lastName,
     required this.state,
     required this.permissions,
+    required this.token,
   });
 
   // este método lo que hará es recibir un JSON y moldearlo a como nosotros lo usamos en nuestra app
@@ -29,7 +31,9 @@ class ProfileModel {
       name: json["nombre"],
       lastName: json["apellido"],
       state: json["rol"]["estado"],
-      permissions: json["permisos"]);
+      permissions: json["permisos"],
+      token : json["token"],
+  );
 
   //* Esto es para estructurar nuestra entidad de forma que nuestra api la reciba en la forma que se espera
   static Map<String, dynamic> toJsonLogin(String email, String password) => {
@@ -44,5 +48,6 @@ class ProfileModel {
         lastName: lastName,
         state: state,
         permissions: permissions,
+        token: token,
       );
 }

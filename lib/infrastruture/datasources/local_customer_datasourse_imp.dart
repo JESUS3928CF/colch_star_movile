@@ -1,23 +1,30 @@
 import 'package:colch_stat_app/domain/datasources/customer_datasource.dart';
 import 'package:colch_stat_app/domain/entities/customer.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/shared/data/local_clientes.dart';
 
 class LocalCustomerDataSourceImpl implements CustomerDataSource {
-  
   @override
   Future<List<Customer>> getCustomers() async {
-
     // Simulando una consulta a una base de datos local o almacenamiento local
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     // Crear una instancia de CustomerModel
+    if (profileProviderSingleton.profileProvider.profile.token !=
+        "") {
+      // Llamar al método usando el metodo estatico
+      List<Customer> customers =
+          CustomerModel.convertClientesToCustomerList(clientes);
 
-    // Llamar al método usando el metodo estatico 
-    List<Customer> customers =  CustomerModel.convertClientesToCustomerList(clientes);
-
-    return customers;
+      return customers;
+    } else {
+      // Si las credenciales no coinciden, lanzamos una excepción con un mensaje de error
+      throw CustomError("Token no valido, por favor inicia sesión");
+    }
   }
+
   @override
   Future<void> createCustomer(name, lastName, phone, email, address) {
     // TODO: implement createCustomer
@@ -40,5 +47,4 @@ class LocalCustomerDataSourceImpl implements CustomerDataSource {
   void setCustomer(id) {
     // TODO: implement setCustomer
   }
-
 }
