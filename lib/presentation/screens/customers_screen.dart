@@ -43,14 +43,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
  Future<void> loadCustomers() async {
   try {
     // Llama al método en customerProvider para cargar los clientes.
-    await customerProviderSingleton.customerProvider.getCustomers();
-    
-    // Obtén el primer cliente de la lista (si hay alguno) y muestra su nombre
-    if (customerProviderSingleton.customerProvider.customerList.isNotEmpty) {
-      String primerNombre = customerProviderSingleton.customerProvider.customerList[0].name;
-      print('El nombre del primer cliente es: $primerNombre');
-    }
-
+    await customerProviderSingleton.customerProvider.getCustomers();   
     // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
     setState(() {});
   } catch (error) {
@@ -120,6 +113,8 @@ class _CustomerView extends StatelessWidget {
                     phone: customer.phone,
                     email: customer.email,
                     address: customer.address,
+                    identification: customer.identification,
+                    typeidentification: customer.typeidentification,
                     state: customer.state,
                   ))
         ],
@@ -140,6 +135,8 @@ class _CardCustomer extends StatefulWidget {
   final String phone;
   final String email;
   final String address;
+  final String identification;
+  final String typeidentification;
   bool state;
   final double elevation;
 
@@ -151,6 +148,8 @@ class _CardCustomer extends StatefulWidget {
       required this.phone,
       required this.email,
       required this.address,
+      required this. identification,
+      required this. typeidentification,
       required this.state});
 
   @override
@@ -180,6 +179,26 @@ class _CardCustomerState extends State<_CardCustomer> {
                   '${widget.name} ${widget.lastName}',
                   style: labelCardStyle,
                 )),
+              ),
+            ),
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Tipo de identificación: ${widget.typeidentification}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Número de identificación: ${widget.identification}',
+                  style: textCardStyle,
+                ),
               ),
             ),
             Padding(

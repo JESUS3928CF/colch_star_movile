@@ -15,6 +15,8 @@ class CustomerModel {
   final String phone;
   final String email;
   final String address;
+  final String identification;
+  final String typeidentification;
   final bool state;
 
   CustomerModel({
@@ -24,6 +26,8 @@ class CustomerModel {
     required this.phone,
     required this.email,
     required this.address,
+    required this.identification,
+    required this.typeidentification,
     required this.state,
   });
 
@@ -34,6 +38,8 @@ class CustomerModel {
         phone: json["telefono"],
         email: json["email"],
         address: json["direccion"],
+        identification:json["identificacion"] ,
+        typeidentification:json["tipoIdentificacion"] ,
         state: json["estado"],
       );
 
@@ -45,6 +51,8 @@ class CustomerModel {
       phone: phone,
       email: email,
       address: address,
+      identification: identification,
+      typeidentification: typeidentification,
       state: state);
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +62,8 @@ class CustomerModel {
         "telefono": pragma,
         "email": email,
         "direccion": address,
+        "identificacion": identification,
+        "tipoIdentificacion": typeidentification,
         "estado": state,
       };
 

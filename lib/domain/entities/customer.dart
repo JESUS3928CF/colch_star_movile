@@ -6,9 +6,15 @@ class Customer {
   late final String phone;
   late final String email;
   late final String address;
+  late final String identification;
+  late final String typeidentification;
   final bool state;
 
-  Customer({required this.id, required this.name, required this.lastName, required this.phone, required this.email, required this.address, required this.state});
+  Customer({required this.id, required this.name, 
+  required this.lastName, required this.phone, 
+  required this.email, required this.address,
+  required this. identification, required this. typeidentification,
+  required this.state});
 
   Customer copyWith({
     int? id,
@@ -17,6 +23,8 @@ class Customer {
     String? phone,
     String? email,
     String? address,
+    String? identification,
+    String? typeidentification,
     bool? state,
   }) {
     return Customer(
@@ -26,6 +34,8 @@ class Customer {
       phone: phone ?? this.phone,
       email: email ?? this.email,
       address: address ?? this.address,
+      identification: identification?? this.identification,
+      typeidentification: typeidentification?? this.typeidentification,
       state: state ?? this.state,
     );
   }

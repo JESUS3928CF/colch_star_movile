@@ -17,6 +17,8 @@ class CustomerProvider extends ChangeNotifier {
       phone: "",
       email: "",
       address: "",
+      identification: "",
+      typeidentification: "",
       state: false);
 
   int totalClients = 0;
@@ -47,7 +49,7 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createCustomer(name, lastName, phone, email, address) async {
+  Future<void> createCustomer(name, lastName, phone, email, address, String identification, String typeidentification) async {
     // final data = {
     //   'nombre': name,
     //   'apellido': lastName,

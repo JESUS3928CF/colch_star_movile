@@ -21,6 +21,10 @@ class _CustomersCreateState extends State<CustomersCreate> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
+  final _identification = TextEditingController();
+  final List<String> _typeidentification = ['C.C', 'C.E'];
+  String _selectedTypeIdentification = 'C.C';
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,48 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                      Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedTypeIdentification,
+                  items: _typeidentification.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedTypeIdentification = newValue!;
+                    });
+                  },
+                ),
+              ),
+                     Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: TextFormField(
+                        controller: _identification,
+                        decoration: const InputDecoration(
+                            hintText: 'Identificación',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                            fillColor: Color.fromARGB(255, 221, 216, 216),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            ),
+                            filled: true),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Por favor, ingrese el numero de identificacion ';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(
@@ -207,9 +253,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             child: const Text('Cancelar'),
                           ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        SizedBox(width: 20,),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: SizedBox(
@@ -224,6 +268,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   final phone = _phoneController.text;
                                   final email = _emailController.text;
                                   final address = _addressController.text;
+                                  final identification= _identification.text;
+                                  final typeidentification = _selectedTypeIdentification;
 
                                   // Llamar a la función para crear el cliente
                                   await customerProvider.createCustomer(
@@ -232,6 +278,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                     phone,
                                     email,
                                     address,
+                                    identification,
+                                    typeidentification
                                   );
 
                                   ScaffoldMessenger.of(context).showSnackBar(

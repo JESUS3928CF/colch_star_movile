@@ -18,12 +18,15 @@ class _CustomersEditState extends State<CustomersEdit> {
   late CustomerProvider customerProvider; // Declara profileProvider aquí
 
   final _formKey = GlobalKey<FormState>();
+   final List<String> _typeidentification = ['C.C', 'C.E'];
+  String _selectedTypeIdentification = 'C.C';
 
   late TextEditingController _nombreController;
   late TextEditingController _apellidoController;
   late TextEditingController _telefonoController;
   late TextEditingController _emailController;
   late TextEditingController _direccionController;
+  late TextEditingController _identificationController;
 
   @override
   void initState() {
@@ -42,7 +45,11 @@ class _CustomersEditState extends State<CustomersEdit> {
         TextEditingController(text: customerProvider.customer.email);
     _direccionController =
         TextEditingController(text: customerProvider.customer.address);
+    _identificationController =     TextEditingController(text: customerProvider.customer.identification);
+    
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +79,51 @@ class _CustomersEditState extends State<CustomersEdit> {
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
+                             Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: DropdownButtonFormField<String>(
+                  value: _selectedTypeIdentification,
+                  items: _typeidentification.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedTypeIdentification = newValue!;
+                    });
+                  },
+                ),
+              ),
+                             Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: TextFormField(
+                                  controller: _identificationController,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Idetificación',
+                                      hintStyle: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                      fillColor:
+                                          Color.fromARGB(255, 221, 216, 216),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, style: BorderStyle.none),
+                                      ),
+                                      filled: true),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Por favor ingrese su identificación';
+                                    }
+                                    return null;
+                                  },
+                                )),
+
+
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
