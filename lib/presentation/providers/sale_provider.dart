@@ -1,33 +1,36 @@
 import 'package:colch_stat_app/domain/entities/order.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_order_datasource_imp.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/order_repository_imp.dart';
 import 'package:flutter/widgets.dart';
-
 
 class SaleProvider extends ChangeNotifier {
   // final _dio = Dio(BaseOptions());
 
-  
   final OrdersRepositoryImpl orderRepository;
 
   /// Si vas a manejar varios elementos de el mismo tipo aca harías un atributo de tipo array
-  List<Order> saleList = []; //* esto es una lista de entidades de usuarios
-
+  List<Order> _orderList = []; //* esto es una lista de entidades de usuarios
 
   int totalSales = 0;
 
+  String _error = "";
 
   SaleProvider({required this.orderRepository});
 
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getSales() async {
+    try {
+      _orderList = await orderRepository.getOrders();
 
-    saleList = await orderRepository.getOrders();
+      totalSales = _orderList.length;
 
-
-    totalSales = saleList.length;
-
-    notifyListeners();
+      notifyListeners();
+    } on CustomError catch (e) {
+      _error = e.message;
+    } catch (e) {
+      _error = "Error no controlado";
+    }
 
     // final response = await _dio
     //     .get("${APIConfig.apiUrl}/ventas");
@@ -53,8 +56,17 @@ class SaleProvider extends ChangeNotifier {
     // }
   }
 
-}
+  void emptyOrders() {
+    _orderList = [];
+    notifyListeners();
+  }
 
+  /// Setters
+  
+   List<Order> get orderList => _orderList;
+  
+  String get error => _error;
+}
 
 /// Instanciar el provider una sola ves en toda la app
 class OrderProviderSingleton {
@@ -85,7 +97,5 @@ class OrderProviderSingleton {
   SaleProvider get orderProvider => _orderProvider;
 }
 
-
-
-/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos 
+/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos
 final orderProviderSingleton = OrderProviderSingleton.instance;

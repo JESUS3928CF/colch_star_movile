@@ -1,12 +1,13 @@
 import 'package:colch_stat_app/domain/entities/customer.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomerProvider extends ChangeNotifier {
   final CustomerRepositoryImpl customerRepository;
 
-  List<Customer> customerList =
+  List<Customer> _customerList =
       []; //* esto es una lista de entidades de usuarios
 
   final Customer _customer = Customer(
@@ -20,16 +21,28 @@ class CustomerProvider extends ChangeNotifier {
 
   int totalClients = 0;
 
+  String _error = "";
+
   Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
 
   CustomerProvider({required this.customerRepository});
 
   Future<void> getCustomers() async {
-    customerList = await customerRepository.getCustomers();
 
-    // customerList.addAll(newCustomer);
 
-    totalClients = customerList.length;
+
+    try {
+      _customerList = await customerRepository.getCustomers();
+
+      // customerList.addAll(newCustomer);
+
+      totalClients = _customerList.length;
+      
+    } on CustomError catch (e) {
+      _error = e.message;
+    } catch (e) {
+      _error = "Error no controlado";
+    }
 
     notifyListeners();
   }
@@ -145,8 +158,17 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void emptyCustomers() {
+    _customerList = [];
+    notifyListeners();
+  }
+
   // Método getter para acceder al perfil
   Customer get customer => _customer;
+
+  List<Customer> get customerList => _customerList;
+
+  String get error => _error;
 }
 
 /// Instanciar el provider una sola ves en toda la app
@@ -178,7 +200,5 @@ class CustomerProviderSingleton {
   CustomerProvider get customerProvider => _customerProvider;
 }
 
-
-
-/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos 
+/// 1)  Instanciar el CustomerProviderSingleton y donde lo necesitemos lo importamos
 final customerProviderSingleton = CustomerProviderSingleton.instance;

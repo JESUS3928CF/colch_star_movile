@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_edit.dart';
@@ -17,7 +18,6 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -52,8 +52,6 @@ class _CustomersScreenState extends State<CustomersScreen> {
       print('Error al cargar clientes: $error');
     }
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +61,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
             child: AppBarColch()),
         body: _CustomerView(),
         floatingActionButton: FloatingActionButton(
-            foregroundColor: const Color.fromARGB(255, 255, 255, 255), 
+            foregroundColor: const Color.fromARGB(255, 255, 255, 255),
             backgroundColor: const Color(0xFF47684e),
             onPressed: () {
               Navigator.push(
@@ -79,8 +77,22 @@ class _CustomersScreenState extends State<CustomersScreen> {
 
 class _CustomerView extends StatelessWidget {
 
+  
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
+      if (customerProviderSingleton.customerProvider.error != "") {
+        AlertHelper.showErrorSnackBar(
+          context,
+          customerProviderSingleton.customerProvider.error,
+        );
+
+        // vaciar error
+      }
+    });
+
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -91,16 +103,17 @@ class _CustomerView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...customerProviderSingleton.customerProvider.customerList.map((customer) => _CardCustomer(
-                elevation: 4.0,
-                id: customer.id,
-                name: customer.name,
-                lastName: customer.lastName,
-                phone: customer.phone,
-                email: customer.email,
-                address: customer.address,
-                state: customer.state,
-              ))
+          ...customerProviderSingleton.customerProvider.customerList
+              .map((customer) => _CardCustomer(
+                    elevation: 4.0,
+                    id: customer.id,
+                    name: customer.name,
+                    lastName: customer.lastName,
+                    phone: customer.phone,
+                    email: customer.email,
+                    address: customer.address,
+                    state: customer.state,
+                  ))
         ],
       ),
     );
@@ -206,7 +219,8 @@ class _CardCustomerState extends State<_CardCustomer> {
                           builder: (context) => const CustomersEdit()),
                     );
 
-                    customerProviderSingleton.customerProvider.setCustomer(widget.id);
+                    customerProviderSingleton.customerProvider
+                        .setCustomer(widget.id);
 
                     // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
                   },
@@ -227,8 +241,8 @@ class _CardCustomerState extends State<_CardCustomer> {
                       widget.state = !widget.state;
                     });
 
-                    await customerProviderSingleton.customerProvider.editStateProvider(
-                        widget.id, !widget.state);
+                    await customerProviderSingleton.customerProvider
+                        .editStateProvider(widget.id, !widget.state);
                   },
                 ),
                 // SwitchListTile(value: true, onChanged: (value) {})

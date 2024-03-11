@@ -17,14 +17,11 @@ class MyApp extends StatelessWidget {
 
   /// 1 envolvemos el provider en el árbol principal para hacer disponible la info en toda nuestra app
   Widget build(BuildContext context) {
-    // todo: instanciar el repository y el data source aquí de cada provider
-    final profileRepository =
-        ProfileRepositoryImpl(profileDataSource: LocalProfileDataSourceImpl());
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProfileProvider(profileRepository: profileRepository),
+          create: (_) => profileProviderSingleton.profileProvider,
         ),
 
         /// 1) Usar el CustomerProviderSingleton en lugar de instanciar directamente CustomerProvider

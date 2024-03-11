@@ -2,6 +2,8 @@ import 'package:colch_stat_app/domain/entities/profile.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_profile_datasource_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/profile_repository_imp.dart';
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,7 @@ class ProfileProvider extends ChangeNotifier {
     lastName: '',
     state: false,
     permissions: [],
+    token: "",
   );
 
   //!- ver esto desde donde se hace - Propiedad a llenar cuando alguien intenta loguearse pero comete errores
@@ -24,7 +27,6 @@ class ProfileProvider extends ChangeNotifier {
   ProfileProvider({required this.profileRepository});
 
   Future<void> getProfile(String email, String password) async {
-    await Future.delayed(const Duration(seconds: 1));
 
     try {
       final userLogin = await profileRepository.getProfile(email, password);
@@ -60,7 +62,13 @@ class ProfileProvider extends ChangeNotifier {
       lastName: '',
       state: false,
       permissions: [],
+      token: "",
     );
+
+    orderProviderSingleton.orderProvider.emptyOrders();
+    customerProviderSingleton.customerProvider.emptyCustomers();
+
+
     notifyListeners();
   }
 

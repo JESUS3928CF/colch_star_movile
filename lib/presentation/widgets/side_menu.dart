@@ -121,6 +121,7 @@ class _SideMenuState extends State<SideMenu> {
                 style: menuItemsTextStyle.copyWith(color: Colors.white),
               ),
               onTap: () {
+                
                 profileProviderSingleton.profileProvider.singOff();
                 Navigator.push(
                   context,

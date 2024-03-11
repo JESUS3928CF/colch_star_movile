@@ -1,3 +1,5 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
@@ -5,7 +7,6 @@ import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -31,14 +32,12 @@ class _SalesScreenState extends State<SalesScreen> {
       setState(() {});
     } catch (error) {
       // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-      print('Error al cargar la venta: $error');
+      print('Error al cargar la orden: $error');
     }
   }
 
   @override
   void didChangeDependencies() {
-    print(profileProviderSingleton.profileProvider.profile.name.isEmpty);
-    print(profileProviderSingleton.profileProvider.profile.name);
     super.didChangeDependencies();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
@@ -58,17 +57,6 @@ class _SalesScreenState extends State<SalesScreen> {
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
       body: _SalesView(),
-      // floatingActionButton: FloatingActionButton(
-        
-      //     foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-      //     backgroundColor: const Color(0xFF47684e),
-      //     child: const Icon(Icons.add_shopping_cart_sharp),
-      //     onPressed: () {
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => const SalesCreate()),
-      //       );
-      //     }),
       drawer: SideMenu(
         navDrawerIndex: 0,
       ),
@@ -79,6 +67,18 @@ class _SalesScreenState extends State<SalesScreen> {
 class _SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
+      if (orderProviderSingleton.orderProvider.error != "") {
+        AlertHelper.showErrorSnackBar(
+          context,
+          orderProviderSingleton.orderProvider.error,
+        );
+
+        // vaciar error
+      }
+    });
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -89,17 +89,21 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ... orderProviderSingleton.orderProvider.saleList.map((sale) => _CardSale(
-                elevation: 4.0,
-                id: sale.id,
-                product: sale.product,
-                amountProduct: sale.amountProduct,
-                montTotal: (sale.total) ?? 0,
-                time: sale.time,
-                description: sale.description,
-                state: sale.state,
-                fksale: sale.fkSale,
-              ))
+          ...orderProviderSingleton.orderProvider.orderList
+              .map(
+                (sale) => _CardSale(
+                  elevation: 4.0,
+                  id: sale.id,
+                  product: sale.product,
+                  amountProduct: sale.amountProduct,
+                  montTotal: (sale.total) ?? 0,
+                  time: sale.time,
+                  description: sale.description,
+                  state: sale.state,
+                  fksale: sale.fkSale,
+                ),
+              )
+              .toList(),
         ],
       ),
     );

@@ -16,4 +16,6 @@ Map<String, dynamic> usuario = {
     "compras",
     "ordenes"
   ],
+  "token" :
+      "token valido"
 };
