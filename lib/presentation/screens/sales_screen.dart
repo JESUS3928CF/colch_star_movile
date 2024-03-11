@@ -162,29 +162,9 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.product} ',
+                  'Cliente: ${widget.fksale} ',
                   style: labelCardStyle,
                 )),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Cantidad : ${widget.amountProduct}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Precio Unitario: ${widget.montTotal}',
-                  style: textCardStyle,
-                ),
               ),
             ),
             Padding(
@@ -202,7 +182,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.time}',
+                  'Dirección: ${widget.amountProduct}',
                   style: textCardStyle,
                 ),
               ),
@@ -212,7 +192,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: ${widget.description}',
+                  'Fecha de creación: ${widget.time}',
                   style: textCardStyle,
                 ),
               ),
@@ -222,11 +202,31 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Id Cliente: ${widget.fksale}',
+                  'Fecha de Entrega: ${widget.time}',
                   style: textCardStyle,
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'Estado orden: ${widget.description}',
+                  style: textCardStyle,
+                ),
+              ),
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Align(
+            //     alignment: Alignment.bottomLeft,
+            //     child: Text(
+            //       'Id Cliente: ${widget.fksale}',
+            //       style: textCardStyle,
+            //     ),
+            //   ),
+            // ),
           ]),
         ),
       ),
