@@ -1,13 +1,15 @@
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
+import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
+import 'package:colch_stat_app/presentation/screens/details_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 
 class SalesScreen extends StatefulWidget {
-  const SalesScreen({super.key});
+  const SalesScreen({Key? key}) : super(key: key);
 
   @override
   State<SalesScreen> createState() => _SalesScreenState();
@@ -65,7 +67,7 @@ class _SalesScreenState extends State<SalesScreen> {
 class _SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
       if (orderProviderSingleton.orderProvider.error != "") {
         AlertHelper.showErrorSnackBar(
@@ -98,6 +100,7 @@ class _SalesView extends StatelessWidget {
                   deliverDate: sale.deliverDate,
                   orderStatus: sale.orderStatus,
                   clientName: sale.clientName,
+                  details: sale.details,
                 ),
               )
               .toList(),
@@ -107,7 +110,8 @@ class _SalesView extends StatelessWidget {
   }
 }
 
-const textCardStyle = TextStyle(fontSize: 17);
+const textCardStyle = TextStyle(fontSize: 17,  color: Colors.black);
+
 const labelCardStyle = TextStyle(
   fontSize: 20,
 );
@@ -120,9 +124,10 @@ class _CardSale extends StatefulWidget {
   final DateTime deliverDate;
   final String orderStatus;
   final String clientName;
+  final List<OrderDetailModel> details;
   final double elevation;
 
-  _CardSale({
+  const _CardSale({
     required this.id,
     required this.totalPrice,
     required this.address,
@@ -131,6 +136,7 @@ class _CardSale extends StatefulWidget {
     required this.orderStatus,
     required this.clientName,
     required this.elevation,
+    required this.details,
   });
 
   @override
@@ -143,7 +149,6 @@ class _CardSaleState extends State<_CardSale> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
       child: Card(
-        // ignore: prefer_const_constructors
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
             side: BorderSide(color: Colors.black)),
@@ -157,7 +162,7 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  'Cliente: ${widget.clientName} ',
+                  '${widget.clientName} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -166,9 +171,19 @@ class _CardSaleState extends State<_CardSale> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Precio Total: ${widget.totalPrice}',
-                  style: textCardStyle,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Precio Total: ',
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: '${widget.totalPrice}',
+                        style: textCardStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -176,9 +191,19 @@ class _CardSaleState extends State<_CardSale> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Dirección: ${widget.address}',
-                  style: textCardStyle,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Dirección: ',
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: '${widget.address}',
+                        style: textCardStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -186,9 +211,19 @@ class _CardSaleState extends State<_CardSale> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Fecha de creación: ${widget.creationDate}',
-                  style: textCardStyle,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Fecha de creación: ',
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: '${widget.creationDate}',
+                        style: textCardStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -196,9 +231,19 @@ class _CardSaleState extends State<_CardSale> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Fecha de Entrega: ${widget.deliverDate}',
-                  style: textCardStyle,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Fecha de Entrega: ',
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: '${widget.deliverDate}',
+                        style: textCardStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -206,25 +251,54 @@ class _CardSaleState extends State<_CardSale> {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Estado orden: ${widget.orderStatus}',
-                  style: textCardStyle,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Estado orden: ',
+                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: '${widget.orderStatus}',
+                        style: textCardStyle,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text(
-            //       'Id Cliente: ${widget.fksale}',
-            //       style: textCardStyle,
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _showOrderDetails(context);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color(0xFF252432)), // Color hexadecimal 252432
+                  ),
+                  child: const Text('Ver Detalles',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
           ]),
         ),
       ),
     );
   }
+
+  //  ---------------------------------------detalle
+
+  void _showOrderDetails(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => OrderDetailsScreen(orderDetailsList: widget.details),
+    ),
+  );
 }
+}
+

@@ -24,6 +24,7 @@ class AppBarColch extends StatelessWidget {
           ),
         ],
       ),
+      iconTheme: IconThemeData(color: Colors.white),
     );
   }
 }

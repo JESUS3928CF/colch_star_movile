@@ -13,35 +13,24 @@ List<Map<String, dynamic>> ordenes = [
     },
     "detalles": [
       {
-        "id_detalle_orden": 5,
         "cantidad": 2,
-        "subtotal": "60000.00",
         "descripcion":
             "Esta camisa es una camisa azul en v de la empresa Colch Star.",
-        "fk_producto": 5,
         "talla": "M",
         "color": "Azul",
-        "fk_orden": 5,
         "producto": {
           "nombre": "Camisa En V Azul",
-          "imagen": "P7ZQGzwkc.png",
-          "precio": "30000.00"
         }
       },
       {
-        "id_detalle_orden": 6,
         "cantidad": 6,
-        "subtotal": "60000.00",
         "descripcion":
             "Esta camisa es una camisa azul en v de la empresa Colch Star.",
         "fk_producto": 5,
         "talla": "L",
         "color": "Azul",
-        "fk_orden": 5,
         "producto": {
           "nombre": "Camisa En V Azul",
-          "imagen": "P7ZQGzwkc.png",
-          "precio": "30000.00"
         }
       }
     ]
@@ -60,19 +49,13 @@ List<Map<String, dynamic>> ordenes = [
     },
     "detalles": [
       {
-        "id_detalle_orden": 7,
         "cantidad": 2,
-        "subtotal": "60000.00",
         "descripcion":
             "Esta camisa es una camisa azul en v de la empresa Colch Star.",
-        "fk_producto": 5,
         "talla": "M",
         "color": "Azul",
-        "fk_orden": 5,
         "producto": {
           "nombre": "Camisa En V Azul",
-          "imagen": "P7ZQGzwkc.png",
-          "precio": "30000.00"
         }
       }
     ]
