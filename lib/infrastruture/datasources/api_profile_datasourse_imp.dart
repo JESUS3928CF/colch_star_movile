@@ -22,15 +22,16 @@ class ApiProfileDataSourceImpl implements ProfileDataSource {
       print(data);
       final response = await _dio.post("/usuarios/login", data: data);
       
-      print(response.data["usuario"]);
       final user = ProfileModel.fromJson(response.data["usuario"]).toProfileEntity();
 
       return user;
 
-    } catch (e) {
+    } on DioException catch (e) {
       print(e);
-      print(Environment.apiUrl);
-      throw WrongCredentials();
+      
+      throw UnimplementedError();
+    } catch (e) {
+      throw Exception();
     }
   }
   
