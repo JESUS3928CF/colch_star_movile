@@ -1,7 +1,12 @@
+import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
+final Uri _url = Environment.webUrl;
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +39,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
@@ -128,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
                       height: 45,
@@ -138,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           String email = _emailController.text;
 
                           if (_formKey.currentState!.validate()) {
-
                             // //! Lo que hago es buscar el perfil en la API
                             await profileProviderSingleton.profileProvider
                                 .getProfile(email, password);
@@ -147,21 +150,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             /// Mandar alerta por si algo ocurrió o si es usuario de encontró correctamente lo dejamos pasar
 
-                            if(profileProviderSingleton.profileProvider.error == "") {
-
+                            if (profileProviderSingleton
+                                    .profileProvider.error ==
+                                "") {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const SalesScreen(),
                                 ),
                               );
-
                             } else {
+                              AlertHelper.showErrorSnackBar(
+                                  context,
+                                  profileProviderSingleton
+                                      .profileProvider.error);
 
-                              AlertHelper.showErrorSnackBar(context, profileProviderSingleton.profileProvider.error);
-                              
-                              profileProviderSingleton.profileProvider.vaciarError();
-
+                              profileProviderSingleton.profileProvider
+                                  .vaciarError();
                             }
 
                             try {
@@ -184,6 +189,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
+
+
+                    GestureDetector(
+                      onTap: _launchUrl,
+                      child: const Text(
+                        "Recuperar contraseña",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -192,5 +210,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _launchUrl() async {
+  
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
   }
 }

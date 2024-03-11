@@ -26,12 +26,24 @@ class ApiProfileDataSourceImpl implements ProfileDataSource {
 
       return user;
 
-    } on DioException catch (e) {
-      print(e);
-      
-      throw UnimplementedError();
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      throw CustomError("Algo malo paso nivel 1");
     } catch (e) {
-      throw Exception();
+      throw CustomError("Algo malo paso nivel 2");
     }
   }
   
