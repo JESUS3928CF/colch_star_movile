@@ -1,6 +1,8 @@
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
+import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
+import 'package:colch_stat_app/presentation/screens/details_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
@@ -98,6 +100,7 @@ class _SalesView extends StatelessWidget {
                   deliverDate: sale.deliverDate,
                   orderStatus: sale.orderStatus,
                   clientName: sale.clientName,
+                  details: sale.details,
                 ),
               )
               .toList(),
@@ -108,8 +111,6 @@ class _SalesView extends StatelessWidget {
 }
 
 const textCardStyle = TextStyle(fontSize: 17,  color: Colors.black);
-
-const textOrderStyle = TextStyle(fontSize: 17,  color: Colors.black);
 
 const labelCardStyle = TextStyle(
   fontSize: 20,
@@ -123,6 +124,7 @@ class _CardSale extends StatefulWidget {
   final DateTime deliverDate;
   final String orderStatus;
   final String clientName;
+  final List<OrderDetailModel> details;
   final double elevation;
 
   const _CardSale({
@@ -134,6 +136,7 @@ class _CardSale extends StatefulWidget {
     required this.orderStatus,
     required this.clientName,
     required this.elevation,
+    required this.details,
   });
 
   @override
@@ -290,113 +293,12 @@ class _CardSaleState extends State<_CardSale> {
   //  ---------------------------------------detalle
 
   void _showOrderDetails(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OrderDetailsScreen(order: widget),
-      ),
-    );
-  }
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => OrderDetailsScreen(orderDetailsList: widget.details),
+    ),
+  );
+}
 }
 
-const titleOrderStyle = TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
-
-
-class OrderDetailsScreen extends StatelessWidget {
-  final _CardSale order;
-
-  const OrderDetailsScreen({Key? key, required this.order}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFF252432), // Color hexadecimal 252432
-        title: Text(
-          'Detalles orden',
-          textAlign: TextAlign.center, // Para centrar el texto
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true, // Para centrar el título
-        iconTheme: IconThemeData(color: Colors.white), // Cambia el color del icono aquí
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Producto: ',
-                    style: titleOrderStyle,
-                  ),
-                  TextSpan(
-                    text: '${order.totalPrice}',
-                    style: textOrderStyle
-                  ),
-                ],
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'cantidad: ',
-                    style: titleOrderStyle,
-                  ),
-                  TextSpan(
-                    text: '${order.address}',
-                    style: textOrderStyle
-                  ),
-                ],
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Talla: ',
-                    style: titleOrderStyle,
-                  ),
-                  TextSpan(
-                    text: '${order.creationDate}',
-                    style: textOrderStyle
-                  ),
-                ],
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Color: ',
-                    style: titleOrderStyle,
-                  ),
-                  TextSpan(
-                    text: '${order.deliverDate}',
-                    style : textOrderStyle
-                  ),
-                ],
-              ),
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Descripción: ',
-                    style: titleOrderStyle,
-                  ),
-                  TextSpan(
-                    text: '${order.orderStatus}',
-                    style: textOrderStyle
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
