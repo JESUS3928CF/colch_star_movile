@@ -29,7 +29,9 @@ class SaleProvider extends ChangeNotifier {
     } on CustomError catch (e) {
       _error = e.message;
     } catch (e) {
-      _error = "Error no controlado";
+      print(e);
+      print("nada");
+      _error = "Error no controlado en ordenes";
     }
 
     // final response = await _dio

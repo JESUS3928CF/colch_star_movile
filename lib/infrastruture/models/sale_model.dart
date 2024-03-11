@@ -10,51 +10,43 @@ import '../../domain/entities/order.dart';
 
 class OrderModel {
   final int id;
-  final double precio_total;
-  final String direccion;
-  final DateTime fecha_creacion;
-  final DateTime fecha_entrega;
-  final String estado_de_orden;
-  final int fk_cliente;
+  final double totalPrice;
+  final String address;
+  final DateTime creationDate;
+  final DateTime deliverDate;
+  final String orderStatus;
+  final String clientName;
 
   OrderModel({
     required this.id,
-      required this.precio_total,
-      required this.direccion,
-      required this.fecha_creacion,
-      required this.fecha_entrega,
-      required this.estado_de_orden,
-      required this.fk_cliente
+      required this.totalPrice,
+      required this.address,
+      required this.creationDate,
+      required this.deliverDate,
+      required this.orderStatus,
+      required this.clientName
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id_orden"],
-        precio_total: json["precio_total"],
-        direccion: json["direccion"],
-        fecha_creacion: DateTime.parse(json["fecha_creacion"]),
-        fecha_entrega: DateTime.parse(json["fecha_entrega"]),
-        estado_de_orden: json["estado_de_orden"],
-        fk_cliente: json["fk_cliente"],
+        totalPrice: json["precio_total"].toDouble(),
+        address: json["cliente"]["direccion"],
+        creationDate: DateTime.parse(json["fecha_creacion"]),
+        deliverDate: DateTime.parse(json["fecha_entrega"]),
+        orderStatus: json["estado_de_orden"],
+        clientName: json["cliente"]["nombre"] + " " + json["cliente"]["apellido"]
       );
 
   Order toOrderEntity() => Order(
       id: id,
-      precio_total: precio_total,
-      direccion: direccion,
-      fecha_creacion: fecha_creacion,
-      fecha_entrega: fecha_entrega,
-      estado_de_orden: estado_de_orden,
-      fk_cliente: fk_cliente,);
+      totalPrice: totalPrice,
+      address: address,
+      creationDate: creationDate,
+      deliverDate: deliverDate,
+      orderStatus: orderStatus,
+      clientName: clientName,);
 
-  Map<String, dynamic> toJson() => {
-        "id_venta": id,
-        "precio_total": precio_total,
-        "direccion": direccion,
-        "fecha_creacion": fecha_creacion,
-        "fecha_entrega": fecha_entrega,
-        "estado_de_orden": estado_de_orden,
-        "fk_cliente": fk_cliente,
-      };
+
 
   // Para estructurar toda una lista de datos a la forma de la entidad
   static List<Order> convertOrdenesToOrdersList(
