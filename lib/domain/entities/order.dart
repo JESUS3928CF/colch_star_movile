@@ -1,3 +1,5 @@
+import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
+
 class Order {
   /// sus atributos - estos tienes que ser de el mismo tipo que los de la DB
   final int id;
@@ -7,6 +9,8 @@ class Order {
   final DateTime deliverDate;
   final String orderStatus;
   final String clientName;
+  final List<OrderDetailModel> details;
+
 
   Order(
       {required this.id,
@@ -15,7 +19,9 @@ class Order {
       required this.creationDate,
       required this.deliverDate,
       required this.orderStatus,
-      required this.clientName});
+      required this.clientName,
+      required this.details,
+      });
     
   Order copyWith({
     int? id,
@@ -25,6 +31,7 @@ class Order {
     DateTime? deliverDate,
     String? orderStatus,
     String? clientName,
+    List<OrderDetailModel>? details
 
   }) {
     return Order(
@@ -35,6 +42,8 @@ class Order {
       deliverDate: deliverDate ?? this.deliverDate,
       orderStatus: orderStatus ?? this.orderStatus,
       clientName: clientName ?? this.clientName,
+      details: details ?? this.details,
+
     );
   }
 }
