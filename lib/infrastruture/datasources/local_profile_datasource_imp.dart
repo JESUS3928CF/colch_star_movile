@@ -17,7 +17,7 @@ class LocalProfileDataSourceImpl implements ProfileDataSource {
       return ProfileModel.fromJson(usuario).toProfileEntity();
     } else {
       // Si las credenciales no coinciden, lanzamos una excepción con un mensaje de error
-      throw CustomError("Usuario o contraseña son incorrectas");
+      throw CustomError("Usuario o contraseña son incorrectos");
     }
   }
 

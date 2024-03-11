@@ -30,7 +30,7 @@ class ProfileProvider extends ChangeNotifier {
       final userLogin = await profileRepository.getProfile(email, password);
       
       if(userLogin.state == false) {
-        _error = "Este usuario de encuentra deshabilitado";
+        _error = "Este usuario se encuentra deshabilitado";
       } else if(!userLogin.permissions.contains("clientes") || !userLogin.permissions.contains("ordenes")) {
         _error = "Este usuario no cuenta con los permisos necesarios";
       }
