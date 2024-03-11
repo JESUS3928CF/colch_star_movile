@@ -1,12 +1,10 @@
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
-import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -94,12 +92,12 @@ class _SalesView extends StatelessWidget {
                 (sale) => _CardSale(
                   elevation: 4.0,
                   id: sale.id,
-                  precio_total: sale.precio_total,
-                  direccion: sale.direccion,
-                  fecha_creacion: sale.fecha_creacion,
-                  fecha_entrega: sale.fecha_entrega,
-                  estado_de_orden: sale.estado_de_orden,
-                  fk_cliente: sale.fk_cliente,
+                  totalPrice: sale.totalPrice,
+                  address: sale.address,
+                  creationDate: sale.creationDate,
+                  deliverDate: sale.deliverDate,
+                  orderStatus: sale.orderStatus,
+                  clientName: sale.clientName,
                 ),
               )
               .toList(),
@@ -116,22 +114,22 @@ const labelCardStyle = TextStyle(
 
 class _CardSale extends StatefulWidget {
   final int id;
-  final double precio_total;
-  final String direccion;
-  final DateTime fecha_creacion;
-  final DateTime fecha_entrega;
-  final String estado_de_orden;
-  final int fk_cliente;
+  final double totalPrice;
+  final String address;
+  final DateTime creationDate;
+  final DateTime deliverDate;
+  final String orderStatus;
+  final String clientName;
   final double elevation;
 
   _CardSale({
     required this.id,
-    required this.precio_total,
-    required this.direccion,
-    required this.fecha_creacion,
-    required this.fecha_entrega,
-    required this.estado_de_orden,
-    required this.fk_cliente,
+    required this.totalPrice,
+    required this.address,
+    required this.creationDate,
+    required this.deliverDate,
+    required this.orderStatus,
+    required this.clientName,
     required this.elevation,
   });
 
@@ -159,7 +157,7 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  'Cliente: ${widget.fk_cliente} ',
+                  'Cliente: ${widget.clientName} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -169,7 +167,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.precio_total}',
+                  'Precio Total: ${widget.totalPrice}',
                   style: textCardStyle,
                 ),
               ),
@@ -179,7 +177,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Dirección: ${widget.direccion}',
+                  'Dirección: ${widget.address}',
                   style: textCardStyle,
                 ),
               ),
@@ -189,7 +187,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha de creación: ${widget.fecha_creacion}',
+                  'Fecha de creación: ${widget.creationDate}',
                   style: textCardStyle,
                 ),
               ),
@@ -199,7 +197,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha de Entrega: ${widget.fecha_entrega}',
+                  'Fecha de Entrega: ${widget.deliverDate}',
                   style: textCardStyle,
                 ),
               ),
@@ -209,7 +207,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Estado orden: ${widget.estado_de_orden}',
+                  'Estado orden: ${widget.orderStatus}',
                   style: textCardStyle,
                 ),
               ),
