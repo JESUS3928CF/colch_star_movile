@@ -94,13 +94,12 @@ class _SalesView extends StatelessWidget {
                 (sale) => _CardSale(
                   elevation: 4.0,
                   id: sale.id,
-                  product: sale.product,
-                  amountProduct: sale.amountProduct,
-                  montTotal: (sale.total) ?? 0,
-                  time: sale.time,
-                  description: sale.description,
-                  state: sale.state,
-                  fksale: sale.fkSale,
+                  precio_total: sale.precio_total,
+                  direccion: sale.direccion,
+                  fecha_creacion: sale.fecha_creacion,
+                  fecha_entrega: sale.fecha_entrega,
+                  estado_de_orden: sale.estado_de_orden,
+                  fk_cliente: sale.fk_cliente,
                 ),
               )
               .toList(),
@@ -117,24 +116,22 @@ const labelCardStyle = TextStyle(
 
 class _CardSale extends StatefulWidget {
   final int id;
-  final String product;
-  final int amountProduct;
-  final int montTotal;
-  final DateTime time;
-  final String description;
-  final int fksale;
-  bool state;
+  final double precio_total;
+  final String direccion;
+  final DateTime fecha_creacion;
+  final DateTime fecha_entrega;
+  final String estado_de_orden;
+  final int fk_cliente;
   final double elevation;
 
   _CardSale({
     required this.id,
-    required this.product,
-    required this.amountProduct,
-    required this.montTotal,
-    required this.time,
-    required this.description,
-    required this.state,
-    required this.fksale,
+    required this.precio_total,
+    required this.direccion,
+    required this.fecha_creacion,
+    required this.fecha_entrega,
+    required this.estado_de_orden,
+    required this.fk_cliente,
     required this.elevation,
   });
 
@@ -162,7 +159,7 @@ class _CardSaleState extends State<_CardSale> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Center(
                     child: Text(
-                  '${widget.product} ',
+                  'Cliente: ${widget.fk_cliente} ',
                   style: labelCardStyle,
                 )),
               ),
@@ -172,7 +169,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Cantidad : ${widget.amountProduct}',
+                  'Precio Total: ${widget.precio_total}',
                   style: textCardStyle,
                 ),
               ),
@@ -182,7 +179,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Unitario: ${widget.montTotal}',
+                  'Dirección: ${widget.direccion}',
                   style: textCardStyle,
                 ),
               ),
@@ -192,7 +189,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Precio Total: ${widget.montTotal * widget.amountProduct}',
+                  'Fecha de creación: ${widget.fecha_creacion}',
                   style: textCardStyle,
                 ),
               ),
@@ -202,7 +199,7 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Fecha De Entrega: : ${widget.time}',
+                  'Fecha de Entrega: ${widget.fecha_entrega}',
                   style: textCardStyle,
                 ),
               ),
@@ -212,21 +209,21 @@ class _CardSaleState extends State<_CardSale> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Descripción: ${widget.description}',
+                  'Estado orden: ${widget.estado_de_orden}',
                   style: textCardStyle,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Id Cliente: ${widget.fksale}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Align(
+            //     alignment: Alignment.bottomLeft,
+            //     child: Text(
+            //       'Id Cliente: ${widget.fksale}',
+            //       style: textCardStyle,
+            //     ),
+            //   ),
+            // ),
           ]),
         ),
       ),
