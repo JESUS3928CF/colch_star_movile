@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
@@ -6,7 +7,6 @@ import 'package:colch_stat_app/presentation/screens/details_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
-import 'package:flutter/material.dart';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({Key? key}) : super(key: key);
@@ -148,157 +148,170 @@ class _CardSaleState extends State<_CardSale> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-      child: Card(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            side: BorderSide(color: Colors.black)),
-        elevation: widget.elevation,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-          child: Column(children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Center(
-                    child: Text(
-                  '${widget.clientName} ',
-                  style: labelCardStyle,
-                )),
-              ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(255, 127, 125, 142).withOpacity(0.4), // Color del difuminado
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: Offset(0, 3), // Cambia según sea necesario
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Precio Total: ',
-                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
-                      ),
-                      TextSpan(
-                        text: '${widget.totalPrice}',
-                        style: textCardStyle,
-                      ),
-                    ],
+          ],
+        ),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: Colors.black),
+          ),
+          elevation: widget.elevation, 
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Center(
+                        child: Text(
+                      '${widget.clientName} ',
+                      style: labelCardStyle,
+                    )),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Dirección: ',
-                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Precio Total: ',
+                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: '${widget.totalPrice}',
+                            style: textCardStyle,
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${widget.address}',
-                        style: textCardStyle,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Fecha de creación: ',
-                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Dirección: ',
+                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: '${widget.address}',
+                            style: textCardStyle,
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${widget.creationDate}',
-                        style: textCardStyle,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Fecha de Entrega: ',
-                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Fecha de creación: ',
+                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: '${widget.creationDate}',
+                            style: textCardStyle,
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${widget.deliverDate}',
-                        style: textCardStyle,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Estado orden: ',
-                        style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Fecha de Entrega: ',
+                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: '${widget.deliverDate}',
+                            style: textCardStyle,
+                          ),
+                        ],
                       ),
-                      TextSpan(
-                        text: '${widget.orderStatus}',
-                        style: textCardStyle,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _showOrderDetails(context);
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Color(0xFF252432)), // Color hexadecimal 252432
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Estado orden: ',
+                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                          ),
+                          TextSpan(
+                            text: '${widget.orderStatus}',
+                            style: textCardStyle,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: const Text('Ver Detalles',
-                      style: TextStyle(color: Colors.white)),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _showOrderDetails(context);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFF252432)), // Color hexadecimal 252432
+                      ),
+                      child: const Text('Ver Detalles',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ]),
+          ),
         ),
       ),
     );
   }
 
-  //  ---------------------------------------detalle
-
   void _showOrderDetails(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => OrderDetailsScreen(orderDetailsList: widget.details),
-    ),
-  );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderDetailsScreen(orderDetailsList: widget.details),
+      ),
+    );
+  }
 }
-}
-
