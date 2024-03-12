@@ -28,7 +28,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
 
   @override
   Widget build(BuildContext context) {
-    final customerProvider = Provider.of<CustomerProvider>(context);
+    // final customerProvider = Provider.of<CustomerProvider>(context);
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -216,18 +216,18 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                     width: 0, style: BorderStyle.none),
                               ),
                               filled: true),
-                          validator: (value) {
-                            String pattern =
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regExp = RegExp(pattern);
-                            if (value!.isEmpty) {
-                              return "El correo es necesario";
-                            } else if (!regExp.hasMatch(value)) {
-                              return "Correo invalido";
-                            } else {
-                              return null;
-                            }
-                          },
+                          // validator: (value) {
+                          //   String pattern =
+                          //       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                          //   RegExp regExp = RegExp(pattern);
+                          //   if (value!.isEmpty) {
+                          //     return "El correo es necesario";
+                          //   } else if (!regExp.hasMatch(value)) {
+                          //     return "Correo invalido";
+                          //   } else {
+                          //     return null;
+                          //   }
+                          // },
                         )),
                     
                     // Resto de los campos de entrada aquí...
@@ -272,7 +272,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   final typeidentification = _selectedTypeIdentification;
 
                                   // Llamar a la función para crear el cliente
-                                  await customerProvider.createCustomer(
+                                  await customerProviderSingleton.customerProvider.createCustomer(
                                     name,
                                     lastName,
                                     phone,

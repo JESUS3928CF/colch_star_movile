@@ -4,7 +4,7 @@ abstract class CustomerRepository {
 
   Future<List<Customer>> getCustomers();
 
-  Future<void> createCustomer(name, lastName, phone, email, address);
+  Future<void> createCustomer(name, lastName, phone, email, address, identification , typeIdentification);
 
   void setCustomer(id);
 
