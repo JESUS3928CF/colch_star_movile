@@ -1,4 +1,5 @@
 import 'package:colch_stat_app/domain/entities/order.dart';
+import 'package:colch_stat_app/infrastruture/datasources/api_order_datasource_imp.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_order_datasource_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/order_repository_imp.dart';
@@ -74,7 +75,7 @@ class SaleProvider extends ChangeNotifier {
 class OrderProviderSingleton {
   /// Creación de una única instancia del repositorio que se usara.
   static final OrdersRepositoryImpl orderRepository =
-      OrdersRepositoryImpl(orderDataSource: LocalOrderDataSourceImpl());
+      OrdersRepositoryImpl(orderDataSource: ApiOrderDataSourceImpl());
 
   /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
   static final OrderProviderSingleton _instance =
