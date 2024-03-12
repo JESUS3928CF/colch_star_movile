@@ -6,8 +6,6 @@ import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 
 
 
-
-
 class ApiOrderDataSourceImpl implements OrderDataSource {
 
 
@@ -28,7 +26,7 @@ class ApiOrderDataSourceImpl implements OrderDataSource {
     } catch (e) {
       // Capturar y relanzar la excepción
       throw e;
-      
+
     }
     
 
