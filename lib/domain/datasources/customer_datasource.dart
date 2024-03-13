@@ -4,7 +4,7 @@ abstract class CustomerDataSource {
 
   Future<List<Customer>> getCustomers();
 
-  Future<void> createCustomer(name, lastName, phone, email, address);
+  Future<void> createCustomer( String name, String lastName, String phone, String email, String address,  String identification, String typeIdentification);
 
   void setCustomer(id);
 

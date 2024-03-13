@@ -55,16 +55,14 @@ class CustomerModel {
       typeidentification: typeidentification,
       state: state);
 
-  Map<String, dynamic> toJson() => {
-        "id_cliente": id,
+  static Map<String, dynamic> toJson(String name, String lastName , String phone, String email, String address, String identification, String typeidentification ) => {
         "nombre": name,
         "apellido": lastName,
-        "telefono": pragma,
+        "telefono": phone,
         "email": email,
         "direccion": address,
         "identificacion": identification,
         "tipoIdentificacion": typeidentification,
-        "estado": state,
       };
 
   // Para estructurar toda una lista de datos a la forma de la entidad

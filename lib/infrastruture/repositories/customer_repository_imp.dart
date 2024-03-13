@@ -14,12 +14,12 @@ class CustomerRepositoryImpl extends CustomerRepository {
     return customerDataSource.getCustomers();
   }
   
-  /// No es urgente implementar esto aun
-  @override
-  Future<void> createCustomer(name, lastName, phone, email, address) {
-    // TODO: implement createCustomer
-    throw UnimplementedError();
-  }
+  // No es urgente implementar esto aun
+ @override
+Future<void> createCustomer( name,  lastName,  phone,  email,  address,  identification,  typeIdentification) {
+  return customerDataSource.createCustomer(name, lastName, phone, email, address, identification, typeIdentification);
+}
+
 
   @override
   Future<void> editCustomer(name, lastName, phone, email, address) {
@@ -36,6 +36,8 @@ class CustomerRepositoryImpl extends CustomerRepository {
   void setCustomer(id) {
     // TODO: implement setCustomer
   }
+  
+  
 
  
 

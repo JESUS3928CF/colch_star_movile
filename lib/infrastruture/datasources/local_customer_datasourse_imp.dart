@@ -26,7 +26,8 @@ class LocalCustomerDataSourceImpl implements CustomerDataSource {
   }
 
   @override
-  Future<void> createCustomer(name, lastName, phone, email, address) {
+  Future<void> createCustomer(name,  lastName,  phone,  email,  address,  identification,  typeIdentification) {
+    
     // TODO: implement createCustomer
     throw UnimplementedError();
   }

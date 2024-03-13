@@ -1,4 +1,5 @@
 import 'package:colch_stat_app/domain/entities/customer.dart';
+import 'package:colch_stat_app/infrastruture/datasources/api_customer_datasource_imp.dart';
 import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
@@ -50,34 +51,21 @@ class CustomerProvider extends ChangeNotifier {
   }
 
   Future<void> createCustomer(name, lastName, phone, email, address, String identification, String typeidentification) async {
-    // final data = {
-    //   'nombre': name,
-    //   'apellido': lastName,
-    //   'telefono': phone,
-    //   'email': email,
-    //   'direccion': address,
-    // };
 
-    // final jsonData = jsonEncode(data);
+    try{
 
-    // try {
-    //   final response = await _dio.post(
-    //     '${APIConfig.apiUrl}/clientes',
-    //     data: jsonData,
-    //   );
+    await customerRepository.createCustomer(name, lastName, phone, email, address, identification, typeidentification);
 
-    //   if (response.statusCode == 201) {
-    //     print('Cliente creado exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al crear el cliente');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al crear el cliente: $error');
-    // }
+    }catch (e) {
+      // Otros tipos de errores
+      _error =("Error no controlado: $e");
+      
+      }
+
+
+
+
+   
   }
 
   /// Esto es para llenar el cliente que se va a editar
@@ -177,7 +165,7 @@ class CustomerProvider extends ChangeNotifier {
 class CustomerProviderSingleton {
   /// Creación de una única instancia del repositorio que se usara.
   static final CustomerRepositoryImpl customerRepository =
-      CustomerRepositoryImpl(customerDataSource: LocalCustomerDataSourceImpl());
+      CustomerRepositoryImpl(customerDataSource: ApiCustomerDataSourceImpl());
 
   /// Declaración de la única instancia de CustomerProviderSingleton como privada y estática.
   static final CustomerProviderSingleton _instance =
