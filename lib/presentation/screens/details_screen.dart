@@ -1,14 +1,15 @@
 import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 import 'package:flutter/material.dart';
 
-const titleOrderStyle = TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
-const textOrderStyle = TextStyle(fontSize: 17,  color: Colors.black);
-
+const titleOrderStyle =
+    TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
+const textOrderStyle = TextStyle(fontSize: 17, color: Colors.black);
 
 class OrderDetailsScreen extends StatelessWidget {
   final List<OrderDetailModel> orderDetailsList;
 
-  const OrderDetailsScreen({Key? key, required this.orderDetailsList}) : super(key: key);
+  const OrderDetailsScreen({Key? key, required this.orderDetailsList})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +70,68 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Producto: ${widget.productName}', style: TextStyle(fontSize: 18)),
+             Center(
+    child: Column(
+      children: [
+        Text(
+          '${widget.productName}',
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 8),
+      ],
+    ),
+  ),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: 'Cantidad: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '${widget.quantity}'),
+                ],
+              ),
+            ),
             SizedBox(height: 8),
-            Text('Cantidad: ${widget.quantity}', style: TextStyle(fontSize: 16)),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: 'Description: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '${widget.description}'),
+                ],
+              ),
+            ),
             SizedBox(height: 8),
-            Text('Description: ${widget.description}', style: TextStyle(fontSize: 16)),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: 'Talla: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '${widget.size}'),
+                ],
+              ),
+            ),
             SizedBox(height: 8),
-            Text('Talla: ${widget.size}', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text('Color: ${widget.color}', style: TextStyle(fontSize: 16)),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: 'Color: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: '${widget.color}'),
+                ],
+              ),
+            ),
           ],
         ),
       ),
