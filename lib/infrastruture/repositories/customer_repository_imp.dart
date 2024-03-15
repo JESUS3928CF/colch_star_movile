@@ -22,15 +22,15 @@ Future<void> createCustomer( name,  lastName,  phone,  email,  address,  identif
 
 
   @override
-  Future<void> editCustomer(name, lastName, phone, email, address) {
-    // TODO: implement editCustomer
-    throw UnimplementedError();
+  Future<void> editCustomer(Customer customer) {
+
+    return customerDataSource.editCustomer(customer);
   }
 
   @override
-  Future<void> editStateCustomer(id, state) {
-    // TODO: implement editStateCustomer
-    throw UnimplementedError();
+  Future<void> editStateCustomer(Customer customer) {
+
+    return customerDataSource.editStateCustomer(customer);
   }
   @override
   void setCustomer(id) {

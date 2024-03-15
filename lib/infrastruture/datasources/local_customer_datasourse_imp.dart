@@ -33,13 +33,13 @@ class LocalCustomerDataSourceImpl implements CustomerDataSource {
   }
 
   @override
-  Future<void> editCustomer(name, lastName, phone, email, address) {
+  Future<void> editCustomer(Customer customer) {
     // TODO: implement editCustomer
     throw UnimplementedError();
   }
 
   @override
-  Future<void> editStateCustomer(id, state) {
+  Future<void> editStateCustomer(Customer customer) {
     // TODO: implement editStateCustomer
     throw UnimplementedError();
   }

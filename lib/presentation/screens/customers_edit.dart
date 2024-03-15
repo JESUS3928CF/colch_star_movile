@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
@@ -18,8 +20,8 @@ class _CustomersEditState extends State<CustomersEdit> {
   late CustomerProvider customerProvider; // Declara profileProvider aquí
 
   final _formKey = GlobalKey<FormState>();
-   final List<String> _typeidentification = ['C.C', 'C.E'];
-  String _selectedTypeIdentification = 'C.C';
+   final List<String> selectTypeIdetification= ['C.C', 'C.E'];
+  late String _selectedTypeIdentification =customerProvider.customer.typeidentification;
 
   late TextEditingController _nombreController;
   late TextEditingController _apellidoController;
@@ -27,6 +29,8 @@ class _CustomersEditState extends State<CustomersEdit> {
   late TextEditingController _emailController;
   late TextEditingController _direccionController;
   late TextEditingController _identificationController;
+  late TextEditingController _selectedTypeIdentificationController;
+   
 
   @override
   void initState() {
@@ -46,7 +50,10 @@ class _CustomersEditState extends State<CustomersEdit> {
     _direccionController =
         TextEditingController(text: customerProvider.customer.address);
     _identificationController =     TextEditingController(text: customerProvider.customer.identification);
-    
+
+    _selectedTypeIdentificationController = TextEditingController(text: customerProvider.customer.typeidentification);
+
+
 
   }
 
@@ -83,15 +90,17 @@ class _CustomersEditState extends State<CustomersEdit> {
                 padding: EdgeInsets.only(top: 20),
                 child: DropdownButtonFormField<String>(
                   value: _selectedTypeIdentification,
-                  items: _typeidentification.map((String value) {
+                  items: selectTypeIdetification.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (String? newValue) {
+                  onChanged:  (String? newValue) {
                     setState(() {
                       _selectedTypeIdentification = newValue!;
+                            customerProvider.customer.typeidentification = newValue;
+
                     });
                   },
                 ),
@@ -293,6 +302,8 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       height: 45,
                                       child: ElevatedButton(
                                           onPressed: () async {
+
+                                            
                                             String name =
                                                 _nombreController.text;
                                             String lastName =
@@ -303,52 +314,24 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                 _emailController.text;
                                             String address =
                                                 _direccionController.text;
+                                             String  identification = _identificationController.text;
+
+                                             String typeidentification = _selectedTypeIdentification;
+
+
 
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              customerProvider.editCustomer(
+                                              await customerProviderSingleton.customerProvider.editCustomer(
                                                   name,
                                                   lastName,
                                                   phone,
                                                   email,
-                                                  address);
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Icon(
-                                                      Icons.check_circle,
-                                                      color: Color.fromARGB(
-                                                          255, 255, 255, 255),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Cliente editado correctamente",
-                                                      style: TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              255,
-                                                              255,
-                                                              255)),
-                                                    )
-                                                  ],
-                                                ),
-                                                // duration:
-                                                //     Duration(milliseconds: 2000),
-                                                // width: 300,
-                                                // padding: EdgeInsets.symmetric(
-                                                //     horizontal: 8.0, vertical: 10),
-                                                // behavior: SnackBarBehavior.floating,
-                                                // shape: RoundedRectangleBorder(
-                                                //   borderRadius: BorderRadius.circular(9.0),
-                                                // ),
-                                                // backgroundColor:
-                                                //     Color.fromARGB(255, 0, 119, 62),
-                                              ));
+                                                  address,
+                                                  identification,
+                                                  typeidentification);
+                                                  
+                                              
                                             }
 
                                             await customerProvider

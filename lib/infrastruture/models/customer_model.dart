@@ -65,6 +65,20 @@ class CustomerModel {
         "tipoIdentificacion": typeidentification,
       };
 
+
+       static Map<String, dynamic> toJsonState(bool state) => {
+
+        "estado": state
+       
+      };
+
+
+    
+
+
+
+
+
   // Para estructurar toda una lista de datos a la forma de la entidad
 
   static List<Customer> convertClientesToCustomerList(

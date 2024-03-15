@@ -3,6 +3,7 @@ import 'package:colch_stat_app/infrastruture/datasources/api_customer_datasource
 import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
 class CustomerProvider extends ChangeNotifier {
@@ -11,7 +12,7 @@ class CustomerProvider extends ChangeNotifier {
   List<Customer> _customerList =
       []; //* esto es una lista de entidades de usuarios
 
-  final Customer _customer = Customer(
+  Customer _customer = Customer(
       id: 0,
       name: "",
       lastName: "",
@@ -20,7 +21,7 @@ class CustomerProvider extends ChangeNotifier {
       address: "",
       identification: "",
       typeidentification: "",
-      state: false);
+      state: true);
 
   int totalClients = 0;
 
@@ -30,17 +31,15 @@ class CustomerProvider extends ChangeNotifier {
 
   CustomerProvider({required this.customerRepository});
 
+  get id => null;
+
   Future<void> getCustomers() async {
-
-
-
     try {
       _customerList = await customerRepository.getCustomers();
 
       // customerList.addAll(newCustomer);
 
       totalClients = _customerList.length;
-      
     } on CustomError catch (e) {
       _error = e.message;
     } catch (e) {
@@ -50,100 +49,114 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createCustomer(name, lastName, phone, email, address, String identification, String typeidentification) async {
-
-    try{
-
-    await customerRepository.createCustomer(name, lastName, phone, email, address, identification, typeidentification);
-
-    }catch (e) {
+  Future<void> createCustomer(name, lastName, phone, email, address,
+      String identification, String typeidentification) async {
+    try {
+      await customerRepository.createCustomer(name, lastName, phone, email,
+          address, identification, typeidentification);
+    } catch (e) {
       // Otros tipos de errores
-      _error =("Error no controlado: $e");
-      
-      }
-
-
-
-
-   
+      _error = ("Error no controlado: $e");
+    }
   }
 
   /// Esto es para llenar el cliente que se va a editar
   void setCustomer(id) async {
     // customerList[id - 1];
 
-    // customer = {
-    //   "id": customerList[id - 1].id,
-    //   "name": customerList[id - 1].name,
-    //   "lastName": customerList[id - 1].lastName,
-    //   "phone": customerList[id - 1].phone,
-    //   "email": customerList[id - 1].email,
-    //   "address": customerList[id - 1].address,
-    //   "state": customerList[id - 1].state,
-    // };
+    int indice = customerList.indexWhere((element) => element.id == id);
+
+    _customer = Customer(
+      id: customerList[indice].id,
+      name: customerList[indice].name,
+      lastName: customerList[indice].lastName,
+      phone: customerList[indice].phone,
+      email: customerList[indice].email,
+      address: customerList[indice].address,
+      identification: customerList[indice].identification,
+      typeidentification: customerList[indice].typeidentification,
+      state: customerList[indice].state,
+    );
+
+    print(_customerList[indice]);
 
     notifyListeners();
   }
 
-  Future<void> editCustomer(name, lastName, phone, email, address) async {
-    // final data = {
-    //   'nombre': name,
-    //   'apellido': lastName,
-    //   'telefono': phone,
-    //   'email': email,
-    //   'direccion': address,
-    // };
+  Future<void> editCustomer(name, lastName, phone, email, address,identification, typeidentification) async {
+    try {
 
-    // final jsonData = jsonEncode(data);
+      // Asignar el resultado de copyWith() a _customer
+      _customer = _customer.copyWith(
+        name: name,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+        address: address,
+        identification: identification,
+        typeidentification: typeidentification,
+      );
 
-    // var _id = customer["id"];
-    // try {
-    //   final response = await _dio.patch(
-    //     '${APIConfig.apiUrl}/clientes/$_id',
-    //     data: jsonData,
-    //   );
 
-    //   if (response.statusCode == 201) {
-    //     print('Cliente creado exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al crear el cliente');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al edita el cliente: $error');
-    // }
 
+      await customerRepository.editCustomer(_customer);
+    } on CustomError catch (e) {
+      // Manejar el error personalizado
+     _error = e.message;
+      // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
+    } on DioError catch (e) {
+      // Manejar el error de Dio
+      if (e.response?.statusCode == 403) {
+        // El servidor respondió con un código de estado 403
+        _error = "Error 403: No tienes permiso para acceder al recurso.";
+        // Aquí puedes mostrar un mensaje al usuario u otra acción adecuada
+      } else {
+        // Otro tipo de error de Dio
+        _error = ("Error de Dio: ${e.message}");
+        // Aquí puedes tomar otras acciones adecuadas
+      }
+    } catch (e) {
+      // Otros tipos de errores
+      _error =("Error no controlado: $e");
+      // Aquí puedes tomar otras acciones adecuadas
+    }
     notifyListeners();
   }
 
-  Future<void> editStateProvider(id, state) async {
-    // final data = {
-    //   'estado': state,
-    // };
+  Future<void> editStateProvider(state) async {
 
-    // final jsonData = jsonEncode(data);
+    try { 
+      _customer = _customer.copyWith(
+        state:  state
+      );
 
-    // try {
-    //   final response = await _dio.patch(
-    //     '${APIConfig.apiUrl}/clientes/estado/$id',
-    //     data: jsonData,
-    //   );
 
-    //   if (response.statusCode == 201) {
-    //     print('Estado modificado exitosamente');
-    //     print('Respuesta: ${response.data}');
-    //     // Puedes realizar alguna acción adicional si es necesario
-    //   } else {
-    //     print('Error al cambiar el estado');
-    //     print('Código de estado: ${response.statusCode}');
-    //     print('Mensaje de error: ${response.statusMessage}');
-    //   }
-    // } catch (error) {
-    //   print('Error al cambiar el estado del cliente: $error');
-    // }
+
+      await customerRepository.editStateCustomer(_customer);
+
+
+     } on CustomError catch (e) {
+      // Manejar el error personalizado
+     _error = e.message;
+      // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
+    } on DioError catch (e) {
+      // Manejar el error de Dio
+      if (e.response?.statusCode == 403) {
+        // El servidor respondió con un código de estado 403
+        _error = "Error 403: No tienes permiso para acceder al recurso.";
+        // Aquí puedes mostrar un mensaje al usuario u otra acción adecuada
+      } else {
+        // Otro tipo de error de Dio
+        _error = ("Error de Dio: ${e.message}");
+        // Aquí puedes tomar otras acciones adecuadas
+      }
+    } catch (e) {
+      // Otros tipos de errores
+      _error =("Error no controlado: $e");
+      // Aquí puedes tomar otras acciones adecuadas
+    }
+    
+    
 
     notifyListeners();
   }

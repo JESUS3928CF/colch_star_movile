@@ -16,6 +16,8 @@ class CustomersScreen extends StatefulWidget {
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
 
+
+
 class _CustomersScreenState extends State<CustomersScreen> {
   @override
   void didChangeDependencies() {
@@ -31,6 +33,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
       }
     });
   }
+
+  
+
+
+
 
   @override
   void initState() {
@@ -144,7 +151,7 @@ class _CardCustomer extends StatefulWidget {
       {required this.id,
       required this.name,
       required this.elevation,
-      this.lastName,
+      required this.lastName,
       required this.phone,
       required this.email,
       required this.address,
@@ -156,7 +163,17 @@ class _CardCustomer extends StatefulWidget {
   State<_CardCustomer> createState() => _CardCustomerState();
 }
 
+
+
 class _CardCustomerState extends State<_CardCustomer> {
+
+  void _toggleState(){
+    setState(() {
+      widget.state = !widget.state;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -246,6 +263,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                           builder: (context) => const CustomersEdit()),
                     );
 
+                    print("${widget.id}  id de est card1");
                     customerProviderSingleton.customerProvider
                         .setCustomer(widget.id);
 
@@ -256,20 +274,21 @@ class _CardCustomerState extends State<_CardCustomer> {
                   width: 100,
                 ),
                 IconButton(
-                  icon: widget.state
-                      ? const Icon(
+                  icon: Icon(
                           Icons.toggle_off,
-                          color: Color(0xFF60d480),
-                        )
-                      : const Icon(Icons.toggle_off,
-                          color: Color.fromARGB(255, 194, 29, 7)),
+                          color:widget.state
+                          ? const Color(0xFF60d480)
+                          : const Color.fromARGB(255, 194, 29, 7),
+                  ),
                   onPressed: () async {
-                    setState(() {
-                      widget.state = !widget.state;
-                    });
+                    // _toggleState();
 
-                    await customerProviderSingleton.customerProvider
-                        .editStateProvider(widget.id, !widget.state);
+                    // customerProviderSingleton.customerProvider.setCustomer(widget.id);
+
+
+            
+                    // await customerProviderSingleton.customerProvider
+                    //     .editStateProvider(!widget.state);
                   },
                 ),
                 // SwitchListTile(value: true, onChanged: (value) {})
@@ -281,3 +300,5 @@ class _CardCustomerState extends State<_CardCustomer> {
     );
   }
 }
+
+
