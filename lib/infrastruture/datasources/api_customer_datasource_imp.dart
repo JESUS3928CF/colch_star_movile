@@ -12,10 +12,7 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
 
 @override
 Future<void> createCustomer(name, lastName, phone, email, address, identification, typeIdentification) async {
-  _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
-      'authorization':
-          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
-    }));
+
 
   try {
     final data = CustomerModel.toJson(name, lastName, phone, email, address, identification, typeIdentification);
@@ -38,14 +35,16 @@ Future<void> createCustomer(name, lastName, phone, email, address, identificatio
   @override
   Future<void> editCustomer( Customer customer) async {
 
-    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
-      'authorization':
-          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
-    }));
 
 
 
     try{
+
+      
+    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
 
       final data = CustomerModel.toJson(customer.name, customer.lastName, customer.phone, customer.email,customer.address, customer.identification , customer.typeidentification);
 

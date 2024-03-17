@@ -56,6 +56,27 @@ class _CustomersEditState extends State<CustomersEdit> {
 
   }
 
+bool _isNameValidated = false;
+
+
+  bool _contenedorDeNumeros(String value) {
+  String letras = r'^[a-zA-Z]+$';
+  final RegExp regex = RegExp(letras);
+  return regex.hasMatch(value);
+}
+
+
+bool _espacios(String value) {
+  return value.contains(RegExp(r'\s'));
+}
+
+bool _letras(String value) {
+  if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
+    return true; 
+  }
+  return false; 
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +129,14 @@ class _CustomersEditState extends State<CustomersEdit> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
                                   controller: _identificationController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Idetificación',
                                       hintStyle: TextStyle(
@@ -124,11 +153,13 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su identificación';
-                                    }
-                                    return null;
-                                  },
+                          if (value!.isEmpty) {
+                            return 'La identificación es obligatoria';
+                          } else if (_letras(value)) {
+                            return 'La identificación solo puede contener números';
+                          }
+                          return null;
+                        },
                                 )),
 
 
@@ -136,6 +167,14 @@ class _CustomersEditState extends State<CustomersEdit> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
                                   controller: _nombreController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Nombres',
                                       hintStyle: TextStyle(
@@ -152,16 +191,31 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su nombre';
-                                    }
-                                    return null;
-                                  },
+                          if (value!.isEmpty) {
+                            return 'El nombre es obligatorio';
+                          }  else if (value.length < 3 || value.length > 20) {
+                            return 'El nombre debe de tener entre 3 y 20 caracteres';
+                          }else if (!_contenedorDeNumeros(value)) {
+                            return "El nombre solo puede tener letra";
+                          } else if (_espacios(value)) {
+                            return 'No se permite espacio al inico';
+                          }
+
+                          return null;
+                        },
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _apellidoController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Apellidos',
                                       hintStyle: TextStyle(
@@ -179,8 +233,14 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       filled: true),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Por favor digite su apellido';
-                                    }
+                                      return 'El apellido es obligatorio';
+                                    }else if (!_contenedorDeNumeros(value)) {
+                            return "El apellido solo puede tener letra";
+                          } else if (_espacios(value)) {
+                            return 'No se permite espacio al inico';
+                          } else if (value.length < 3 || value.length > 20) {
+                            return 'El apellido debe de tener entre 3 y 20 caracteres';
+                          }
                                     return null;
                                   },
                                 )),
@@ -188,6 +248,14 @@ class _CustomersEditState extends State<CustomersEdit> {
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _telefonoController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Teléfono',
                                       hintStyle: TextStyle(
@@ -203,18 +271,28 @@ class _CustomersEditState extends State<CustomersEdit> {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Teléfono';
-                                    }
-                                    return null;
-                                  },
+                                 validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'El teléfono es obligatorio';
+                          } else if (_letras(value)) {
+                            return 'El télefono solo puede tener números';
+                          }
+                          return null;
+                        },
                                 )),
                             
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _direccionController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Dirección',
                                       hintStyle: TextStyle(
@@ -230,17 +308,27 @@ class _CustomersEditState extends State<CustomersEdit> {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Por favor ingrese su Dirección';
-                                    }
-                                    return null;
-                                  },
+                                validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'La dirección es obligatoria';
+                            } else if (value.length < 4 || value.length > 50) {
+                              return 'La dirección debe tener entre 4 y 50 caracteres';
+                            }
+                            return null;
+                          },
                                 )),
                                 Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _emailController,
+                                   autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                                   decoration: const InputDecoration(
                                       hintText: 'Correo electrónico',
                                       hintStyle: TextStyle(
@@ -257,17 +345,17 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                                    String pattern =
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                    RegExp regExp = RegExp(pattern);
-                                    if (value!.isEmpty) {
-                                      return "El correo es necesario";
-                                    } else if (!regExp.hasMatch(value)) {
-                                      return "Correo invalido";
-                                    } else {
-                                      return null;
-                                    }
-                                  },
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regExp = RegExp(pattern);
+                            if (value!.isEmpty) {
+                              return "El correo electrónico es obligatorio";
+                            } else if (!regExp.hasMatch(value)) {
+                              return "El correo electrónico no tiene un formato válido";
+                            } else {
+                              return null;
+                            }
+                          },
                                 )),
                             Row(
                               children: [
