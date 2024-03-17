@@ -3,24 +3,27 @@ import 'package:colch_stat_app/domain/datasources/customer_datasource.dart';
 import 'package:colch_stat_app/domain/entities/customer.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 
 class ApiCustomerDataSourceImpl implements CustomerDataSource {
 
-  final _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
+  late Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
 
 @override
 Future<void> createCustomer(name, lastName, phone, email, address, identification, typeIdentification) async {
+
+  _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+
   try {
     final data = CustomerModel.toJson(name, lastName, phone, email, address, identification, typeIdentification);
-
-    print(data);
     
     await _dio.post("/clientes", data: data);
-
     
-    
-
 
   } catch (e) {
     print("Error creating customer: $e");
