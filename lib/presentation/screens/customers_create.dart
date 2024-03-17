@@ -21,9 +21,7 @@ bool _contenedorDeNumeros(String value) {
 }
 
 
-bool _espacios(String value) {
-  return value.contains(RegExp(r'\s'));
-}
+
 
 bool _letras(String value) {
   if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
@@ -115,7 +113,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'La identificación es obligatoria';
-                          } else if (_letras(value)) {
+                          } else if (value.length < 6 || value.length > 10){
+
+                          }else if (_letras(value)) {
                             return 'La identificación solo puede contener números';
                           }
                           return null;
@@ -155,9 +155,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             return 'El nombre debe de tener entre 3 y 20 caracteres';
                           }else if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
-                          }
+                          } 
 
                           return null;
                         },
@@ -194,8 +192,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             return 'El apellido es obligatorio';
                           } else if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
+                          
                           } else if (value.length < 3 || value.length > 20) {
                             return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
@@ -231,6 +228,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
+                          }else if (value.length < 7 || value.length > 10){
+
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
                           }
