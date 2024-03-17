@@ -25,8 +25,7 @@ class CustomerProvider extends ChangeNotifier {
   int totalClients = 0;
 
   String _error = "";
-
-  Map<String, dynamic> errores = {"messageEmail": "", "messagePassword": ""};
+  String _success = "";
 
   CustomerProvider({required this.customerRepository});
 
@@ -34,7 +33,6 @@ class CustomerProvider extends ChangeNotifier {
 
   Future<void> getCustomers() async {
     try {
-
       List<Customer> customers = await customerRepository.getCustomers();
       List<Customer> invertedCustomers = customers.reversed.toList();
       _customerList = invertedCustomers;
@@ -43,9 +41,24 @@ class CustomerProvider extends ChangeNotifier {
 
       totalClients = _customerList.length;
     } on CustomError catch (e) {
+      // Manejar el error personalizado
       _error = e.message;
+      // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
+    } on DioError catch (e) {
+      // Manejar el error de Dio
+      if (e.response?.statusCode == 403) {
+        // El servidor respondió con un código de estado 403
+        _error = "Error 403: No tienes permiso para acceder al recurso.";
+        // Aquí puedes mostrar un mensaje al usuario u otra acción adecuada
+      } else {
+        // Otro tipo de error de Dio
+        _error = ("Error de Dio: ${e.message}");
+        // Aquí puedes tomar otras acciones adecuadas
+      }
     } catch (e) {
-      _error = "Error no controlado";
+      // Otros tipos de errores
+      _error = ("Error no controlado: $e");
+      // Aquí puedes tomar otras acciones adecuadas
     }
 
     notifyListeners();
@@ -56,9 +69,27 @@ class CustomerProvider extends ChangeNotifier {
     try {
       await customerRepository.createCustomer(name, lastName, phone, email,
           address, identification, typeidentification);
+
+      _success = "Cliente creado exitosamente";
+    } on CustomError catch (e) {
+      // Manejar el error personalizado
+      _error = e.message;
+      // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
+    } on DioError catch (e) {
+      // Manejar el error de Dio
+      if (e.response?.statusCode == 403) {
+        // El servidor respondió con un código de estado 403
+        _error = "Error 403: No tienes permiso para acceder al recurso.";
+        // Aquí puedes mostrar un mensaje al usuario u otra acción adecuada
+      } else {
+        // Otro tipo de error de Dio
+        _error = ("Error de Dio: ${e.message}");
+        // Aquí puedes tomar otras acciones adecuadas
+      }
     } catch (e) {
       // Otros tipos de errores
       _error = ("Error no controlado: $e");
+      // Aquí puedes tomar otras acciones adecuadas
     }
   }
 
@@ -85,9 +116,9 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> editCustomer(name, lastName, phone, email, address,identification, typeidentification) async {
+  Future<void> editCustomer(name, lastName, phone, email, address,
+      identification, typeidentification) async {
     try {
-
       // Asignar el resultado de copyWith() a _customer
       _customer = _customer.copyWith(
         name: name,
@@ -99,12 +130,12 @@ class CustomerProvider extends ChangeNotifier {
         typeidentification: typeidentification,
       );
 
-
-
       await customerRepository.editCustomer(_customer);
+
+      _success = "Cliente editado exitosamente";
     } on CustomError catch (e) {
       // Manejar el error personalizado
-     _error = e.message;
+      _error = e.message;
       // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
     } on DioError catch (e) {
       // Manejar el error de Dio
@@ -119,27 +150,22 @@ class CustomerProvider extends ChangeNotifier {
       }
     } catch (e) {
       // Otros tipos de errores
-      _error =("Error no controlado: $e");
+      _error = ("Error no controlado: $e");
       // Aquí puedes tomar otras acciones adecuadas
     }
     notifyListeners();
   }
 
   Future<void> editStateProvider(state) async {
-
-    try { 
-      _customer = _customer.copyWith(
-        state:  state
-      );
-
-
+    try {
+      _customer = _customer.copyWith(state: state);
 
       await customerRepository.editStateCustomer(_customer);
 
-
-     } on CustomError catch (e) {
+      _success = "Cambio de estado exitoso";
+    } on CustomError catch (e) {
       // Manejar el error personalizado
-     _error = e.message;
+      _error = e.message;
       // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
     } on DioError catch (e) {
       // Manejar el error de Dio
@@ -154,11 +180,9 @@ class CustomerProvider extends ChangeNotifier {
       }
     } catch (e) {
       // Otros tipos de errores
-      _error =("Error no controlado: $e");
+      _error = ("Error no controlado: $e");
       // Aquí puedes tomar otras acciones adecuadas
     }
-    
-    
 
     notifyListeners();
   }
@@ -168,12 +192,29 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cleanError() {
+    _error = "";
+    notifyListeners();
+  }
+
+  void cleanSuccess() {
+    _success = "";
+    notifyListeners();
+  }
+
   // Método getter para acceder al perfil
   Customer get customer => _customer;
 
   List<Customer> get customerList => _customerList;
 
   String get error => _error;
+
+  // Setter
+  set error(String value) {
+    _error = value;
+  }
+
+  String get success => _success;
 }
 
 /// Instanciar el provider una sola ves en toda la app

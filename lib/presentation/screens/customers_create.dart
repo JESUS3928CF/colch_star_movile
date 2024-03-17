@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
@@ -118,9 +119,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             ),
                             filled: true),
                         validator: (value) {
-                          if (value!.isEmpty == 0) {
-                            return 'La identificación no puede iniciar con 0';
-                          } else if (value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'La identificación es obligatoria';
                           } else if (_letras(value)) {
                             return 'La identificación solo puede contener números';
@@ -388,25 +387,37 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                           address,
                                           identification,
                                           typeidentification);
+                                  if (customerProviderSingleton
+                                              .customerProvider.error ==
+                                          "" &&
+                                      customerProviderSingleton
+                                              .customerProvider.success !=
+                                          "") {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.success,
+                                        false);
 
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        "Cliente registrado correctamente",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CustomersScreen()));
+                                    
+                                    customerProviderSingleton.customerProvider
+                                        .cleanSuccess();
+                                  } else {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.error);
 
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CustomersScreen()));
+                                    customerProviderSingleton.customerProvider
+                                        .cleanError();
+                                  }
+
+                        
                                 }
                               },
                               style: ElevatedButton.styleFrom(

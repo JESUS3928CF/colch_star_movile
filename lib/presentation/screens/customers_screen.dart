@@ -8,15 +8,12 @@ import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'customers_create.dart';
 
-
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
 
   @override
   State<CustomersScreen> createState() => _CustomersScreenState();
 }
-
-
 
 class _CustomersScreenState extends State<CustomersScreen> {
   @override
@@ -34,11 +31,6 @@ class _CustomersScreenState extends State<CustomersScreen> {
     });
   }
 
-  
-
-
-
-
   @override
   void initState() {
     super.initState();
@@ -47,19 +39,17 @@ class _CustomersScreenState extends State<CustomersScreen> {
   }
 
   // Método async para cargar los clientes.
- Future<void> loadCustomers() async {
-  try {
-    // Llama al método en customerProvider para cargar los clientes.
-    await customerProviderSingleton.customerProvider.getCustomers();   
-    // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
-    setState(() {});
-  } catch (error) {
-    // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
-    print('Error al cargar clientes: $error');
+  Future<void> loadCustomers() async {
+    try {
+      // Llama al método en customerProvider para cargar los clientes.
+      await customerProviderSingleton.customerProvider.getCustomers();
+      // Actualiza el estado para reconstruir la pantalla con los nuevos datos.
+      setState(() {});
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la carga de clientes.
+      print('Error al cargar clientes: $error');
+    }
   }
-}
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +74,12 @@ class _CustomersScreenState extends State<CustomersScreen> {
 }
 
 class _CustomerView extends StatelessWidget {
-
-  
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
       if (customerProviderSingleton.customerProvider.error != "") {
-        AlertHelper.showErrorSnackBar(
+        AlertHelper.showMessageSnackBar(
           context,
           customerProviderSingleton.customerProvider.error,
         );
@@ -99,7 +87,6 @@ class _CustomerView extends StatelessWidget {
         // vaciar error
       }
     });
-
 
     return SingleChildScrollView(
       child: Column(
@@ -155,24 +142,20 @@ class _CardCustomer extends StatefulWidget {
       required this.phone,
       required this.email,
       required this.address,
-      required this. identification,
-      required this. typeidentification,
+      required this.identification,
+      required this.typeidentification,
       required this.state});
 
   @override
   State<_CardCustomer> createState() => _CardCustomerState();
 }
 
-
-
 class _CardCustomerState extends State<_CardCustomer> {
-
-  void _toggleState(){
+  void _toggleState() {
     setState(() {
       widget.state = !widget.state;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +181,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                 )),
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -208,7 +191,7 @@ class _CardCustomerState extends State<_CardCustomer> {
                 ),
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
@@ -257,15 +240,19 @@ class _CardCustomerState extends State<_CardCustomer> {
                     color: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CustomersEdit()),
-                    );
+                    if (widget.state == false) {
+                      AlertHelper.showMessageSnackBar(context,
+                          "Este cliente no se puede editar porque está inhabilitado");
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CustomersEdit()),
+                      );
 
-                    print("${widget.id}  id de est card1");
-                    customerProviderSingleton.customerProvider
-                        .setCustomer(widget.id);
+                      customerProviderSingleton.customerProvider
+                          .setCustomer(widget.id);
+                    }
 
                     // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
                   },
@@ -275,20 +262,68 @@ class _CardCustomerState extends State<_CardCustomer> {
                 ),
                 IconButton(
                   icon: Icon(
-                          Icons.toggle_off,
-                          color:widget.state
-                          ? const Color(0xFF60d480)
-                          : const Color.fromARGB(255, 194, 29, 7),
+                    Icons.toggle_off,
+                    color: widget.state
+                        ? const Color(0xFF60d480)
+                        : const Color.fromARGB(255, 194, 29, 7),
                   ),
                   onPressed: () async {
-                    _toggleState();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("¿Cambiar estado del cliente?"),
+                          content: Text(
+                              "¿Estás seguro de que deseas ${widget.state? "inhabilitar" : "habilitar"} este cliente?"),
+                          actions: <Widget>[
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF252432),
+                              foregroundColor: Colors
+                                  .white, // White text for dark background
+                              child: Text("No"),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF47684e),
+                              foregroundColor: Colors.white,
+                              child: Text("Sí"),
+                              onPressed: () async {
+                                await customerProviderSingleton.customerProvider
+                                    .editStateProvider(!widget.state);
 
-                    customerProviderSingleton.customerProvider.setCustomer(widget.id);
+                                if (customerProviderSingleton
+                                            .customerProvider.error ==
+                                        "" &&
+                                    customerProviderSingleton
+                                            .customerProvider.success !=
+                                        "") {
+                                  AlertHelper.showMessageSnackBar(
+                                      context,
+                                      customerProviderSingleton
+                                          .customerProvider.success,
+                                      false);
 
+                                  _toggleState();
 
-            
-                    await customerProviderSingleton.customerProvider
-                        .editStateProvider(!widget.state);
+                                  customerProviderSingleton.customerProvider
+                                      .cleanSuccess();
+                                } else {
+                                  AlertHelper.showMessageSnackBar(
+                                      context,
+                                      customerProviderSingleton
+                                          .customerProvider.error);
+
+                                  customerProviderSingleton.customerProvider
+                                      .cleanError();
+                                }
+                                // Aquí colocas la lógica para cambiar el estado del cliente
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
                 // SwitchListTile(value: true, onChanged: (value) {})
@@ -300,5 +335,3 @@ class _CardCustomerState extends State<_CardCustomer> {
     );
   }
 }
-
-

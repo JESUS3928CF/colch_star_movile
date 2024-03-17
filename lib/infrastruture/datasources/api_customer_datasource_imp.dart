@@ -26,10 +26,26 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
       await _dio.post("/clientes", data: data);
 
       this.getCustomers();
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      throw CustomError(
+          "No se pudo obtener el listado de ordenes, Intenta de nuevo");
     } catch (e) {
-      print("Error creating customer: $e");
-      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
-      throw CustomError("Error creating customer");
+      throw CustomError(
+          "No se pudo obtener el listado de ordenes, Intenta de nuevo");
     }
   }
 
@@ -66,12 +82,9 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
         throw ConnectionTimeout();
       }
 
-      print(e.response!.statusCode);
-      print(e);
-
-      throw CustomError("Algo malo paso nivel 1");
+      throw CustomError("No se pudo editar el cliente, Intenta de nuevo");
     } catch (e) {
-      throw CustomError("Algo malo paso nivel 2");
+      throw CustomError("No se pudo editar el cliente, Intenta de nuevo");
     }
   }
 
@@ -101,12 +114,10 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
         throw ConnectionTimeout();
       }
 
-      print(e.response!.statusCode);
-      print(e);
-
-      throw CustomError("Algo malo paso nivel 1");
+      throw CustomError("No se pudo cambiar el estado del cliente, Intenta de nuevo");
     } catch (e) {
-      throw CustomError("Algo malo paso nivel 2");
+       throw CustomError(
+          "No se pudo cambiar el estado del cliente, Intenta de nuevo");
     }
   }
 
@@ -131,10 +142,25 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
           data.cast<Map<String, dynamic>>());
 
       return cliente;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      throw CustomError("No se pudo obtener el listado de clientes, Intenta de nuevo");
     } catch (e) {
-      print("Error creating customer: $e");
-      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
-      throw CustomError("Error creating customer");
+       throw CustomError(
+          "No se pudo obtener el listado de clientes, Intenta de nuevo");
     }
   }
 }

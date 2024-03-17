@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             } else {
-                              AlertHelper.showErrorSnackBar(
+                              AlertHelper.showMessageSnackBar(
                                   context,
                                   profileProviderSingleton
                                       .profileProvider.error);
