@@ -19,7 +19,7 @@ class _CustomersEditState extends State<CustomersEdit> {
   late CustomerProvider customerProvider; // Declara profileProvider aquí
 
   final _formKey = GlobalKey<FormState>();
-   final List<String> selectTypeIdetification= ['C.C', 'C.E'];
+   final List<String> selectTypeIdetification= ['C.C.', 'C.E.'];
   late String _selectedTypeIdentification =customerProvider.customer.typeidentification;
 
   late TextEditingController _nombreController;

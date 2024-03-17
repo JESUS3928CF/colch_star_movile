@@ -281,14 +281,14 @@ class _CardCustomerState extends State<_CardCustomer> {
                           : const Color.fromARGB(255, 194, 29, 7),
                   ),
                   onPressed: () async {
-                    // _toggleState();
+                    _toggleState();
 
-                    // customerProviderSingleton.customerProvider.setCustomer(widget.id);
+                    customerProviderSingleton.customerProvider.setCustomer(widget.id);
 
 
             
-                    // await customerProviderSingleton.customerProvider
-                    //     .editStateProvider(!widget.state);
+                    await customerProviderSingleton.customerProvider
+                        .editStateProvider(!widget.state);
                   },
                 ),
                 // SwitchListTile(value: true, onChanged: (value) {})

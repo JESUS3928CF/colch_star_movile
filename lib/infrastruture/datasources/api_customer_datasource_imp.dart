@@ -3,14 +3,20 @@ import 'package:colch_stat_app/domain/datasources/customer_datasource.dart';
 import 'package:colch_stat_app/domain/entities/customer.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/models/customer_model.dart';
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 
 class ApiCustomerDataSourceImpl implements CustomerDataSource {
 
-  final _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
+  late final Dio _dio;
 
 @override
 Future<void> createCustomer(name, lastName, phone, email, address, identification, typeIdentification) async {
+  _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
   try {
     final data = CustomerModel.toJson(name, lastName, phone, email, address, identification, typeIdentification);
 
@@ -31,6 +37,12 @@ Future<void> createCustomer(name, lastName, phone, email, address, identificatio
 
   @override
   Future<void> editCustomer( Customer customer) async {
+
+    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
 
 
     try{
@@ -70,6 +82,12 @@ Future<void> createCustomer(name, lastName, phone, email, address, identificatio
   @override
   Future<void> editStateCustomer(Customer customer) async {
 
+    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+
 try{
 
   final data = CustomerModel.toJsonState(customer.state);
@@ -108,6 +126,12 @@ try{
   @override
   Future<List<Customer>> getCustomers() async {
 
+    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+
     try{
 
       final res = await _dio.get('/clientes');
@@ -123,8 +147,6 @@ try{
     throw CustomError("Error creating customer");
 
     }
-
-      
-
+   
   }
 }

@@ -20,8 +20,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
   final _identification = TextEditingController();
-  final List<String> _typeidentification = ['C.C', 'C.E'];
-  String _selectedTypeIdentification = 'C.C';
+  final List<String> _typeidentification = ['C.C.', 'C.E.'];
+  String _selectedTypeIdentification = 'C.C.';
 
 
   @override
