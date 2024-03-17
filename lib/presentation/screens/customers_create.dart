@@ -14,9 +14,20 @@ class CustomersCreate extends StatefulWidget {
 
 bool _isNameValidated = false;
 
+
+String? validarEspaciosVacios(String value) {
+  List<String> valueList = value.split('');
+
+  if (valueList.every((letra) => letra == ' ')) {
+    return 'No se pueden espacios vacíos';
+  } else {
+    return null;
+  }
+}
+
 bool _contenedorDeNumeros(String value) {
-  String letras = r'^[a-zA-Z]+$';
-  final RegExp regex = RegExp(letras);
+  String letrasConEspacios = r'^[a-zA-Z\s]+$';
+  final RegExp regex = RegExp(letrasConEspacios);
   return regex.hasMatch(value);
 }
 
@@ -111,12 +122,24 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             ),
                             filled: true),
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value!.isEmpty == 0){
+                            return 'La identificación no puede iniciar con 0';
+                          }
+                          else if (value!.isEmpty) {
                             return 'La identificación es obligatoria';
-                          } else if (value.length < 6 || value.length > 10){
-
-                          }else if (_letras(value)) {
+                          } else if (_letras(value)) {
                             return 'La identificación solo puede contener números';
+                          }else if (value.startsWith('0')){
+                            return 'La identificación no puede iniciar con 0';
+                          }else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+
+                          } 
+                          
+                          else if (value.length < 6 || value.length > 10){
+
+                            return 'La identificación debe tener entre 6 y 10 dígitos';
+
                           }
                           return null;
                         },
@@ -151,11 +174,15 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El nombre es obligatorio';
-                          }  else if (value.length < 3 || value.length > 20) {
-                            return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }else if (!_contenedorDeNumeros(value)) {
+                          }  else if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
-                          } 
+
+                          }else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+
+                          } else if (value.length < 3 || value.length > 20) {
+                            return 'El nombre debe de tener entre 3 y 20 caracteres';
+                          }
 
                           return null;
                         },
@@ -187,15 +214,19 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   BorderSide(width: 0, style: BorderStyle.none),
                             ),
                             filled: true),
-                        validator: (value) {
+                       validator: (value) {
                           if (value!.isEmpty) {
                             return 'El apellido es obligatorio';
-                          } else if (!_contenedorDeNumeros(value)) {
+                          }  else if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
-                          
+
+                          }else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+
                           } else if (value.length < 3 || value.length > 20) {
                             return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
+
                           return null;
                         },
                       ),
@@ -228,10 +259,20 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
-                          }else if (value.length < 7 || value.length > 10){
-
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
+                          }else if (value.startsWith('0')){
+                            return 'La identificación no puede iniciar con 0';
+
+                          }else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+
+                          } 
+
+                          else if (value.length < 7 || value.length > 10){
+                            
+                            return 'El teléfono debe tener entre 7 y 10 dígitos';
+
                           }
                           return null;
                         },
@@ -266,7 +307,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'La dirección es obligatoria';
-                            } else if (value.length < 4 || value.length > 50) {
+                            } else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+
+                          } 
+                            else if (value.length < 4 || value.length > 50) {
                               return 'La dirección debe tener entre 4 y 50 caracteres';
                             }
                             return null;
