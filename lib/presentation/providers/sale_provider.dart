@@ -3,6 +3,7 @@ import 'package:colch_stat_app/infrastruture/datasources/api_order_datasource_im
 import 'package:colch_stat_app/infrastruture/datasources/local_order_datasource_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/order_repository_imp.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
 class SaleProvider extends ChangeNotifier {
@@ -28,35 +29,25 @@ class SaleProvider extends ChangeNotifier {
 
       notifyListeners();
     } on CustomError catch (e) {
+      // Manejar el error personalizado
       _error = e.message;
+      // Aquí puedes tomar acciones específicas, como mostrar un mensaje al usuario, etc.
+    } on DioError catch (e) {
+      // Manejar el error de Dio
+      if (e.response?.statusCode == 403) {
+        // El servidor respondió con un código de estado 403
+        _error = "Error 403: No tienes permiso para acceder al recurso.";
+        // Aquí puedes mostrar un mensaje al usuario u otra acción adecuada
+      } else {
+        // Otro tipo de error de Dio
+        _error = ("Error de Dio: ${e.message}");
+        // Aquí puedes tomar otras acciones adecuadas
+      }
     } catch (e) {
-      print(e);
-      print("nada");
-      _error = "Error no controlado en ordenes";
+      // Otros tipos de errores
+      _error = ("Error no controlado: $e");
+      // Aquí puedes tomar otras acciones adecuadas
     }
-
-    // final response = await _dio
-    //     .get("${APIConfig.apiUrl}/ventas");
-
-    // print("Cosultando ventas");
-    // if (response.statusCode == 200) {
-    //   final List<dynamic> data = response.data;
-    //   final List<Sale> newSale = data
-    //       .map((sale) => SaleModel.fromJson(sale).toProfileEntity())
-    //       .toList();
-
-    //   saleList
-    //       .clear(); // Limpia la lista existente antes de agregar los nuevos perfiles.
-    //   saleList.addAll(newSale);
-
-    //   totalSales = saleList.length;
-
-    //   notifyListeners();
-    //   print("Cnsultando ventas");
-    //   print(saleList[0].fksale);
-    // } else {
-    //   // Manejar el error aquí si es necesario
-    // }
   }
 
   void emptyOrders() {
