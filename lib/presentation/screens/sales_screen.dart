@@ -110,7 +110,7 @@ class _SalesView extends StatelessWidget {
   }
 }
 
-const textCardStyle = TextStyle(fontSize: 17,  color: Colors.black);
+const textCardStyle = TextStyle(fontSize: 18,  color: Colors.black);
 
 const labelCardStyle = TextStyle(
   fontSize: 20,
