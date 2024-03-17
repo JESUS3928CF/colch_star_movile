@@ -8,7 +8,7 @@ abstract class CustomerDataSource {
 
   void setCustomer(id);
 
-  Future<void> editCustomer(name, lastName, phone, email, address);
+  Future<void> editCustomer(Customer customer);
 
-  Future<void> editStateCustomer(id, state);
+  Future<void> editStateCustomer(Customer customer); 
 }

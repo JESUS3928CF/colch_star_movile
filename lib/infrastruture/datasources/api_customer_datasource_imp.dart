@@ -7,41 +7,107 @@ import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 
 class ApiCustomerDataSourceImpl implements CustomerDataSource {
+  // late final Dio _dio;
 
-  late Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
-
-@override
-Future<void> createCustomer(name, lastName, phone, email, address, identification, typeIdentification) async {
-
-  _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+  @override
+  Future<void> createCustomer(name, lastName, phone, email, address,
+      identification, typeIdentification) async {
+    late final Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
       'authorization':
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));
 
+    try {
+      final data = CustomerModel.toJson(name, lastName, phone, email, address,
+          identification, typeIdentification);
 
-  try {
-    final data = CustomerModel.toJson(name, lastName, phone, email, address, identification, typeIdentification);
-    
-    await _dio.post("/clientes", data: data);
-    
+      print(data);
 
-  } catch (e) {
-    print("Error creating customer: $e");
-    // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
-    throw CustomError("Error creating customer");
-  }
-}
+      await _dio.post("/clientes", data: data);
 
-  @override
-  Future<void> editCustomer(name, lastName, phone, email, address) {
-    // TODO: implement editCustomer
-    throw UnimplementedError();
+      this.getCustomers();
+    } catch (e) {
+      print("Error creating customer: $e");
+      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
+      throw CustomError("Error creating customer");
+    }
   }
 
   @override
-  Future<void> editStateCustomer(id, state) {
-    // TODO: implement editStateCustomer
-    throw UnimplementedError();
+  Future<void> editCustomer(Customer customer) async {
+    late final Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+    try {
+      final data = CustomerModel.toJson(
+          customer.name,
+          customer.lastName,
+          customer.phone,
+          customer.email,
+          customer.address,
+          customer.identification,
+          customer.typeidentification);
+
+      await _dio.patch("/clientes/${customer.id}", data: data);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      print(e.response!.statusCode);
+      print(e);
+
+      throw CustomError("Algo malo paso nivel 1");
+    } catch (e) {
+      throw CustomError("Algo malo paso nivel 2");
+    }
+  }
+
+  @override
+  Future<void> editStateCustomer(Customer customer) async {
+
+    late final Dio _dio =
+        Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+    try {
+      final data = CustomerModel.toJsonState(customer.state);
+      await _dio.patch("/clientes/estado/${customer.id}", data: data);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      print(e.response!.statusCode);
+      print(e);
+
+      throw CustomError("Algo malo paso nivel 1");
+    } catch (e) {
+      throw CustomError("Algo malo paso nivel 2");
+    }
   }
 
   @override
@@ -50,9 +116,25 @@ Future<void> createCustomer(name, lastName, phone, email, address, identificatio
   }
 
   @override
-  Future<List<Customer>> getCustomers() {
-    // TODO: implement getCustomers
-    throw UnimplementedError();
+  Future<List<Customer>> getCustomers() async {
+    late final Dio _dio =
+        Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+
+    try {
+      final res = await _dio.get('/clientes');
+      final data = res.data as List<dynamic>;
+      final cliente = CustomerModel.convertClientesToCustomerList(
+          data.cast<Map<String, dynamic>>());
+
+      return cliente;
+    } catch (e) {
+      print("Error creating customer: $e");
+      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
+      throw CustomError("Error creating customer");
+    }
   }
-  
 }

@@ -6,10 +6,10 @@ abstract class CustomerRepository {
 
   Future<void> createCustomer(name, lastName, phone, email, address, identification , typeIdentification);
 
-  void setCustomer(id);
+  void setCustomer(int id);
 
-  Future<void> editCustomer(name, lastName, phone, email, address);
+  Future<void> editCustomer(Customer customer);
 
-  Future<void> editStateCustomer(id, state);
+  Future<void> editStateCustomer(Customer customer);
   
 }

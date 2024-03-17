@@ -15,14 +15,14 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF252432),
-        title: Text(
+        backgroundColor: const Color(0xFF252432),
+        title: const Text(
           'Detalles de la orden',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Column(

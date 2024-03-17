@@ -13,7 +13,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required this.title}) : super(key: key);
+  const LoginScreen({super.key, required this.title});
   final String title;
 
   @override
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF000000),
+                          backgroundColor: const Color(0xFF000000),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

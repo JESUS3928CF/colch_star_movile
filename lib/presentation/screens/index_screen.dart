@@ -48,6 +48,7 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  @override
   void initState() {
     super.initState();
     // Llama al método async para cargar los clientes cuando se inicie la pantalla.
@@ -97,11 +98,11 @@ class DashboardBox extends StatelessWidget {
   final int total;
 
   const DashboardBox({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.total,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

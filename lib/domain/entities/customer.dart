@@ -16,7 +16,7 @@ class Customer {
   required this. identification, required this. typeidentification,
   required this.state});
 
-  Customer copyWith({
+  Customer copyWith( {
     int? id,
     String? name,
     String? lastName,

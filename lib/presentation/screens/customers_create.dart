@@ -1,17 +1,35 @@
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 
 import '../providers/customer_provider.dart';
-import 'customers_screen.dart';
 
 class CustomersCreate extends StatefulWidget {
   const CustomersCreate({super.key});
 
   @override
   State<CustomersCreate> createState() => _CustomersCreateState();
+}
+
+bool _isNameValidated = false;
+
+bool _contenedorDeNumeros(String value) {
+  String letras = r'^[a-zA-Z]+$';
+  final RegExp regex = RegExp(letras);
+  return regex.hasMatch(value);
+}
+
+
+bool _espacios(String value) {
+  return value.contains(RegExp(r'\s'));
+}
+
+bool _letras(String value) {
+  if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
+    return true; 
+  }
+  return false; 
 }
 
 class _CustomersCreateState extends State<CustomersCreate> {
@@ -22,14 +40,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
   final _identification = TextEditingController();
-  final List<String> _typeidentification = ['C.C', 'C.E'];
-  String _selectedTypeIdentification = 'C.C';
-
+  final List<String> _typeidentification = ['C.C.', 'C.E.'];
+  String _selectedTypeIdentification = 'C.C.';
 
   @override
   Widget build(BuildContext context) {
-    // final customerProvider = Provider.of<CustomerProvider>(context);
-
     return Scaffold(
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight), child: AppBarColch()),
@@ -55,27 +70,35 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                      Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: DropdownButtonFormField<String>(
-                  value: _selectedTypeIdentification,
-                  items: _typeidentification.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedTypeIdentification = newValue!;
-                    });
-                  },
-                ),
-              ),
-                     Padding(
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedTypeIdentification,
+                        items: _typeidentification.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedTypeIdentification = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         controller: _identification,
+                        autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                         decoration: const InputDecoration(
                             hintText: 'Identificación',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -91,7 +114,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, ingrese el numero de identificacion ';
+                            return 'La identificación es obligatoria';
+                          } else if (_letras(value)) {
+                            return 'La identificación solo puede contener números';
                           }
                           return null;
                         },
@@ -101,6 +126,14 @@ class _CustomersCreateState extends State<CustomersCreate> {
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         controller: _nameController,
+                        autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                         decoration: const InputDecoration(
                             hintText: 'Nombres',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -109,6 +142,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               borderSide:
                                   BorderSide(width: 0, style: BorderStyle.none),
                             ),
+                            
                             enabledBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 0, style: BorderStyle.none),
@@ -116,16 +150,32 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, ingrese el nombre';
+                            return 'El nombre es obligatorio';
+                          }  else if (value.length < 3 || value.length > 20) {
+                            return 'El nombre debe de tener entre 3 y 20 caracteres';
+                          }else if (!_contenedorDeNumeros(value)) {
+                            return "El nombre solo puede tener letra";
+                          } else if (_espacios(value)) {
+                            return 'No se permite espacio al inico';
                           }
+
                           return null;
                         },
                       ),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         controller: _lastNameController,
+                        autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                         decoration: const InputDecoration(
                             hintText: 'Apellidos',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -141,7 +191,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, ingrese el apellido';
+                            return 'El apellido es obligatorio';
+                          } else if (!_contenedorDeNumeros(value)) {
+                            return "El apellido solo puede tener letra";
+                          } else if (_espacios(value)) {
+                            return 'No se permite espacio al inico';
+                          } else if (value.length < 3 || value.length > 20) {
+                            return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
                           return null;
                         },
@@ -151,6 +207,14 @@ class _CustomersCreateState extends State<CustomersCreate> {
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(
                         controller: _phoneController,
+                        autovalidateMode: _isNameValidated
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _isNameValidated = true;
+                          });
+                        },
                         decoration: const InputDecoration(
                             hintText: 'Teléfono',
                             hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -166,7 +230,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             filled: true),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Por favor, ingrese el teléfono';
+                            return 'El teléfono es obligatorio';
+                          } else if (_letras(value)) {
+                            return 'El télefono solo puede tener números';
                           }
                           return null;
                         },
@@ -177,6 +243,14 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         padding: const EdgeInsets.only(top: 15),
                         child: TextFormField(
                           controller: _addressController,
+                          autovalidateMode: _isNameValidated
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _isNameValidated = true;
+                            });
+                          },
                           decoration: const InputDecoration(
                               hintText: 'Dirección',
                               hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -192,17 +266,25 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               filled: true),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Por favor, ingrese la Dirección';
+                              return 'La dirección es obligatoria';
+                            } else if (value.length < 4 || value.length > 50) {
+                              return 'La dirección debe tener entre 4 y 50 caracteres';
                             }
                             return null;
                           },
                         )),
-
-
                     Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: TextFormField(
                           controller: _emailController,
+                          autovalidateMode: _isNameValidated
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _isNameValidated = true;
+                            });
+                          },
                           decoration: const InputDecoration(
                               hintText: 'Correo electrónico',
                               hintStyle: TextStyle(fontWeight: FontWeight.w700),
@@ -216,20 +298,20 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                     width: 0, style: BorderStyle.none),
                               ),
                               filled: true),
-                          // validator: (value) {
-                          //   String pattern =
-                          //       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                          //   RegExp regExp = RegExp(pattern);
-                          //   if (value!.isEmpty) {
-                          //     return "El correo es necesario";
-                          //   } else if (!regExp.hasMatch(value)) {
-                          //     return "Correo invalido";
-                          //   } else {
-                          //     return null;
-                          //   }
-                          // },
+                          validator: (value) {
+                            String pattern =
+                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                            RegExp regExp = RegExp(pattern);
+                            if (value!.isEmpty) {
+                              return "El correo electrónico es obligatorio";
+                            } else if (!regExp.hasMatch(value)) {
+                              return "El correo electrónico no tiene un formato válido";
+                            } else {
+                              return null;
+                            }
+                          },
                         )),
-                    
+
                     // Resto de los campos de entrada aquí...
 
                     Row(
@@ -253,7 +335,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             child: const Text('Cancelar'),
                           ),
                         ),
-                        SizedBox(width: 20,),
+                        const SizedBox(
+                          width: 20,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: SizedBox(
@@ -268,19 +352,21 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   final phone = _phoneController.text;
                                   final email = _emailController.text;
                                   final address = _addressController.text;
-                                  final identification= _identification.text;
-                                  final typeidentification = _selectedTypeIdentification;
+                                  final identification = _identification.text;
+                                  final typeidentification =
+                                      _selectedTypeIdentification;
 
                                   // Llamar a la función para crear el cliente
-                                  await customerProviderSingleton.customerProvider.createCustomer(
-                                    name,
-                                    lastName,
-                                    phone,
-                                    email,
-                                    address,
-                                    identification,
-                                    typeidentification
-                                  );
+                                  await customerProviderSingleton
+                                      .customerProvider
+                                      .createCustomer(
+                                          name,
+                                          lastName,
+                                          phone,
+                                          email,
+                                          address,
+                                          identification,
+                                          typeidentification);
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -303,7 +389,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF47684e),
+                                backgroundColor: const Color(0xFF47684e),
                                 foregroundColor: Colors.white,
                               ),
                               child: const Text('Guardar'),
