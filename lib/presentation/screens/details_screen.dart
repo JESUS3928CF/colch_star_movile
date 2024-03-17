@@ -41,6 +41,10 @@ class OrderDetailsScreen extends StatelessWidget {
   }
 }
 
+const textCardStyle = TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
+const textContentCardStyle =
+    TextStyle( color: Colors.black);
+
 class _CardOrderDetail extends StatefulWidget {
   final int quantity;
   final String description;
@@ -75,7 +79,7 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
       children: [
         Text(
           '${widget.productName}',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, color: Colors.black),
         ),
         SizedBox(height: 8),
       ],
@@ -87,9 +91,9 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                 children: [
                   TextSpan(
                     text: 'Cantidad: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.quantity}'),
+                  TextSpan(text: '${widget.quantity}', style: textContentCardStyle),
                 ],
               ),
             ),
@@ -100,9 +104,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                 children: [
                   TextSpan(
                     text: 'Description: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.description}'),
+                  TextSpan(text: '${widget.description} ',
+                      style: textContentCardStyle),
                 ],
               ),
             ),
@@ -113,9 +118,9 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                 children: [
                   TextSpan(
                     text: 'Talla: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.size}'),
+                  TextSpan(text: '${widget.size}', style: textContentCardStyle),
                 ],
               ),
             ),
@@ -126,9 +131,9 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                 children: [
                   TextSpan(
                     text: 'Color: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.color}'),
+                  TextSpan(text: '${widget.color}', style: textContentCardStyle),
                 ],
               ),
             ),

@@ -1,3 +1,5 @@
+import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
+import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/domain/datasources/order_datasource.dart';
@@ -6,12 +8,20 @@ import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 
 class ApiOrderDataSourceImpl implements OrderDataSource {
   //* Para hacer las peticiones
-  final Dio _dio;
+  late final Dio _dio;
 
-  ApiOrderDataSourceImpl() : _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
+
+  // ApiOrderDataSourceImpl() : _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
 
   @override
   Future<List<Order>> getOrders() async {
+
+     _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+    
     try {
       // Configura el interceptor para agregar el encabezado de autorización
       
@@ -24,10 +34,24 @@ class ApiOrderDataSourceImpl implements OrderDataSource {
 
       return orden;
 
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 403) {
+          final responseData = e.response!.data;
+          if (responseData != null && responseData.containsKey("message")) {
+            final errorMessage = responseData["message"];
+            throw CustomError(errorMessage);
+          }
+        }
+      }
+
+      if (e.type == DioErrorType.connectionTimeout) {
+        throw ConnectionTimeout();
+      }
+
+      throw CustomError("Algo malo paso nivel 1");
     } catch (e) {
-      // Capturar y relanzar la excepción
-      print(e);
-      rethrow;
+      throw CustomError("Algo malo paso nivel 2");
     }
   }
 }
