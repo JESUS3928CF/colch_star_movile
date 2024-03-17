@@ -10,5 +10,5 @@ abstract class CustomerDataSource {
 
   Future<void> editCustomer(Customer customer);
 
-  Future<void> editStateCustomer(Customer customer); 
+  Future<void> editStateCustomer(bool state, int id);
 }

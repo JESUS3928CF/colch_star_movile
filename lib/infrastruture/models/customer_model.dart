@@ -66,7 +66,7 @@ class CustomerModel {
       };
 
 
-       static Map<String, dynamic> toJsonState(bool state) => {
+       static Map<String, bool> toJsonState(bool state) => {
 
         "estado": state
        

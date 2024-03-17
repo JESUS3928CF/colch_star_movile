@@ -42,10 +42,10 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
       }
 
       throw CustomError(
-          "No se pudo obtener el listado de ordenes, Intenta de nuevo");
+          "No se pudo crear el cliente, Intenta de nuevo");
     } catch (e) {
       throw CustomError(
-          "No se pudo obtener el listado de ordenes, Intenta de nuevo");
+           "No se pudo crear el cliente, Intenta de nuevo");
     }
   }
 
@@ -89,7 +89,7 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
   }
 
   @override
-  Future<void> editStateCustomer(Customer customer) async {
+  Future<void> editStateCustomer(bool state, int id) async {
 
     late final Dio _dio =
         Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
@@ -97,8 +97,8 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));
     try {
-      final data = CustomerModel.toJsonState(customer.state);
-      await _dio.patch("/clientes/estado/${customer.id}", data: data);
+      final data = CustomerModel.toJsonState(state);
+      await _dio.patch("/clientes/estado/${id}", data: data);
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 403) {
@@ -114,8 +114,10 @@ class ApiCustomerDataSourceImpl implements CustomerDataSource {
         throw ConnectionTimeout();
       }
 
+    print(e);
       throw CustomError("No se pudo cambiar el estado del cliente, Intenta de nuevo");
     } catch (e) {
+      print(e);
        throw CustomError(
           "No se pudo cambiar el estado del cliente, Intenta de nuevo");
     }
