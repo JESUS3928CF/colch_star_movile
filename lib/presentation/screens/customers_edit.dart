@@ -58,6 +58,15 @@ class _CustomersEditState extends State<CustomersEdit> {
 
 bool _isNameValidated = false;
 
+String? validarEspaciosVacios(String value) {
+  List<String> valueList = value.split('');
+
+  if (valueList.every((letra) => letra == ' ')) {
+    return 'No se pueden espacios vacíos';
+  } else {
+    return null;
+  }
+}
 
   bool _contenedorDeNumeros(String value) {
   String letras = r'^[a-zA-Z]+$';
@@ -152,11 +161,19 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                  validator: (value) {
-                          if (value!.isEmpty) {
+                                 validator: (value) {
+                          if (value!.isEmpty == 0) {
+                            return 'La identificación no puede iniciar con 0';
+                          } else if (value!.isEmpty) {
                             return 'La identificación es obligatoria';
                           } else if (_letras(value)) {
                             return 'La identificación solo puede contener números';
+                          } else if (value.startsWith('0')) {
+                            return 'La identificación no puede iniciar con 0';
+                          } else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+                          } else if (value.length < 6 || value.length > 10) {
+                            return 'La identificación debe tener entre 6 y 10 dígitos';
                           }
                           return null;
                         },
@@ -193,12 +210,12 @@ bool _letras(String value) {
                                   validator: (value) {
                           if (value!.isEmpty) {
                             return 'El nombre es obligatorio';
-                          }  else if (value.length < 3 || value.length > 20) {
-                            return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }else if (!_contenedorDeNumeros(value)) {
+                          } else if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
+                          } else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+                          } else if (value.length < 3 || value.length > 20) {
+                            return 'El nombre debe de tener entre 3 y 20 caracteres';
                           }
 
                           return null;
@@ -231,18 +248,20 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'El apellido es obligatorio';
-                                    }else if (!_contenedorDeNumeros(value)) {
+                                     validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'El apellido es obligatorio';
+                          } else if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
+                          } else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
                           } else if (value.length < 3 || value.length > 20) {
                             return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
-                                    return null;
-                                  },
+
+                          return null;
+                        },
+                      
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
@@ -271,11 +290,17 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                 validator: (value) {
+                                validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
+                          } else if (value.startsWith('0')) {
+                            return 'El Numero telefonico no puede iniciar con 0';
+                          } else if (validarEspaciosVacios(value) != null) {
+                            return 'No se pueden iniciar con espacios vacíos';
+                          } else if (value.length < 7 || value.length > 10) {
+                            return 'El teléfono no puede iniciar con 0';
                           }
                           return null;
                         },
@@ -308,15 +333,17 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                validator: (value) {
+                            validator: (value) {
                             if (value!.isEmpty) {
                               return 'La dirección es obligatoria';
+                            } else if (validarEspaciosVacios(value) != null) {
+                              return 'No se pueden iniciar con espacios vacíos';
                             } else if (value.length < 4 || value.length > 50) {
                               return 'La dirección debe tener entre 4 y 50 caracteres';
                             }
                             return null;
                           },
-                                )),
+                        )),
                                 Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
