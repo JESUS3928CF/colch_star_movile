@@ -7,8 +7,6 @@ import 'package:colch_stat_app/domain/entities/order.dart';
 import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 
 class ApiOrderDataSourceImpl implements OrderDataSource {
-  //* Para hacer las peticiones
-  late final Dio _dio;
 
 
   // ApiOrderDataSourceImpl() : _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl));
@@ -16,7 +14,8 @@ class ApiOrderDataSourceImpl implements OrderDataSource {
   @override
   Future<List<Order>> getOrders() async {
 
-     _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+    late final Dio _dio =
+        Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
       'authorization':
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));

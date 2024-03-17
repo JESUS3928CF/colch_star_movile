@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
@@ -19,8 +19,9 @@ class _CustomersEditState extends State<CustomersEdit> {
   late CustomerProvider customerProvider; // Declara profileProvider aquí
 
   final _formKey = GlobalKey<FormState>();
-   final List<String> selectTypeIdetification= ['C.C.', 'C.E.'];
-  late String _selectedTypeIdentification =customerProvider.customer.typeidentification;
+  final List<String> selectTypeIdetification = ['C.C.', 'C.E.'];
+  late String _selectedTypeIdentification =
+      customerProvider.customer.typeidentification;
 
   late TextEditingController _nombreController;
   late TextEditingController _apellidoController;
@@ -29,7 +30,6 @@ class _CustomersEditState extends State<CustomersEdit> {
   late TextEditingController _direccionController;
   late TextEditingController _identificationController;
   late TextEditingController _selectedTypeIdentificationController;
-   
 
   @override
   void initState() {
@@ -48,35 +48,31 @@ class _CustomersEditState extends State<CustomersEdit> {
         TextEditingController(text: customerProvider.customer.email);
     _direccionController =
         TextEditingController(text: customerProvider.customer.address);
-    _identificationController =     TextEditingController(text: customerProvider.customer.identification);
+    _identificationController =
+        TextEditingController(text: customerProvider.customer.identification);
 
-    _selectedTypeIdentificationController = TextEditingController(text: customerProvider.customer.typeidentification);
-
-
-
+    _selectedTypeIdentificationController = TextEditingController(
+        text: customerProvider.customer.typeidentification);
   }
 
-bool _isNameValidated = false;
-
+  bool _isNameValidated = false;
 
   bool _contenedorDeNumeros(String value) {
-  String letras = r'^[a-zA-Z]+$';
-  final RegExp regex = RegExp(letras);
-  return regex.hasMatch(value);
-}
-
-
-bool _espacios(String value) {
-  return value.contains(RegExp(r'\s'));
-}
-
-bool _letras(String value) {
-  if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
-    return true; 
+    String letras = r'^[a-zA-Z]+$';
+    final RegExp regex = RegExp(letras);
+    return regex.hasMatch(value);
   }
-  return false; 
-}
 
+  bool _espacios(String value) {
+    return value.contains(RegExp(r'\s'));
+  }
+
+  bool _letras(String value) {
+    if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
+      return true;
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,37 +102,38 @@ bool _letras(String value) {
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
-                             Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: DropdownButtonFormField<String>(
-                  value: _selectedTypeIdentification,
-                  items: selectTypeIdetification.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged:  (String? newValue) {
-                    setState(() {
-                      _selectedTypeIdentification = newValue!;
-                            customerProvider.customer.typeidentification = newValue;
-
-                    });
-                  },
-                ),
-              ),
-                             Padding(
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: DropdownButtonFormField<String>(
+                                value: _selectedTypeIdentification,
+                                items:
+                                    selectTypeIdetification.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _selectedTypeIdentification = newValue!;
+                                    customerProvider
+                                        .customer.typeidentification = newValue;
+                                  });
+                                },
+                              ),
+                            ),
+                            Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
                                   controller: _identificationController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Idetificación',
                                       hintStyle: TextStyle(
@@ -153,28 +150,27 @@ bool _letras(String value) {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'La identificación es obligatoria';
-                          } else if (_letras(value)) {
-                            return 'La identificación solo puede contener números';
-                          }
-                          return null;
-                        },
+                                    if (value!.isEmpty) {
+                                      return 'La identificación es obligatoria';
+                                    } else if (_letras(value)) {
+                                      return 'La identificación solo puede contener números';
+                                    }
+                                    return null;
+                                  },
                                 )),
-
 
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: TextFormField(
                                   controller: _nombreController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Nombres',
                                       hintStyle: TextStyle(
@@ -191,31 +187,32 @@ bool _letras(String value) {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El nombre es obligatorio';
-                          }  else if (value.length < 3 || value.length > 20) {
-                            return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }else if (!_contenedorDeNumeros(value)) {
-                            return "El nombre solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
-                          }
+                                    if (value!.isEmpty) {
+                                      return 'El nombre es obligatorio';
+                                    } else if (value.length < 3 ||
+                                        value.length > 20) {
+                                      return 'El nombre debe de tener entre 3 y 20 caracteres';
+                                    } else if (!_contenedorDeNumeros(value)) {
+                                      return "El nombre solo puede tener letra";
+                                    } else if (_espacios(value)) {
+                                      return 'No se permite espacio al inico';
+                                    }
 
-                          return null;
-                        },
+                                    return null;
+                                  },
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _apellidoController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Apellidos',
                                       hintStyle: TextStyle(
@@ -234,13 +231,14 @@ bool _letras(String value) {
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'El apellido es obligatorio';
-                                    }else if (!_contenedorDeNumeros(value)) {
-                            return "El apellido solo puede tener letra";
-                          } else if (_espacios(value)) {
-                            return 'No se permite espacio al inico';
-                          } else if (value.length < 3 || value.length > 20) {
-                            return 'El apellido debe de tener entre 3 y 20 caracteres';
-                          }
+                                    } else if (!_contenedorDeNumeros(value)) {
+                                      return "El apellido solo puede tener letra";
+                                    } else if (_espacios(value)) {
+                                      return 'No se permite espacio al inico';
+                                    } else if (value.length < 3 ||
+                                        value.length > 20) {
+                                      return 'El apellido debe de tener entre 3 y 20 caracteres';
+                                    }
                                     return null;
                                   },
                                 )),
@@ -248,14 +246,14 @@ bool _letras(String value) {
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _telefonoController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Teléfono',
                                       hintStyle: TextStyle(
@@ -271,28 +269,28 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                 validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El teléfono es obligatorio';
-                          } else if (_letras(value)) {
-                            return 'El télefono solo puede tener números';
-                          }
-                          return null;
-                        },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'El teléfono es obligatorio';
+                                    } else if (_letras(value)) {
+                                      return 'El télefono solo puede tener números';
+                                    }
+                                    return null;
+                                  },
                                 )),
-                            
+
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _direccionController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Dirección',
                                       hintStyle: TextStyle(
@@ -308,27 +306,28 @@ bool _letras(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'La dirección es obligatoria';
-                            } else if (value.length < 4 || value.length > 50) {
-                              return 'La dirección debe tener entre 4 y 50 caracteres';
-                            }
-                            return null;
-                          },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'La dirección es obligatoria';
+                                    } else if (value.length < 4 ||
+                                        value.length > 50) {
+                                      return 'La dirección debe tener entre 4 y 50 caracteres';
+                                    }
+                                    return null;
+                                  },
                                 )),
-                                Padding(
+                            Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _emailController,
-                                   autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
+                                  autovalidateMode: _isNameValidated
+                                      ? AutovalidateMode.onUserInteraction
+                                      : AutovalidateMode.disabled,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isNameValidated = true;
+                                    });
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: 'Correo electrónico',
                                       hintStyle: TextStyle(
@@ -345,17 +344,17 @@ bool _letras(String value) {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                            String pattern =
-                                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                            RegExp regExp = RegExp(pattern);
-                            if (value!.isEmpty) {
-                              return "El correo electrónico es obligatorio";
-                            } else if (!regExp.hasMatch(value)) {
-                              return "El correo electrónico no tiene un formato válido";
-                            } else {
-                              return null;
-                            }
-                          },
+                                    String pattern =
+                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                    RegExp regExp = RegExp(pattern);
+                                    if (value!.isEmpty) {
+                                      return "El correo electrónico es obligatorio";
+                                    } else if (!regExp.hasMatch(value)) {
+                                      return "El correo electrónico no tiene un formato válido";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 )),
                             Row(
                               children: [
@@ -389,8 +388,6 @@ bool _letras(String value) {
                                       height: 45,
                                       child: ElevatedButton(
                                           onPressed: () async {
-
-                                            
                                             String name =
                                                 _nombreController.text;
                                             String lastName =
@@ -401,37 +398,66 @@ bool _letras(String value) {
                                                 _emailController.text;
                                             String address =
                                                 _direccionController.text;
-                                             String  identification = _identificationController.text;
+                                            String identification =
+                                                _identificationController.text;
 
-                                             String typeidentification = _selectedTypeIdentification;
-
-
+                                            String typeidentification =
+                                                _selectedTypeIdentification;
 
                                             if (_formKey.currentState!
                                                 .validate()) {
-                                              await customerProviderSingleton.customerProvider.editCustomer(
-                                                  name,
-                                                  lastName,
-                                                  phone,
-                                                  email,
-                                                  address,
-                                                  identification,
-                                                  typeidentification);
-                                                  
-                                              
+                                              await customerProviderSingleton
+                                                  .customerProvider
+                                                  .editCustomer(
+                                                      name,
+                                                      lastName,
+                                                      phone,
+                                                      email,
+                                                      address,
+                                                      identification,
+                                                      typeidentification);
                                             }
 
                                             await customerProvider
                                                 .getCustomers();
 
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const CustomersScreen()));
+                                            if (customerProviderSingleton
+                                                        .customerProvider
+                                                        .error ==
+                                                    "" &&
+                                                customerProviderSingleton
+                                                        .customerProvider
+                                                        .success !=
+                                                    "") {
+                                              AlertHelper.showMessageSnackBar(
+                                                  context,
+                                                  customerProviderSingleton
+                                                      .customerProvider.success,
+                                                  false);
+
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const CustomersScreen()));
+
+                                              customerProviderSingleton
+                                                  .customerProvider
+                                                  .cleanSuccess();
+                                            } else {
+                                              AlertHelper.showMessageSnackBar(
+                                                  context,
+                                                  customerProviderSingleton
+                                                      .customerProvider.error);
+
+                                              customerProviderSingleton
+                                                  .customerProvider
+                                                  .cleanError();
+                                            }
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: const Color(0xFF47684e),
+                                            backgroundColor:
+                                                const Color(0xFF47684e),
                                             foregroundColor: Colors.white,
                                           ),
                                           child: const Text('Guardar')),

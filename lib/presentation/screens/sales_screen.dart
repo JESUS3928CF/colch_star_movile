@@ -70,7 +70,7 @@ class _SalesView extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
       if (orderProviderSingleton.orderProvider.error != "") {
-        AlertHelper.showErrorSnackBar(
+        AlertHelper.showMessageSnackBar(
           context,
           orderProviderSingleton.orderProvider.error,
         );

@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
@@ -20,14 +21,11 @@ bool _contenedorDeNumeros(String value) {
   return regex.hasMatch(value);
 }
 
-
-
-
 bool _letras(String value) {
   if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
-    return true; 
+    return true;
   }
-  return false; 
+  return false;
 }
 
 class _CustomersCreateState extends State<CustomersCreate> {
@@ -113,9 +111,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'La identificación es obligatoria';
-                          } else if (value.length < 6 || value.length > 10){
-
-                          }else if (_letras(value)) {
+                          } else if (value.length < 6 || value.length > 10) {
+                          } else if (_letras(value)) {
                             return 'La identificación solo puede contener números';
                           }
                           return null;
@@ -142,7 +139,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               borderSide:
                                   BorderSide(width: 0, style: BorderStyle.none),
                             ),
-                            
                             enabledBorder: OutlineInputBorder(
                               borderSide:
                                   BorderSide(width: 0, style: BorderStyle.none),
@@ -151,11 +147,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El nombre es obligatorio';
-                          }  else if (value.length < 3 || value.length > 20) {
+                          } else if (value.length < 3 || value.length > 20) {
                             return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }else if (!_contenedorDeNumeros(value)) {
+                          } else if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
-                          } 
+                          }
 
                           return null;
                         },
@@ -192,7 +188,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             return 'El apellido es obligatorio';
                           } else if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
-                          
                           } else if (value.length < 3 || value.length > 20) {
                             return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
@@ -228,8 +223,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
-                          }else if (value.length < 7 || value.length > 10){
-
+                          } else if (value.length < 7 || value.length > 10) {
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
                           }
@@ -366,25 +360,37 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                           address,
                                           identification,
                                           typeidentification);
+                                  if (customerProviderSingleton
+                                              .customerProvider.error ==
+                                          "" &&
+                                      customerProviderSingleton
+                                              .customerProvider.success !=
+                                          "") {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.success,
+                                        false);
 
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        "Cliente registrado correctamente",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      backgroundColor: Colors.green,
-                                    ),
-                                  );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const CustomersScreen()));
+                                    
+                                    customerProviderSingleton.customerProvider
+                                        .cleanSuccess();
+                                  } else {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.error);
 
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const CustomersScreen()));
+                                    customerProviderSingleton.customerProvider
+                                        .cleanError();
+                                  }
+
+                        
                                 }
                               },
                               style: ElevatedButton.styleFrom(
