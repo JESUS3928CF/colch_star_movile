@@ -22,7 +22,9 @@ class SaleProvider extends ChangeNotifier {
   //! Esta petición no se una para el perfil pero es un ejemplo de como traer varios registros
   Future<void> getSales() async {
     try {
-      _orderList = await orderRepository.getOrders();
+      List<Order> orders = await orderRepository.getOrders();
+      List<Order> invertedOrders = orders.reversed.toList();
+      _orderList = invertedOrders;
 
       totalSales = _orderList.length;
 

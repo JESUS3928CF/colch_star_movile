@@ -34,7 +34,10 @@ class CustomerProvider extends ChangeNotifier {
 
   Future<void> getCustomers() async {
     try {
-      _customerList = await customerRepository.getCustomers();
+
+      List<Customer> customers = await customerRepository.getCustomers();
+      List<Customer> invertedCustomers = customers.reversed.toList();
+      _customerList = invertedCustomers;
 
       // customerList.addAll(newCustomer);
 

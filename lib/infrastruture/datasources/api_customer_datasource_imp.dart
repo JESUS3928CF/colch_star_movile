@@ -7,53 +7,51 @@ import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 
 class ApiCustomerDataSourceImpl implements CustomerDataSource {
-
-  late final Dio _dio;
-
-@override
-Future<void> createCustomer(name, lastName, phone, email, address, identification, typeIdentification) async {
-
-
-  try {
-    final data = CustomerModel.toJson(name, lastName, phone, email, address, identification, typeIdentification);
-
-    print(data);
-    
-    await _dio.post("/clientes", data: data);
-
-    
-    
-
-
-  } catch (e) {
-    print("Error creating customer: $e");
-    // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
-    throw CustomError("Error creating customer");
-  }
-}
+  // late final Dio _dio;
 
   @override
-  Future<void> editCustomer( Customer customer) async {
-
-
-
-
-    try{
-
-      
-    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+  Future<void> createCustomer(name, lastName, phone, email, address,
+      identification, typeIdentification) async {
+    late final Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
       'authorization':
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));
 
-      final data = CustomerModel.toJson(customer.name, customer.lastName, customer.phone, customer.email,customer.address, customer.identification , customer.typeidentification);
+    try {
+      final data = CustomerModel.toJson(name, lastName, phone, email, address,
+          identification, typeIdentification);
+
+      print(data);
+
+      await _dio.post("/clientes", data: data);
+
+      this.getCustomers();
+    } catch (e) {
+      print("Error creating customer: $e");
+      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
+      throw CustomError("Error creating customer");
+    }
+  }
+
+  @override
+  Future<void> editCustomer(Customer customer) async {
+    late final Dio _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+      'authorization':
+          'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
+    }));
+
+    try {
+      final data = CustomerModel.toJson(
+          customer.name,
+          customer.lastName,
+          customer.phone,
+          customer.email,
+          customer.address,
+          customer.identification,
+          customer.typeidentification);
 
       await _dio.patch("/clientes/${customer.id}", data: data);
-
-
-
-
-    }on DioError catch (e) {
+    } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 403) {
           final responseData = e.response!.data;
@@ -76,24 +74,19 @@ Future<void> createCustomer(name, lastName, phone, email, address, identificatio
       throw CustomError("Algo malo paso nivel 2");
     }
   }
-  
 
   @override
   Future<void> editStateCustomer(Customer customer) async {
 
-    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+    late final Dio _dio =
+        Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
       'authorization':
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));
-
-
-try{
-
-  final data = CustomerModel.toJsonState(customer.state);
-  await _dio.patch("/clientes/estado/${customer.id}", data: data);
-  
-
-  }on DioError catch (e) {
+    try {
+      final data = CustomerModel.toJsonState(customer.state);
+      await _dio.patch("/clientes/estado/${customer.id}", data: data);
+    } on DioError catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 403) {
           final responseData = e.response!.data;
@@ -124,28 +117,24 @@ try{
 
   @override
   Future<List<Customer>> getCustomers() async {
-
-    _dio = Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
+    late final Dio _dio =
+        Dio(BaseOptions(baseUrl: Environment.apiUrl, headers: {
       'authorization':
           'Bearer ${profileProviderSingleton.profileProvider.profile.token}',
     }));
 
 
-    try{
-
+    try {
       final res = await _dio.get('/clientes');
       final data = res.data as List<dynamic>;
-      final cliente = CustomerModel.convertClientesToCustomerList(data.cast<Map<String, dynamic>>());
+      final cliente = CustomerModel.convertClientesToCustomerList(
+          data.cast<Map<String, dynamic>>());
 
       return cliente;
-
-    }catch(e){
-
+    } catch (e) {
       print("Error creating customer: $e");
-    // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
-    throw CustomError("Error creating customer");
-
+      // Manejar el error de alguna manera, por ejemplo, lanzando una excepción personalizada o retornando null
+      throw CustomError("Error creating customer");
     }
-   
   }
 }
