@@ -1,11 +1,9 @@
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 
 import '../providers/customer_provider.dart';
-import 'customers_screen.dart';
 
 class CustomersCreate extends StatefulWidget {
   const CustomersCreate({super.key});
@@ -56,7 +54,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 child: Column(
                   children: <Widget>[
                       Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: DropdownButtonFormField<String>(
                   value: _selectedTypeIdentification,
                   items: _typeidentification.map((String value) {
@@ -253,7 +251,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             child: const Text('Cancelar'),
                           ),
                         ),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: SizedBox(
@@ -303,7 +301,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF47684e),
+                                backgroundColor: const Color(0xFF47684e),
                                 foregroundColor: Colors.white,
                               ),
                               child: const Text('Guardar'),

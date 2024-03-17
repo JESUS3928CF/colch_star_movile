@@ -1,4 +1,3 @@
-import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/domain/datasources/order_datasource.dart';
@@ -28,7 +27,7 @@ class ApiOrderDataSourceImpl implements OrderDataSource {
     } catch (e) {
       // Capturar y relanzar la excepción
       print(e);
-      throw e;
+      rethrow;
     }
   }
 }

@@ -22,7 +22,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
         Navigator.pushReplacement(
           context,

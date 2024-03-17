@@ -1,6 +1,5 @@
 import 'package:colch_stat_app/domain/entities/customer.dart';
 import 'package:colch_stat_app/infrastruture/datasources/api_customer_datasource_imp.dart';
-import 'package:colch_stat_app/infrastruture/datasources/local_customer_datasourse_imp.dart';
 import 'package:colch_stat_app/infrastruture/errors/custom_error.dart';
 import 'package:colch_stat_app/infrastruture/repositories/customer_repository_imp.dart';
 import 'package:dio/dio.dart';

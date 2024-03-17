@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppBarColch extends StatelessWidget {
-  const AppBarColch({Key? key}) : super(key: key);
+  const AppBarColch({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class AppBarColch extends StatelessWidget {
           ),
         ],
       ),
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
 
 class SalesScreen extends StatefulWidget {
-  const SalesScreen({Key? key}) : super(key: key);
+  const SalesScreen({super.key});
 
   @override
   State<SalesScreen> createState() => _SalesScreenState();
@@ -39,7 +39,7 @@ class _SalesScreenState extends State<SalesScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
         Navigator.pushReplacement(
           context,
@@ -67,7 +67,7 @@ class _SalesScreenState extends State<SalesScreen> {
 class _SalesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // Lógica para mostrar la SnackBar después de que se haya completado la construcción del widget
       if (orderProviderSingleton.orderProvider.error != "") {
         AlertHelper.showErrorSnackBar(
@@ -103,7 +103,7 @@ class _SalesView extends StatelessWidget {
                   details: sale.details,
                 ),
               )
-              .toList(),
+              ,
         ],
       ),
     );
@@ -153,17 +153,17 @@ class _CardSaleState extends State<_CardSale> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(255, 127, 125, 142).withOpacity(0.4), // Color del difuminado
+              color: const Color.fromARGB(255, 127, 125, 142).withOpacity(0.4), // Color del difuminado
               spreadRadius: 2,
               blurRadius: 7,
-              offset: Offset(0, 3), // Cambia según sea necesario
+              offset: const Offset(0, 3), // Cambia según sea necesario
             ),
           ],
         ),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: Colors.black),
+            side: const BorderSide(color: Colors.black),
           ),
           elevation: widget.elevation, 
           child: Padding(
@@ -213,7 +213,7 @@ class _CardSaleState extends State<_CardSale> {
                             style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                           ),
                           TextSpan(
-                            text: '${widget.address}',
+                            text: widget.address,
                             style: textCardStyle,
                           ),
                         ],
@@ -273,7 +273,7 @@ class _CardSaleState extends State<_CardSale> {
                             style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
                           ),
                           TextSpan(
-                            text: '${widget.orderStatus}',
+                            text: widget.orderStatus,
                             style: textCardStyle,
                           ),
                         ],
@@ -291,7 +291,7 @@ class _CardSaleState extends State<_CardSale> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Color(0xFF252432)), // Color hexadecimal 252432
+                            const Color(0xFF252432)), // Color hexadecimal 252432
                       ),
                       child: const Text('Ver Detalles',
                           style: TextStyle(color: Colors.white)),

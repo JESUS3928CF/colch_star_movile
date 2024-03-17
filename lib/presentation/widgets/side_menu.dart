@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
-import 'package:colch_stat_app/presentation/screens/index_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
-import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 
 class SideMenu extends StatefulWidget {
   int? navDrawerIndex = 0;
-  SideMenu({Key? key, this.navDrawerIndex}) : super(key: key);
+  SideMenu({super.key, this.navDrawerIndex});
 
   @override
   State<SideMenu> createState() => _SideMenuState();
@@ -20,7 +17,7 @@ class _SideMenuState extends State<SideMenu> {
    @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
         Navigator.pushReplacement(
           context,

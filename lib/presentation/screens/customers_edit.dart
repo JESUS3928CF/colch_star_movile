@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:async';
 
 import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/screens/customers_screen.dart';
@@ -87,7 +86,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                         child: Column(
                           children: <Widget>[
                              Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: DropdownButtonFormField<String>(
                   value: _selectedTypeIdentification,
                   items: selectTypeIdetification.map((String value) {
@@ -344,7 +343,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                                         const CustomersScreen()));
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: Color(0xFF47684e),
+                                            backgroundColor: const Color(0xFF47684e),
                                             foregroundColor: Colors.white,
                                           ),
                                           child: const Text('Guardar')),

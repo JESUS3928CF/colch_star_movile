@@ -8,20 +8,20 @@ const textOrderStyle = TextStyle(fontSize: 17,  color: Colors.black);
 class OrderDetailsScreen extends StatelessWidget {
   final List<OrderDetailModel> orderDetailsList;
 
-  const OrderDetailsScreen({Key? key, required this.orderDetailsList}) : super(key: key);
+  const OrderDetailsScreen({super.key, required this.orderDetailsList});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF252432),
-        title: Text(
+        backgroundColor: const Color(0xFF252432),
+        title: const Text(
           'Detalles de la orden',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -69,15 +69,15 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Producto: ${widget.productName}', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 8),
-            Text('Cantidad: ${widget.quantity}', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text('Description: ${widget.description}', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text('Talla: ${widget.size}', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Text('Color: ${widget.color}', style: TextStyle(fontSize: 16)),
+            Text('Producto: ${widget.productName}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 8),
+            Text('Cantidad: ${widget.quantity}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Description: ${widget.description}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Talla: ${widget.size}', style: const TextStyle(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Color: ${widget.color}', style: const TextStyle(fontSize: 16)),
           ],
         ),
       ),
