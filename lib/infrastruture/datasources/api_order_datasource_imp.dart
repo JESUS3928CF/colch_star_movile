@@ -50,6 +50,7 @@ class ApiOrderDataSourceImpl implements OrderDataSource {
 
       throw CustomError("Algo malo paso nivel 1");
     } catch (e) {
+      print(e);
       throw CustomError("Algo malo paso nivel 2");
     }
   }

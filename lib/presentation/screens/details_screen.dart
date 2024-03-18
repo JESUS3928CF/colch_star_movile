@@ -33,6 +33,7 @@ class OrderDetailsScreen extends StatelessWidget {
               size: detail.size,
               color: detail.color,
               productName: detail.productName,
+              subtotal : detail.subtotal,
             );
           }).toList(),
         ),
@@ -51,6 +52,7 @@ class _CardOrderDetail extends StatefulWidget {
   final String size;
   final String color;
   final String productName;
+  final String subtotal;
 
   const _CardOrderDetail({
     required this.quantity,
@@ -58,6 +60,7 @@ class _CardOrderDetail extends StatefulWidget {
     required this.size,
     required this.color,
     required this.productName,
+    required this.subtotal,
   });
 
   @override
@@ -103,7 +106,7 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                 style: TextStyle(fontSize: 16),
                 children: [
                   TextSpan(
-                    text: 'Description: ',
+                    text: 'Descripción: ',
                     style: textCardStyle,
                   ),
                   TextSpan(text: '${widget.description} ',
@@ -134,6 +137,19 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     style: textCardStyle,
                   ),
                   TextSpan(text: '${widget.color}', style: textContentCardStyle),
+                ],
+              ),
+            ),
+            SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                style: TextStyle(fontSize: 16),
+                children: [
+                  TextSpan(
+                    text: 'Subtotal: ',
+                    style: textCardStyle,
+                  ),
+                  TextSpan(text: '${widget.subtotal}', style: textContentCardStyle),
                 ],
               ),
             ),
