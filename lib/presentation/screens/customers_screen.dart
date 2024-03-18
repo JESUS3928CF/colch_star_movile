@@ -117,10 +117,16 @@ class _CustomerView extends StatelessWidget {
   }
 }
 
-const textCardStyle = TextStyle(fontSize: 17);
+
+
+const textCardStyle = TextStyle(fontSize: 18, color: Colors.black);
+
 const labelCardStyle = TextStyle(
   fontSize: 20,
 );
+
+const textContentCardStyle =
+    TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
 
 class _CardCustomer extends StatefulWidget {
   final int id;
