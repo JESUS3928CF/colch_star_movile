@@ -40,7 +40,9 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(title: 'Hola'),
+        home: 
+           LoginScreen(title: 'Hola'),
+        
       ),
     );
   }

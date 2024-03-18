@@ -53,24 +53,44 @@ class _CustomersScreenState extends State<CustomersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+      onTap: () {
+
+        print("Cliente");
+        // Acción adicional a realizar cuando se toca fuera del Drawer
+        if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(title: "...."),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
         appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: AppBarColch()),
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: AppBarColch(),
+        ),
         body: _CustomerView(),
         floatingActionButton: FloatingActionButton(
-            foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-            backgroundColor: const Color(0xFF47684e),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const CustomersCreate()),
-              );
-            },
-            child: const Icon(Icons.person_add_outlined)),
-        drawer: SideMenu(navDrawerIndex: 1));
+          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+          backgroundColor: const Color(0xFF47684e),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CustomersCreate(),
+              ),
+            );
+          },
+          child: const Icon(Icons.person_add_outlined),
+        ),
+        drawer: SideMenu(navDrawerIndex: 1),
+      ),
+    );
   }
+
 }
 
 class _CustomerView extends StatelessWidget {

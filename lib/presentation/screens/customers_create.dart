@@ -16,7 +16,7 @@ class CustomersCreate extends StatefulWidget {
 bool _isNameValidated = false;
 
 String? validarEspaciosVacios(String value) {
-  List<String> valueList = value.split('');
+  List<String> valueList = value.split(' ');
 
   if (valueList.every((letra) => letra == ' ')) {
     return 'No se pueden espacios vacíos';
@@ -25,11 +25,8 @@ String? validarEspaciosVacios(String value) {
   }
 }
 
-
-bool  _espacios(String value) {
-  final RegExp regex = RegExp(r'\s');
-
-  if (regex.hasMatch(value)) {
+bool _espacios(String value) {
+  if (value.contains(" ")) {
     return true;
   } else {
     return false;
@@ -37,14 +34,14 @@ bool  _espacios(String value) {
 }
 
 bool _contenedorDeNumeros(String value) {
-  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ]+$'; // Incluye letras con tildes
+  String letrasConEspacios =
+      r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$'; // Incluye letras con tildes y espacios
   final RegExp regex = RegExp(letrasConEspacios);
   return regex.hasMatch(value);
 }
 
-
 bool _letras(String value) {
-  if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
+  if (!RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
     return true;
   }
   return false;
@@ -88,82 +85,84 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-           Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    SizedBox(
-      width: MediaQuery.of(context).size.width * 0.2, // Ancho deseado para el DropdownButtonFormField
-      child: Padding(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width *
+                              0.2, // Ancho deseado para el DropdownButtonFormField
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: DropdownButtonFormField<String>(
+                              // isExpanded: true,
 
-        padding: const EdgeInsets.only(top: 20 ),
-        child: DropdownButtonFormField<String>(
-                          // isExpanded: true, 
+                              value: _selectedTypeIdentification,
+                              items: _typeidentification.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedTypeIdentification = newValue!;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20, left: 10),
+                            child: TextFormField(
+                              controller: _identification,
+                              autovalidateMode: _isNameValidated
+                                  ? AutovalidateMode.onUserInteraction
+                                  : AutovalidateMode.disabled,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isNameValidated = true;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: 'Identificación',
+                                  hintStyle:
+                                      TextStyle(fontWeight: FontWeight.w700),
+                                  fillColor: Color.fromARGB(255, 221, 216, 216),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0, style: BorderStyle.none),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 0, style: BorderStyle.none),
+                                  ),
+                                  filled: true),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'La identificación es obligatoria';
+                                }
+                                if (_espacios(value)) {
+                                  return 'No se permiten espacios en blanco';
+                                } else if (_letras(value)) {
+                                  return 'La identificación solo puede contener números';
+                                } else if (value.startsWith('0')) {
+                                  return 'La identificación no puede iniciar con 0';
+                                } else if (validarEspaciosVacios(value) !=
+                                    null) {
+                                  return 'No se pueden iniciar con espacios vacíos';
+                                } else if (value.length < 6 ||
+                                    value.length > 10) {
+                                  return 'La identificación debe tener entre 6 y 10 dígitos';
+                                }
 
-          value: _selectedTypeIdentification,
-          items: _typeidentification.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              _selectedTypeIdentification = newValue!;
-            });
-          },
-        ),
-      ),
-    ),
-    Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 10),
-        child: TextFormField(
-          controller: _identification,
-          autovalidateMode: _isNameValidated
-              ? AutovalidateMode.onUserInteraction
-              : AutovalidateMode.disabled,
-          onChanged: (value) {
-            setState(() {
-              _isNameValidated = true;
-            });
-          },
-          decoration: const InputDecoration(
-              hintText: 'Identificación',
-              hintStyle: TextStyle(fontWeight: FontWeight.w700),
-              fillColor: Color.fromARGB(255, 221, 216, 216),
-              focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 0, style: BorderStyle.none),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 0, style: BorderStyle.none),
-              ),
-              filled: true),
-           validator: (value) {
-            if (value!.isEmpty) {
-              return 'La identificación es obligatoria';
-            }  if (_letras(value)) {
-              return 'La identificación solo puede contener números';
-            }  else if (value.startsWith('0')) {
-              return 'La identificación no puede iniciar con 0';
-            }  else if  (validarEspaciosVacios(value) != null) {
-              return 'No se pueden iniciar con espacios vacíos';
-            }  else if (value.length < 6 || value.length > 10) {
-              return 'La identificación debe tener entre 6 y 10 dígitos';
-            }
-            
-             else if (_espacios(value) ){
-              return 'No se permiten espacios en blanco';
-            }
-            return null;
-          },
-        ),
-      ),
-    ),
-  ],
-),
-
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
 
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -193,7 +192,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El nombre es obligatorio';
-                          } else  if (!_contenedorDeNumeros(value)) {
+                          } else if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
                           } else if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
@@ -234,7 +233,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El apellido es obligatorio';
-                          } else  if (!_contenedorDeNumeros(value)) {
+                          } else if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
                           } else if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
@@ -274,23 +273,19 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
-                          }  else if (_letras(value)) {
+                          }
+                          if (_espacios(value)) {
+                            return 'No se permiten espacios en blanco';
+                          } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
-                          } else  if (value.startsWith('0')) {
+                          } else if (value.startsWith('0')) {
                             return 'El télefono no puede iniciar con 0';
                           } else if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
-
-
-                            
-                          }  
-            else if (_espacios(value) != null){
-              return 'No se permiten espacios en blanco';
-            }
-                          
-                          
-                         else if (value.length < 7 || value.length > 10) {
-                            return 'El teléfono no puede iniciar con 0';
+                          } else if (_espacios(value)) {
+                            return 'No se permiten espacios en blanco';
+                          } if (value.length < 7 || value.length > 10) {
+                            return 'El teléfono debe tener entre 7 y 10 dígitos';
                           }
                           return null;
                         },
@@ -325,7 +320,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'La dirección es obligatoria';
-                            } else  if (validarEspaciosVacios(value) != null) {
+                            } else if (validarEspaciosVacios(value) != null) {
                               return 'No se pueden iniciar con espacios vacíos';
                             } else if (value.length < 4 || value.length > 50) {
                               return 'La dirección debe tener entre 4 y 50 caracteres';
@@ -366,7 +361,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                               return "El correo electrónico es obligatorio";
                             } else if (!regExp.hasMatch(value)) {
                               return "El correo electrónico no tiene un formato válido";
-                            }else  {
+                            } else {
                               return null;
                             }
                           },
@@ -444,7 +439,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const CustomersScreen()));
-                                    
+
                                     customerProviderSingleton.customerProvider
                                         .cleanSuccess();
                                   } else {
@@ -456,8 +451,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                     customerProviderSingleton.customerProvider
                                         .cleanError();
                                   }
-
-                        
                                 }
                               },
                               style: ElevatedButton.styleFrom(
