@@ -167,171 +167,186 @@ class _CardCustomerState extends State<_CardCustomer> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-      child: Card(
-        // ignore: prefer_const_constructors
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            side: BorderSide(color: Colors.black)),
-        elevation: widget.elevation,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
-          child: Column(children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Center(
-                    child: Text(
-                  '${widget.name} ${widget.lastName}',
-                  style: labelCardStyle,
-                )),
-              ),
+      child: Container(
+         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 127, 125, 142)
+                  .withOpacity(0.4), // Color del difuminado
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // Cambia según sea necesario
             ),
-           
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Identificación: ${widget.typeidentification} ${widget.identification}',
-                  style: textCardStyle,
+          ],
+        ),
+        child: Card(
+          
+          // ignore: prefer_const_constructors
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              side: BorderSide(color: Colors.black)),
+          elevation: widget.elevation,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+            child: Column(children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Center(
+                      child: Text(
+                    '${widget.name} ${widget.lastName}',
+                    style: labelCardStyle,
+                  )),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Teléfono: ${widget.phone}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Correo electrónico: ${widget.email}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Dirección: ${widget.address}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.edit_sharp,
-                    color: Color.fromARGB(255, 0, 0, 0),
+             
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Identificación: ${widget.typeidentification} ${widget.identification}',
+                    style: textCardStyle,
                   ),
-                  onPressed: () {
-                    if (widget.state == false) {
-                      AlertHelper.showMessageSnackBar(context,
-                          "Este cliente no se puede editar porque está inhabilitado");
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CustomersEdit()),
-                      );
-
-                      customerProviderSingleton.customerProvider
-                          .setCustomer(widget.id);
-                    }
-
-                    // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
-                  },
                 ),
-                const SizedBox(
-                  width: 100,
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.toggle_off,
-                    color: widget.state
-                        ? const Color(0xFF60d480)
-                        : const Color.fromARGB(255, 194, 29, 7),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Teléfono: ${widget.phone}',
+                    style: textCardStyle,
                   ),
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("¿Cambiar estado del cliente?"),
-                          content: Text(
-                              "¿Estás seguro de que deseas ${widget.state? "inhabilitar" : "habilitar"} este cliente?"),
-                          actions: <Widget>[
-                            FloatingActionButton(
-                              backgroundColor: const Color(0xFF252432),
-                              foregroundColor: Colors
-                                  .white, // White text for dark background
-                              child: Text("No"),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            FloatingActionButton(
-                              backgroundColor: const Color(0xFF47684e),
-                              foregroundColor: Colors.white,
-                              child: Text("Sí"),
-                              onPressed: () async {
-
-                                    print(widget.state);
-
-                                await customerProviderSingleton.customerProvider
-                                    .editStateProvider(widget.state, widget.id);
-
-
-
-                                if (customerProviderSingleton
-                                            .customerProvider.error ==
-                                        "" &&
-                                    customerProviderSingleton
-                                            .customerProvider.success !=
-                                        "") {
-                                  AlertHelper.showMessageSnackBar(
-                                      context,
-                                      customerProviderSingleton
-                                          .customerProvider.success,
-                                      false);
-
-                                  _toggleState();
-
-                                  customerProviderSingleton.customerProvider
-                                      .cleanSuccess();
-                                } else {
-                                  AlertHelper.showMessageSnackBar(
-                                      context,
-                                      customerProviderSingleton
-                                          .customerProvider.error);
-
-                                  customerProviderSingleton.customerProvider
-                                      .cleanError();
-                                }
-                                // Aquí colocas la lógica para cambiar el estado del cliente
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Correo: ${widget.email}',
+                    style: textCardStyle,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Dirección: ${widget.address}',
+                    style: textCardStyle,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit_sharp,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                    onPressed: () {
+                      if (widget.state == false) {
+                        AlertHelper.showMessageSnackBar(context,
+                            "Este cliente no se puede editar porque está inhabilitado");
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CustomersEdit()),
                         );
-                      },
-                    );
-                  },
-                ),
-                // SwitchListTile(value: true, onChanged: (value) {})
-              ],
-            ),
-          ]),
+        
+                        customerProviderSingleton.customerProvider
+                            .setCustomer(widget.id);
+                      }
+        
+                      // customerProvider.editCustomer(widget.id , widget.name, widget.lastName, widget.phone, widget.email, widget.address);
+                    },
+                  ),
+                  const SizedBox(
+                    width: 100,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.toggle_off,
+                      color: widget.state
+                          ? const Color(0xFF60d480)
+                          : const Color.fromARGB(255, 194, 29, 7),
+                    ),
+                    onPressed: () async {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("¿Cambiar estado del cliente?"),
+                            content: Text(
+                                "¿Estás seguro de que deseas ${widget.state? "inhabilitar" : "habilitar"} este cliente?"),
+                            actions: <Widget>[
+                              FloatingActionButton(
+                                backgroundColor: const Color(0xFF252432),
+                                foregroundColor: Colors
+                                    .white, // White text for dark background
+                                child: Text("No"),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                              FloatingActionButton(
+                                backgroundColor: const Color(0xFF47684e),
+                                foregroundColor: Colors.white,
+                                child: Text("Sí"),
+                                onPressed: () async {
+        
+                                      print(widget.state);
+        
+                                  await customerProviderSingleton.customerProvider
+                                      .editStateProvider(widget.state, widget.id);
+        
+        
+        
+                                  if (customerProviderSingleton
+                                              .customerProvider.error ==
+                                          "" &&
+                                      customerProviderSingleton
+                                              .customerProvider.success !=
+                                          "") {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.success,
+                                        false);
+        
+                                    _toggleState();
+        
+                                    customerProviderSingleton.customerProvider
+                                        .cleanSuccess();
+                                  } else {
+                                    AlertHelper.showMessageSnackBar(
+                                        context,
+                                        customerProviderSingleton
+                                            .customerProvider.error);
+        
+                                    customerProviderSingleton.customerProvider
+                                        .cleanError();
+                                  }
+                                  // Aquí colocas la lógica para cambiar el estado del cliente
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  // SwitchListTile(value: true, onChanged: (value) {})
+                ],
+              ),
+            ]),
+          ),
         ),
       ),
     );

@@ -144,7 +144,6 @@ class _SideMenuState extends State<SideMenu> {
                               foregroundColor: Colors.white,
                               child: Text("Sí"),
                               onPressed: () {
-                                print("cerrar seccion");
                                 
                                 profileProviderSingleton.profileProvider
                                     .singOff();
@@ -157,7 +156,6 @@ class _SideMenuState extends State<SideMenu> {
                                 // Aquí colocas la lógica para cambiar el estado del cliente
                                 // Navigator.of(context).pop();
 
-                                print("cerrar seccion fin");
                               },
                             ),
                           ],
