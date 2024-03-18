@@ -69,6 +69,7 @@ class OrderDetailModel {
   final String size;
   final String color;
   final String productName;
+  final String subtotal;
 
   OrderDetailModel({
     required this.quantity,
@@ -76,6 +77,7 @@ class OrderDetailModel {
     required this.size,
     required this.color,
     required this.productName,
+    required this.subtotal,
   });
 
   factory OrderDetailModel.fromJson(Map<String, dynamic> json) {
@@ -85,6 +87,7 @@ class OrderDetailModel {
       size: json["talla"],
       color: json["color"],
       productName: json["producto"]["nombre"],
+      subtotal: json["subtotal"],
     );
   }
 
@@ -94,5 +97,6 @@ class OrderDetailModel {
         size: size,
         color: color,
         productName: productName,
+        subtotal: subtotal,
       );
 }
