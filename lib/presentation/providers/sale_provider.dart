@@ -56,6 +56,11 @@ class SaleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void cleanError() {
+    _error = "";
+    notifyListeners();
+  }
+
   /// Setters
   
    List<Order> get orderList => _orderList;

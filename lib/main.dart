@@ -37,16 +37,12 @@ class MyApp extends StatelessWidget {
             create: (_) => orderProviderSingleton
                 .orderProvider) //* Aca ponen sus provider el de cliente y el de proveedor
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         title: 'Material App',
         debugShowCheckedModeBanner: false,
-        home: WillPopScope(
-          onWillPop: () async {
-            // Aquí puedes implementar la lógica para deshabilitar el botón de retroceso
-            return false; // Devuelve false para deshabilitar el botón de retroceso
-          },
-          child: const LoginScreen(title: 'Hola'),
-        ),
+        home: 
+           LoginScreen(title: 'Hola'),
+        
       ),
     );
   }

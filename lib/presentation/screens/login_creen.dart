@@ -1,10 +1,11 @@
 import 'package:colch_stat_app/config/constants/enviroment.dart';
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
+import 'package:colch_stat_app/presentation/providers/customer_provider.dart';
 import 'package:colch_stat_app/presentation/providers/profile_provider.dart';
+import 'package:colch_stat_app/presentation/providers/sale_provider.dart';
 import 'package:colch_stat_app/presentation/screens/sales_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 final Uri _url = Environment.webUrl;
 
@@ -54,7 +55,69 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => Future.value(false),
+      onWillPop: () async {
+        if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          );
+          return false;
+        }
+        bool confirm = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                "Esta acción no esta permitida, porfavor inicia sección",
+                textAlign: TextAlign.center,
+              ),
+              actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    // FloatingActionButton(
+                    //   backgroundColor: const Color(0xFF252432),
+                    //   foregroundColor: Colors.white,
+                    //   child: Text("Cerrar"),
+                    //   onPressed: () {
+                    //     if (profileProviderSingleton
+                    //         .profileProvider.profile.name.isEmpty) {
+                    //       Navigator.pushReplacement(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) =>
+                    //               const LoginScreen(title: "...."),
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       Navigator.of(context).pop(false); // No permite salir
+                    //     }
+                    //   },
+                    // ),
+                    // SizedBox(width: 16),
+                    FloatingActionButton(
+                      backgroundColor: const Color(0xFF47684e),
+                      foregroundColor: Colors.white,
+                      child: Text("Ok"),
+                      onPressed: () {
+                        // profileProviderSingleton.profileProvider.singOff();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const MyApp()),
+                        // );
+                        Navigator.of(context).pop(false); // Permite salir
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+        return confirm ??
+            false; // Si confirm es null, se asume false (no permite salir)
+      },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -94,7 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                                color: Colors.black), // Cambia el color del borde
+                                color:
+                                    Colors.black), // Cambia el color del borde
                           ),
                         ),
                         validator: (value) {
@@ -122,7 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: 'Contraseña',
                           hintStyle: const TextStyle(color: Colors.black),
-                          prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                          prefixIcon:
+                              const Icon(Icons.lock, color: Colors.black),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -142,16 +207,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             String password = _passwordController.text;
                             String email = _emailController.text;
-      
+
                             if (_formKey.currentState!.validate()) {
                               // //! Lo que hago es buscar el perfil en la API
                               await profileProviderSingleton.profileProvider
                                   .getProfile(email, password);
                               // Agrega setState para que la vista se actualice
                               setState(() {});
-      
+
                               /// Mandar alerta por si algo ocurrió o si es usuario de encontró correctamente lo dejamos pasar
-      
+
                               if (profileProviderSingleton
                                       .profileProvider.error ==
                                   "") {
@@ -161,12 +226,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     builder: (context) => const SalesScreen(),
                                   ),
                                 );
+
+                                customerProviderSingleton.customerProvider.cleanError();
+                                orderProviderSingleton.orderProvider.cleanError();
                               } else {
                                 AlertHelper.showMessageSnackBar(
                                     context,
                                     profileProviderSingleton
                                         .profileProvider.error);
-      
+
                                 profileProviderSingleton.profileProvider
                                     .vaciarError();
                               }
@@ -185,8 +253,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-      
-      
                       GestureDetector(
                         onTap: _launchUrl,
                         child: const Text(
@@ -210,7 +276,6 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 Future<void> _launchUrl() async {
-  
   if (!await launchUrl(_url)) {
     throw Exception('Could not launch $_url');
   }

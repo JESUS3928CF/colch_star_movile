@@ -13,25 +13,6 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-
-  int isOpenAndClose = 0;
-
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => const LoginScreen(title: "...."),
-  //         ),
-  //       );
-  //     }
-  //   });
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -53,149 +34,177 @@ class _SideMenuState extends State<SideMenu> {
     const TextStyle menuItemsTextStyle =
         TextStyle(fontWeight: FontWeight.w500, fontSize: 20);
 
-    return Drawer(
-      child: Container(
-        color: const Color(0xFF14131B),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                0,
-                hasNotch ? 25 : 25,
-                0,
-                0,
+    return WillPopScope(
+      onWillPop: () async {
+        if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          );
+          return false; // No permite salir
+        } else {
+          return true; // Permite salir
+        }
+      },
+      child: GestureDetector(
+        onTap: () {
+          // Ejecuta la acción adicional aquí
+          if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(title: "...."),
               ),
-              child: Center(
-                child: Text(
-                  "${profileProviderSingleton.profileProvider.profile.name} ${profileProviderSingleton.profileProvider.profile.lastName}",
-                  style: menuTextStyle,
+            );
+          } 
+        },
+        child: Drawer(
+          child: Container(
+            color: const Color(0xFF14131B),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    0,
+                    hasNotch ? 25 : 25,
+                    0,
+                    0,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${profileProviderSingleton.profileProvider.profile.name} ${profileProviderSingleton.profileProvider.profile.lastName}",
+                      style: menuTextStyle,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.add_shopping_cart_sharp,
-                  color: getMenuItemColor(0), size: 30),
-              title: Text(
-                'Ordenes',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: getMenuItemColor(0),
+                ListTile(
+                  leading: Icon(Icons.add_shopping_cart_sharp,
+                      color: getMenuItemColor(0), size: 30),
+                  title: Text(
+                    'Ordenes',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: getMenuItemColor(0),
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      widget.navDrawerIndex = 0;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SalesScreen()),
+                    );
+                  },
                 ),
-              ),
-              onTap: () {
-                setState(() {
-                  widget.navDrawerIndex = 0;
-                });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SalesScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person, color: getMenuItemColor(1), size: 30),
-              title: Text(
-                'Clientes',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: getMenuItemColor(1),
+                ListTile(
+                  leading:
+                      Icon(Icons.person, color: getMenuItemColor(1), size: 30),
+                  title: Text(
+                    'Clientes',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: getMenuItemColor(1),
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      widget.navDrawerIndex = 1;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CustomersScreen()),
+                    );
+                  },
                 ),
-              ),
-              onTap: () {
-                setState(() {
-                  widget.navDrawerIndex = 1;
-                });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CustomersScreen()),
-                );
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
-              child: const Text(
-                "Más acciones",
-                style: menuTextStyle,
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout_rounded,
-                  color: Colors.white, size: 30),
-              title: Text(
-                'Cerrar sesión',
-                style: menuItemsTextStyle.copyWith(color: Colors.white),
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                   barrierDismissible:
-                      false, // Para evitar que el diálogo se cierre al tocar fuera de él
-                  builder: (BuildContext context) {
-                    return GestureDetector( 
-                      child: AlertDialog(
-                        title: Text(
-                          "¿Deseas salir de tu cuenta?",
-                          textAlign: TextAlign.center,
-                        ),
-                        actions: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              FloatingActionButton(
-                                backgroundColor: const Color(0xFF252432),
-                                foregroundColor: Colors.white,
-                                child: Text("No"),
-                                onPressed: () {
-                                  if (profileProviderSingleton
-                                      .profileProvider.profile.name.isEmpty) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginScreen(title: "...."),
-                                      ),
-                                    );
-                                  } else {
-                                    Navigator.of(context).pop();
-                                  }
-                                },
-                              ),
-                              SizedBox(width: 16),
-                              FloatingActionButton(
-                                backgroundColor: const Color(0xFF47684e),
-                                foregroundColor: Colors.white,
-                                child: Text("Sí"),
-                                onPressed: () {
-                                  profileProviderSingleton.profileProvider
-                                      .singOff();
+                Padding(
+                  padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 20),
+                  child: const Text(
+                    "Más acciones",
+                    style: menuTextStyle,
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.logout_rounded,
+                      color: Colors.white, size: 30),
+                  title: Text(
+                    'Cerrar sesión',
+                    style: menuItemsTextStyle.copyWith(color: Colors.white),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Para evitar que el diálogo se cierre al tocar fuera de él
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          child: AlertDialog(
+                            title: Text(
+                              "¿Deseas salir de tu cuenta?",
+                              textAlign: TextAlign.center,
+                            ),
+                            actions: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  FloatingActionButton(
+                                    backgroundColor: const Color(0xFF252432),
+                                    foregroundColor: Colors.white,
+                                    child: Text("No"),
+                                    onPressed: () {
+                                      if (profileProviderSingleton
+                                          .profileProvider
+                                          .profile
+                                          .name
+                                          .isEmpty) {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen(
+                                                    title: "...."),
+                                          ),
+                                        );
+                                      } else {
+                                        Navigator.of(context).pop();
+                                      }
+                                    },
+                                  ),
+                                  SizedBox(width: 16),
+                                  FloatingActionButton(
+                                    backgroundColor: const Color(0xFF47684e),
+                                    foregroundColor: Colors.white,
+                                    child: Text("Sí"),
+                                    onPressed: () {
+                                      profileProviderSingleton.profileProvider
+                                          .singOff();
 
-                                  
-
-                                  setState(() {
-                                    this.isOpenAndClose = 1;
-                                  });
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const MyApp()),
-                                  );
-                                },
+                                      setState(() {});
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MyApp()),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     );
                   },
-                );
-
-              },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
