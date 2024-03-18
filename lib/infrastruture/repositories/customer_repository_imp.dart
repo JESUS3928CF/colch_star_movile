@@ -28,9 +28,9 @@ Future<void> createCustomer( name,  lastName,  phone,  email,  address,  identif
   }
 
   @override
-  Future<void> editStateCustomer(Customer customer) {
+  Future<void> editStateCustomer(bool state, int id) {
 
-    return customerDataSource.editStateCustomer(customer);
+    return customerDataSource.editStateCustomer(state, id);
   }
   @override
   void setCustomer(id) {

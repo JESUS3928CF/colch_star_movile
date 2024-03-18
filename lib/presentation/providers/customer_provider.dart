@@ -156,11 +156,11 @@ class CustomerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> editStateProvider(state) async {
+  Future<void> editStateProvider(state, id) async {
     try {
       _customer = _customer.copyWith(state: state);
 
-      await customerRepository.editStateCustomer(_customer);
+      await customerRepository.editStateCustomer(state, id);
 
       _success = "Cambio de estado exitoso";
     } on CustomError catch (e) {

@@ -10,6 +10,6 @@ abstract class CustomerRepository {
 
   Future<void> editCustomer(Customer customer);
 
-  Future<void> editStateCustomer(Customer customer);
+  Future<void> editStateCustomer(bool state, int id);
   
 }

@@ -279,8 +279,13 @@ class _CardCustomerState extends State<_CardCustomer> {
                               foregroundColor: Colors.white,
                               child: Text("Sí"),
                               onPressed: () async {
+
+                                    print(widget.state);
+
                                 await customerProviderSingleton.customerProvider
-                                    .editStateProvider(!widget.state);
+                                    .editStateProvider(widget.state, widget.id);
+
+
 
                                 if (customerProviderSingleton
                                             .customerProvider.error ==
