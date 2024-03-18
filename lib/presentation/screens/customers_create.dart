@@ -81,12 +81,12 @@ class _CustomersCreateState extends State<CustomersCreate> {
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
     SizedBox(
-      width: MediaQuery.of(context).size.width * 0.1, // Ancho deseado para el DropdownButtonFormField
+      width: MediaQuery.of(context).size.width * 0.2, // Ancho deseado para el DropdownButtonFormField
       child: Padding(
 
-        padding: const EdgeInsets.only(top: 20, right: 10),
+        padding: const EdgeInsets.only(top: 20 ),
         child: DropdownButtonFormField<String>(
-                          isExpanded: true, 
+                          // isExpanded: true, 
 
           value: _selectedTypeIdentification,
           items: _typeidentification.map((String value) {

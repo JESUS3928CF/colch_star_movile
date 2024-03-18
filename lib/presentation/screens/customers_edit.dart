@@ -116,11 +116,11 @@ String? validarEspaciosVacios(String value) {
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
       SizedBox(
-      width: MediaQuery.of(context).size.width * 0.3, // Ancho deseado para el DropdownButtonFormField
+      width: MediaQuery.of(context).size.width * 0.2, // Ancho deseado para el DropdownButtonFormField
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: DropdownButtonFormField<String>(
-                                    isExpanded: true, 
+                                    // isExpanded: true, 
 
           value: _selectedTypeIdentification,
           items: selectTypeIdetification.map((String value) {
@@ -140,7 +140,7 @@ String? validarEspaciosVacios(String value) {
     ),
     Expanded(
       child: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 20, left: 10),
         child: TextFormField(
           controller: _identificationController,
           autovalidateMode: _isNameValidated
@@ -163,6 +163,7 @@ String? validarEspaciosVacios(String value) {
                 borderSide:
                     BorderSide(width: 0, style: BorderStyle.none),
               ),
+              
               filled: true),
           validator: (value) {
             if (value!.isEmpty) {
