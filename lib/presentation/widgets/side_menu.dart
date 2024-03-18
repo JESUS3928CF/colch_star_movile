@@ -17,20 +17,20 @@ class _SideMenuState extends State<SideMenu> {
   int isOpenAndClose = 0;
 
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(title: "...."),
-          ),
-        );
-      }
-    });
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     if (profileProviderSingleton.profileProvider.profile.name.isEmpty) {
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => const LoginScreen(title: "...."),
+  //         ),
+  //       );
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
