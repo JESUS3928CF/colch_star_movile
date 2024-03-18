@@ -41,9 +41,9 @@ class ApiProfileDataSourceImpl implements ProfileDataSource {
         throw ConnectionTimeout();
       }
 
-      throw CustomError("Algo malo paso nivel 1");
+      throw CustomError("Ocurrió un error revise su conexión a internet");
     } catch (e) {
-      throw CustomError("Algo malo paso nivel 2");
+      throw CustomError("Ocurrió un error revise su conexión a internet");
     }
   }
   
