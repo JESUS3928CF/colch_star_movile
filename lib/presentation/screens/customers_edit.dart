@@ -100,7 +100,7 @@ String? validarEspaciosVacios(String value) {
                       margin: const EdgeInsets.only(top: 15),
                       child: const Center(
                         child: Text(
-                          'Editar Cliente',
+                          'Editar cliente',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,

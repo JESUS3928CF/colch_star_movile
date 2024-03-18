@@ -116,6 +116,8 @@ const labelCardStyle = TextStyle(
   fontSize: 20,
 );
 
+const textContentCardStyle = TextStyle(fontSize: 18, color: Colors.black);
+
 class _CardSale extends StatefulWidget {
   final int id;
   final double totalPrice;
@@ -190,7 +192,7 @@ class _CardSaleState extends State<_CardSale> {
                         children: [
                           const TextSpan(
                             text: 'Precio Total: ',
-                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                            style: textContentCardStyle,
                           ),
                           TextSpan(
                             text: '${widget.totalPrice}',
@@ -210,7 +212,7 @@ class _CardSaleState extends State<_CardSale> {
                         children: [
                           const TextSpan(
                             text: 'Dirección: ',
-                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                            style: textContentCardStyle,
                           ),
                           TextSpan(
                             text: widget.address,
@@ -230,7 +232,7 @@ class _CardSaleState extends State<_CardSale> {
                         children: [
                           const TextSpan(
                             text: 'Fecha de creación: ',
-                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                            style: textContentCardStyle,
                           ),
                           TextSpan(
                             text: '${widget.creationDate}',
@@ -250,7 +252,7 @@ class _CardSaleState extends State<_CardSale> {
                         children: [
                           const TextSpan(
                             text: 'Fecha de Entrega: ',
-                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                            style: textContentCardStyle,
                           ),
                           TextSpan(
                             text: '${widget.deliverDate}',
@@ -270,7 +272,7 @@ class _CardSaleState extends State<_CardSale> {
                         children: [
                           const TextSpan(
                             text: 'Estado orden: ',
-                            style: TextStyle(fontWeight: FontWeight.bold,  color: Colors.black),
+                            style: textContentCardStyle,
                           ),
                           TextSpan(
                             text: widget.orderStatus,
@@ -293,7 +295,7 @@ class _CardSaleState extends State<_CardSale> {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             const Color(0xFF252432)), // Color hexadecimal 252432
                       ),
-                      child: const Text('Ver Detalles',
+                      child: const Text('Ver detalles',
                           style: TextStyle(color: Colors.white)),
                     ),
                   ),
