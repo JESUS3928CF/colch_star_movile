@@ -61,19 +61,6 @@ class ProfileProvider extends ChangeNotifier {
       _error =("Error no controlado: $e");
       // Aquí puedes tomar otras acciones adecuadas
     }
-    
-    
-    
-    // on CustomError catch (e) {
-    //   _error = e.message;
-    // } on WrongCredentials {
-    //   _error = "El usuario o la contraseña son incorrectos";
-    // } on ConnectionTimeout {
-    //   _error = "Revisa la colección a internet";
-    // }
-    // catch (e) {
-    //   _error = "Error no controlado";
-    // }
 
     notifyListeners(); // Notificar a los oyentes (listeners) sobre el cambio en el perfil
   }
