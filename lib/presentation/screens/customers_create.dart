@@ -153,7 +153,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
               return 'La identificación debe tener entre 6 y 10 dígitos';
             }
             
-             else if (_espacios(value) != null){
+             else if (_espacios(value) ){
               return 'No se permiten espacios en blanco';
             }
             return null;
