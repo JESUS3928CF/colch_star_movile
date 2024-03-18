@@ -278,8 +278,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             return 'No se permiten espacios en blanco';
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
-                          }
-                          else if (value.startsWith('0')) {
+                          } else if (value.startsWith('0')) {
                             return 'El télefono no puede iniciar con 0';
                           } else if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
