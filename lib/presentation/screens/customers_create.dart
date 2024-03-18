@@ -47,6 +47,10 @@ bool _letras(String value) {
   return false;
 }
 
+bool _contienePuntos(String value) {
+  return value.contains('.');
+}
+
 class _CustomersCreateState extends State<CustomersCreate> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -154,6 +158,8 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                 } else if (value.length < 6 ||
                                     value.length > 10) {
                                   return 'La identificación debe tener entre 6 y 10 dígitos';
+                                } else if (_contienePuntos(value)) {
+                                  return 'La identificación no puede contener puntos';
                                 }
 
                                 return null;
@@ -284,9 +290,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             return 'No se pueden iniciar con espacios vacíos';
                           } else if (_espacios(value)) {
                             return 'No se permiten espacios en blanco';
-                          } if (value.length < 7 || value.length > 10) {
-                            return 'El teléfono debe tener entre 7 y 10 dígitos';
                           }
+                          if (value.length < 7 || value.length > 10) {
+                            return 'El teléfono debe tener entre 7 y 10 dígitos';
+                          } else if (_contienePuntos(value)) {
+                            return 'El teléfono no puede contener puntos';
+                          }
+
                           return null;
                         },
                       ),

@@ -89,6 +89,10 @@ class _CustomersEditState extends State<CustomersEdit> {
     return false;
   }
 
+  bool _contienePuntos(String value) {
+    return value.contains('.');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,6 +199,8 @@ class _CustomersEditState extends State<CustomersEdit> {
                                         } else if (value.length < 6 ||
                                             value.length > 10) {
                                           return 'La identificación debe tener entre 6 y 10 dígitos';
+                                        } else if (_contienePuntos(value)) {
+                                          return 'La identificación no puede contener puntos';
                                         }
 
                                         return null;
@@ -336,7 +342,9 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     } else if (value.length < 7 ||
                                         value.length > 10) {
                                       return 'El teléfono debe tener entre 7 y 10 dígitos';
-                                    }
+                                    }else if (_contienePuntos(value)) {
+                                          return 'El teléfono no puede contener puntos';
+                                        }
                                     return null;
                                   },
                                 )),
