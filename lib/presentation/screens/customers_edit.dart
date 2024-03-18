@@ -192,10 +192,6 @@ class _CustomersEditState extends State<CustomersEdit> {
                                           return 'La identificación solo puede contener números';
                                         } else if (value.startsWith('0')) {
                                           return 'La identificación no puede iniciar con 0';
-                                        } else if (validarEspaciosVacios(
-                                                value) !=
-                                            null) {
-                                          return 'No se pueden iniciar con espacios vacíos';
                                         } else if (value.length < 6 ||
                                             value.length > 10) {
                                           return 'La identificación debe tener entre 6 y 10 dígitos';
@@ -242,10 +238,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     if (value!.isEmpty) {
                                       return 'El nombre es obligatorio';
                                     } else if (!_contenedorDeNumeros(value)) {
-                                      return "El nombre solo puede tener letra";
-                                    } else if (validarEspaciosVacios(value) !=
-                                        null) {
-                                      return 'No se pueden iniciar con espacios vacíos';
+                                      return "El nombre solo puede tener letras";
                                     } else if (value.length < 3 ||
                                         value.length > 20) {
                                       return 'El nombre debe de tener entre 3 y 20 caracteres';
@@ -285,11 +278,8 @@ class _CustomersEditState extends State<CustomersEdit> {
                                     if (value!.isEmpty) {
                                       return 'El apellido es obligatorio';
                                     } else if (!_contenedorDeNumeros(value)) {
-                                      return "El apellido solo puede tener letra";
-                                    } else if (validarEspaciosVacios(value) !=
-                                        null) {
-                                      return 'No se pueden iniciar con espacios vacíos';
-                                    } else if (value.length < 3 ||
+                                      return "El apellido solo puede tener letras";
+                                    }  else if (value.length < 3 ||
                                         value.length > 20) {
                                       return 'El apellido debe de tener entre 3 y 20 caracteres';
                                     }
@@ -334,10 +324,7 @@ class _CustomersEditState extends State<CustomersEdit> {
                                       return 'El télefono solo puede tener números';
                                     } else if (value.startsWith('0')) {
                                       return 'El télefono no puede iniciar con 0';
-                                    } else if (validarEspaciosVacios(value) !=
-                                        null) {
-                                      return 'No se pueden iniciar con espacios vacíos';
-                                    } else if (_espacios(value)) {
+                                    }  else if (_espacios(value)) {
                                       return 'No se permiten espacios en blanco';
                                     } else if (value.length < 7 ||
                                         value.length > 10) {
@@ -379,9 +366,6 @@ class _CustomersEditState extends State<CustomersEdit> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'La dirección es obligatoria';
-                                    } else if (validarEspaciosVacios(value) !=
-                                        null) {
-                                      return 'No se pueden iniciar con espacios vacíos';
                                     } else if (value.length < 4 ||
                                         value.length > 50) {
                                       return 'La dirección debe tener entre 4 y 50 caracteres';

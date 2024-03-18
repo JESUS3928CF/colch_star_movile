@@ -152,9 +152,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                                   return 'La identificación solo puede contener números';
                                 } else if (value.startsWith('0')) {
                                   return 'La identificación no puede iniciar con 0';
-                                } else if (validarEspaciosVacios(value) !=
-                                    null) {
-                                  return 'No se pueden iniciar con espacios vacíos';
                                 } else if (value.length < 6 ||
                                     value.length > 10) {
                                   return 'La identificación debe tener entre 6 y 10 dígitos';
@@ -171,136 +168,125 @@ class _CustomersCreateState extends State<CustomersCreate> {
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        controller: _nameController,
-                        autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                            hintText: 'Nombres',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
-                            fillColor: Color.fromARGB(255, 221, 216, 216),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            filled: true),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El nombre es obligatorio';
-                          } else if (!_contenedorDeNumeros(value)) {
-                            return "El nombre solo puede tener letra";
-                          } else if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 3 || value.length > 20) {
-                            return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }
+                        padding: const EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          controller: _nameController,
+                          autovalidateMode: _isNameValidated
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _isNameValidated = true;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Nombres',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'El nombre es obligatorio';
+                            } else if (!_contenedorDeNumeros(value)) {
+                              return "El nombre solo puede tener letras";
+                            } else if (value.length < 3 || value.length > 20) {
+                              return 'El nombre debe de tener entre 3 y 20 caracteres';
+                            }
 
-                          return null;
-                        },
-                      ),
-                    ),
+                            return null;
+                          },
+                        )),
 
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        controller: _lastNameController,
-                        autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                            hintText: 'Apellidos',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
-                            fillColor: Color.fromARGB(255, 221, 216, 216),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            filled: true),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El apellido es obligatorio';
-                          } else if (!_contenedorDeNumeros(value)) {
-                            return "El apellido solo puede tener letra";
-                          } else if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 3 || value.length > 20) {
-                            return 'El apellido debe de tener entre 3 y 20 caracteres';
-                          }
+                        padding: const EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          controller: _lastNameController,
+                          autovalidateMode: _isNameValidated
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _isNameValidated = true;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Apellidos',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'El apellido es obligatorio';
+                            } else if (!_contenedorDeNumeros(value)) {
+                              return "El apellido solo puede tener letras";
+                            } else if (value.length < 3 || value.length > 20) {
+                              return 'El apellido debe de tener entre 3 y 20 caracteres';
+                            }
 
-                          return null;
-                        },
-                      ),
-                    ),
+                            return null;
+                          },
+                        )),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        controller: _phoneController,
-                        autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                            hintText: 'Teléfono',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
-                            fillColor: Color.fromARGB(255, 221, 216, 216),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            filled: true),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El teléfono es obligatorio';
-                          }
-                          if (_espacios(value)) {
-                            return 'No se permiten espacios en blanco';
-                          } else if (_letras(value)) {
-                            return 'El télefono solo puede tener números';
-                          } else if (value.startsWith('0')) {
-                            return 'El télefono no puede iniciar con 0';
-                          } else if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          } else if (_espacios(value)) {
-                            return 'No se permiten espacios en blanco';
-                          }
-                          if (value.length < 7 || value.length > 10) {
-                            return 'El teléfono debe tener entre 7 y 10 dígitos';
-                          } else if (_contienePuntos(value)) {
-                            return 'El teléfono no puede contener puntos';
-                          }
-
-                          return null;
-                        },
-                      ),
-                    ),
+                        padding: const EdgeInsets.only(top: 20),
+                        child: TextFormField(
+                          controller: _phoneController,
+                          autovalidateMode: _isNameValidated
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _isNameValidated = true;
+                            });
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Teléfono',
+                              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+                              fillColor: Color.fromARGB(255, 221, 216, 216),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 0, style: BorderStyle.none),
+                              ),
+                              filled: true),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'El teléfono es obligatorio';
+                            }
+                            if (_espacios(value)) {
+                              return 'No se permiten espacios en blanco';
+                            } else if (_letras(value)) {
+                              return 'El télefono solo puede tener números';
+                            } else if (value.startsWith('0')) {
+                              return 'El télefono no puede iniciar con 0';
+                            } else if (_espacios(value)) {
+                              return 'No se permiten espacios en blanco';
+                            } else if (value.length < 7 || value.length > 10) {
+                              return 'El teléfono debe tener entre 7 y 10 dígitos';
+                            } else if (_contienePuntos(value)) {
+                              return 'El teléfono no puede contener puntos';
+                            }
+                            return null;
+                          },
+                        )),
 
                     Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -330,8 +316,6 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'La dirección es obligatoria';
-                            } else if (validarEspaciosVacios(value) != null) {
-                              return 'No se pueden iniciar con espacios vacíos';
                             } else if (value.length < 4 || value.length > 50) {
                               return 'La dirección debe tener entre 4 y 50 caracteres';
                             }
