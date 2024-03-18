@@ -7,6 +7,7 @@ import 'package:colch_stat_app/presentation/screens/details_screen.dart';
 import 'package:colch_stat_app/presentation/screens/login_creen.dart';
 import 'package:colch_stat_app/presentation/widgets/app_bar.dart';
 import 'package:colch_stat_app/presentation/widgets/side_menu.dart';
+import 'package:intl/intl.dart';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});
@@ -191,7 +192,7 @@ class _CardSaleState extends State<_CardSale> {
                       text: TextSpan(
                         children: [
                           const TextSpan(
-                            text: 'Precio Total: ',
+                            text: 'Precio total: ',
                             style: textContentCardStyle,
                           ),
                           TextSpan(
@@ -234,8 +235,9 @@ class _CardSaleState extends State<_CardSale> {
                             text: 'Fecha de creación: ',
                             style: textContentCardStyle,
                           ),
-                          TextSpan(
-                            text: '${widget.creationDate}',
+                         TextSpan(
+                            text:
+                                '${DateFormat.yMd().format(widget.creationDate)}', // Formatear la fecha
                             style: textCardStyle,
                           ),
                         ],
@@ -251,11 +253,11 @@ class _CardSaleState extends State<_CardSale> {
                       text: TextSpan(
                         children: [
                           const TextSpan(
-                            text: 'Fecha de Entrega: ',
+                            text: 'Fecha de entrega: ',
                             style: textContentCardStyle,
                           ),
                           TextSpan(
-                            text: '${widget.deliverDate}',
+                            text: '${DateFormat.yMd().format(widget.deliverDate)}',
                             style: textCardStyle,
                           ),
                         ],
