@@ -25,6 +25,17 @@ String? validarEspaciosVacios(String value) {
   }
 }
 
+
+bool  _espacios(String value) {
+  final RegExp regex = RegExp(r'\s');
+
+  if (regex.hasMatch(value)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 bool _contenedorDeNumeros(String value) {
   String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$'; // Incluye letras con tildes
   final RegExp regex = RegExp(letrasConEspacios);
@@ -132,14 +143,18 @@ class _CustomersCreateState extends State<CustomersCreate> {
           validator: (value) {
             if (value!.isEmpty) {
               return 'La identificación es obligatoria';
-            } else if (_letras(value)) {
+            }  if (_letras(value)) {
               return 'La identificación solo puede contener números';
-            } else if (value.startsWith('0')) {
+            }  if (value.startsWith('0')) {
               return 'La identificación no puede iniciar con 0';
-            } else if (validarEspaciosVacios(value) != null) {
+            }  if (validarEspaciosVacios(value) != null) {
               return 'No se pueden iniciar con espacios vacíos';
-            } else if (value.length < 6 || value.length > 10) {
+            }  if (value.length < 6 || value.length > 10) {
               return 'La identificación debe tener entre 6 y 10 dígitos';
+            }
+            
+             if (_espacios(value) != null){
+              return 'No se permiten espacios en blanco';
             }
             return null;
           },
@@ -178,11 +193,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El nombre es obligatorio';
-                          } else if (!_contenedorDeNumeros(value)) {
+                          }  if (!_contenedorDeNumeros(value)) {
                             return "El nombre solo puede tener letra";
-                          } else if (validarEspaciosVacios(value) != null) {
+                          }  if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 3 || value.length > 20) {
+                          }  if (value.length < 3 || value.length > 20) {
                             return 'El nombre debe de tener entre 3 y 20 caracteres';
                           }
 
@@ -219,11 +234,11 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El apellido es obligatorio';
-                          } else if (!_contenedorDeNumeros(value)) {
+                          }  if (!_contenedorDeNumeros(value)) {
                             return "El apellido solo puede tener letra";
-                          } else if (validarEspaciosVacios(value) != null) {
+                          }  if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 3 || value.length > 20) {
+                          }  if (value.length < 3 || value.length > 20) {
                             return 'El apellido debe de tener entre 3 y 20 caracteres';
                           }
 
@@ -259,13 +274,13 @@ class _CustomersCreateState extends State<CustomersCreate> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'El teléfono es obligatorio';
-                          } else if (_letras(value)) {
+                          }  if (_letras(value)) {
                             return 'El télefono solo puede tener números';
-                          } else if (value.startsWith('0')) {
+                          }  if (value.startsWith('0')) {
                             return 'El Numero telefonico no puede iniciar con 0';
-                          } else if (validarEspaciosVacios(value) != null) {
+                          }  if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 7 || value.length > 10) {
+                          }  if (value.length < 7 || value.length > 10) {
                             return 'El teléfono no puede iniciar con 0';
                           }
                           return null;
@@ -301,9 +316,9 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'La dirección es obligatoria';
-                            } else if (validarEspaciosVacios(value) != null) {
+                            }  if (validarEspaciosVacios(value) != null) {
                               return 'No se pueden iniciar con espacios vacíos';
-                            } else if (value.length < 4 || value.length > 50) {
+                            }  if (value.length < 4 || value.length > 50) {
                               return 'La dirección debe tener entre 4 y 50 caracteres';
                             }
                             return null;
@@ -340,7 +355,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
                             RegExp regExp = RegExp(pattern);
                             if (value!.isEmpty) {
                               return "El correo electrónico es obligatorio";
-                            } else if (!regExp.hasMatch(value)) {
+                            }  if (!regExp.hasMatch(value)) {
                               return "El correo electrónico no tiene un formato válido";
                             } else {
                               return null;
