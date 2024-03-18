@@ -26,10 +26,11 @@ String? validarEspaciosVacios(String value) {
 }
 
 bool _contenedorDeNumeros(String value) {
-  String letrasConEspacios = r'^[a-zA-Z\s]+$';
+  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$'; // Incluye letras con tildes
   final RegExp regex = RegExp(letrasConEspacios);
   return regex.hasMatch(value);
 }
+
 
 bool _letras(String value) {
   if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
@@ -76,64 +77,79 @@ class _CustomersCreateState extends State<CustomersCreate> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedTypeIdentification,
-                        items: _typeidentification.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedTypeIdentification = newValue!;
-                          });
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: TextFormField(
-                        controller: _identification,
-                        autovalidateMode: _isNameValidated
-                            ? AutovalidateMode.onUserInteraction
-                            : AutovalidateMode.disabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _isNameValidated = true;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                            hintText: 'Identificación',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700),
-                            fillColor: Color.fromARGB(255, 221, 216, 216),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 0, style: BorderStyle.none),
-                            ),
-                            filled: true),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'La identificación es obligatoria';
-                          } else if (_letras(value)) {
-                            return 'La identificación solo puede contener números';
-                          } else if (value.startsWith('0')) {
-                            return 'La identificación no puede iniciar con 0';
-                          } else if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 6 || value.length > 10) {
-                            return 'La identificación debe tener entre 6 y 10 dígitos';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
+           Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    SizedBox(
+      width: MediaQuery.of(context).size.width * 0.1, // Ancho deseado para el DropdownButtonFormField
+      child: Padding(
+
+        padding: const EdgeInsets.only(top: 20, right: 10),
+        child: DropdownButtonFormField<String>(
+                          isExpanded: true, 
+
+          value: _selectedTypeIdentification,
+          items: _typeidentification.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedTypeIdentification = newValue!;
+            });
+          },
+        ),
+      ),
+    ),
+    Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 10),
+        child: TextFormField(
+          controller: _identification,
+          autovalidateMode: _isNameValidated
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
+          onChanged: (value) {
+            setState(() {
+              _isNameValidated = true;
+            });
+          },
+          decoration: const InputDecoration(
+              hintText: 'Identificación',
+              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+              fillColor: Color.fromARGB(255, 221, 216, 216),
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: 0, style: BorderStyle.none),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: 0, style: BorderStyle.none),
+              ),
+              filled: true),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'La identificación es obligatoria';
+            } else if (_letras(value)) {
+              return 'La identificación solo puede contener números';
+            } else if (value.startsWith('0')) {
+              return 'La identificación no puede iniciar con 0';
+            } else if (validarEspaciosVacios(value) != null) {
+              return 'No se pueden iniciar con espacios vacíos';
+            } else if (value.length < 6 || value.length > 10) {
+              return 'La identificación debe tener entre 6 y 10 dígitos';
+            }
+            return null;
+          },
+        ),
+      ),
+    ),
+  ],
+),
+
+
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: TextFormField(

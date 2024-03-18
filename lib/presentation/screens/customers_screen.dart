@@ -181,22 +181,13 @@ class _CardCustomerState extends State<_CardCustomer> {
                 )),
               ),
             ),
+           
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Tipo de identificación: ${widget.typeidentification}',
-                  style: textCardStyle,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(
-                  'Número de identificación: ${widget.identification}',
+                  'Identificación: ${widget.typeidentification} ${widget.identification}',
                   style: textCardStyle,
                 ),
               ),
@@ -216,7 +207,7 @@ class _CardCustomerState extends State<_CardCustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Email: : ${widget.email}',
+                  'Correo electrónico: ${widget.email}',
                   style: textCardStyle,
                 ),
               ),
@@ -226,7 +217,7 @@ class _CardCustomerState extends State<_CardCustomer> {
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  'Dirección: : ${widget.address}',
+                  'Dirección: ${widget.address}',
                   style: textCardStyle,
                 ),
               ),
