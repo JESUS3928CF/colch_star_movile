@@ -68,10 +68,10 @@ String? validarEspaciosVacios(String value) {
 }
 
   bool _contenedorDeNumeros(String value) {
-    String letras = r'^[a-zA-Z]+$';
-    final RegExp regex = RegExp(letras);
-    return regex.hasMatch(value);
-  }
+  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$'; // Incluye letras con tildes
+  final RegExp regex = RegExp(letrasConEspacios);
+  return regex.hasMatch(value);
+}
 
   bool _espacios(String value) {
     return value.contains(RegExp(r'\s'));
@@ -112,68 +112,78 @@ String? validarEspaciosVacios(String value) {
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: DropdownButtonFormField<String>(
-                                value: _selectedTypeIdentification,
-                                items:
-                                    selectTypeIdetification.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedTypeIdentification = newValue!;
-                                    customerProvider
-                                        .customer.typeidentification = newValue;
-                                  });
-                                },
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: TextFormField(
-                                  controller: _identificationController,
-                                  autovalidateMode: _isNameValidated
-                                      ? AutovalidateMode.onUserInteraction
-                                      : AutovalidateMode.disabled,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _isNameValidated = true;
-                                    });
-                                  },
-                                  decoration: const InputDecoration(
-                                      hintText: 'Idetificación',
-                                      hintStyle: TextStyle(
-                                          fontWeight: FontWeight.w700),
-                                      fillColor:
-                                          Color.fromARGB(255, 221, 216, 216),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            width: 0, style: BorderStyle.none),
-                                      ),
-                                      filled: true),
-                                 validator: (value) {
-                           if (value!.isEmpty) {
-                            return 'La identificación es obligatoria';
-                          } else if (_letras(value)) {
-                            return 'La identificación solo puede contener números';
-                          } else if (value.startsWith('0')) {
-                            return 'La identificación no puede iniciar con 0';
-                          } else if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          } else if (value.length < 6 || value.length > 10) {
-                            return 'La identificación debe tener entre 6 y 10 dígitos';
-                          }
-                          return null;
-                        },
-                                )),
+                            Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+      SizedBox(
+      width: MediaQuery.of(context).size.width * 0.3, // Ancho deseado para el DropdownButtonFormField
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: DropdownButtonFormField<String>(
+                                    isExpanded: true, 
+
+          value: _selectedTypeIdentification,
+          items: selectTypeIdetification.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedTypeIdentification = newValue!;
+              customerProvider.customer.typeidentification = newValue;
+            });
+          },
+        ),
+      ),
+    ),
+    Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
+        child: TextFormField(
+          controller: _identificationController,
+          autovalidateMode: _isNameValidated
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
+          onChanged: (value) {
+            setState(() {
+              _isNameValidated = true;
+            });
+          },
+          decoration: const InputDecoration(
+              hintText: 'Idetificación',
+              hintStyle: TextStyle(fontWeight: FontWeight.w700),
+              fillColor: Color.fromARGB(255, 221, 216, 216),
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: 0, style: BorderStyle.none),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: 0, style: BorderStyle.none),
+              ),
+              filled: true),
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'La identificación es obligatoria';
+            } else if (_letras(value)) {
+              return 'La identificación solo puede contener números';
+            } else if (value.startsWith('0')) {
+              return 'La identificación no puede iniciar con 0';
+            } else if (validarEspaciosVacios(value) != null) {
+              return 'No se pueden iniciar con espacios vacíos';
+            } else if (value.length < 6 || value.length > 10) {
+              return 'La identificación debe tener entre 6 y 10 dígitos';
+            }
+            return null;
+          },
+        ),
+      ),
+    ),
+  ],
+),
+
 
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
