@@ -168,13 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               profileProviderSingleton.profileProvider
                                   .vaciarError();
                             }
-
-                            try {
-                              // Hacer algo con los datos del perfil, como mostrarlos en la interfaz de usuario.
-                            } catch (error) {
-                              // Manejar cualquier error que pueda ocurrir durante la obtención de datos.
-                              print(error);
-                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
