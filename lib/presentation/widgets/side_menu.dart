@@ -118,12 +118,56 @@ class _SideMenuState extends State<SideMenu> {
                 style: menuItemsTextStyle.copyWith(color: Colors.white),
               ),
               onTap: () {
-                
-                profileProviderSingleton.profileProvider.singOff();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MyApp()),
+
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        "¿Deseas salir de tu cuenta?",
+                        textAlign: TextAlign.center,
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF252432),
+                              foregroundColor: Colors
+                                  .white, // White text for dark background
+                              child: Text("No"),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            SizedBox(width: 16), // Espacio entre los botones
+                            FloatingActionButton(
+                              backgroundColor: const Color(0xFF47684e),
+                              foregroundColor: Colors.white,
+                              child: Text("Sí"),
+                              onPressed: () {
+                                print("cerrar seccion");
+                                
+                                profileProviderSingleton.profileProvider
+                                    .singOff();
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MyApp()),
+                                );
+                                // Aquí colocas la lógica para cambiar el estado del cliente
+                                // Navigator.of(context).pop();
+
+                                print("cerrar seccion fin");
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
                 );
+                
+                
               },
             ),
           ],
