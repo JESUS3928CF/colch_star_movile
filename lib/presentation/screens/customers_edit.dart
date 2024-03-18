@@ -55,37 +55,35 @@ class _CustomersEditState extends State<CustomersEdit> {
         text: customerProvider.customer.typeidentification);
   }
 
-bool _isNameValidated = false;
+  bool _isNameValidated = false;
 
-String? validarEspaciosVacios(String value) {
-  List<String> valueList = value.split('');
+  String? validarEspaciosVacios(String value) {
+    List<String> valueList = value.split(' ');
 
-  if (valueList.every((letra) => letra == ' ')) {
-    return 'No se pueden espacios vacíos';
-  } else {
-    return null;
+    if (valueList.every((letra) => letra == ' ')) {
+      return 'No se pueden espacios vacíos';
+    } else {
+      return null;
+    }
   }
-}
-
-
 
   bool _contenedorDeNumeros(String value) {
-  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$'; // Incluye letras con tildes
-  final RegExp regex = RegExp(letrasConEspacios);
-  return regex.hasMatch(value);
-}
-bool  _espacios(String value) {
-  final RegExp regex = RegExp(r'\s');
-
-  if (regex.hasMatch(value)) {
-    return true;
-  } else {
-    return false;
+    String letrasConEspacios =
+        r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$'; // Incluye letras con tildes y espacios
+    final RegExp regex = RegExp(letrasConEspacios);
+    return regex.hasMatch(value);
   }
-}
+
+  bool _espacios(String value) {
+    if (value.contains(" ")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   bool _letras(String value) {
-    if (value.isNotEmpty && !RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
+    if (!RegExp(r'^\d*\.?\d*$').hasMatch(value)) {
       return true;
     }
     return false;
@@ -120,81 +118,92 @@ bool  _espacios(String value) {
                         child: Column(
                           children: <Widget>[
                             Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-      SizedBox(
-      width: MediaQuery.of(context).size.width * 0.2, // Ancho deseado para el DropdownButtonFormField
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: DropdownButtonFormField<String>(
-                                    // isExpanded: true, 
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.2, // Ancho deseado para el DropdownButtonFormField
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: DropdownButtonFormField<String>(
+                                      // isExpanded: true,
 
-          value: _selectedTypeIdentification,
-          items: selectTypeIdetification.map((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              _selectedTypeIdentification = newValue!;
-              customerProvider.customer.typeidentification = newValue;
-            });
-          },
-        ),
-      ),
-    ),
-    Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 10),
-        child: TextFormField(
-          controller: _identificationController,
-          autovalidateMode: _isNameValidated
-              ? AutovalidateMode.onUserInteraction
-              : AutovalidateMode.disabled,
-          onChanged: (value) {
-            setState(() {
-              _isNameValidated = true;
-            });
-          },
-          decoration: const InputDecoration(
-              hintText: 'Idetificación',
-              hintStyle: TextStyle(fontWeight: FontWeight.w700),
-              fillColor: Color.fromARGB(255, 221, 216, 216),
-              focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 0, style: BorderStyle.none),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 0, style: BorderStyle.none),
-              ),
-              
-              filled: true),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'La identificación es obligatoria';
-            }  if (_letras(value)) {
-              return 'La identificación solo puede contener números';
-            }  if (value.startsWith('0')) {
-              return 'La identificación no puede iniciar con 0';
-            }  if (validarEspaciosVacios(value) != null) {
-              return 'No se pueden iniciar con espacios vacíos';
-            }  if (value.length < 6 || value.length > 10) {
-              return 'La identificación debe tener entre 6 y 10 dígitos';
-            }
-            if (_espacios(value) != null){
-              return 'No se permiten espacios en blanco';
-            }
-            return null;
-          },
-        ),
-      ),
-    ),
-  ],
-),
+                                      value: _selectedTypeIdentification,
+                                      items: selectTypeIdetification
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          _selectedTypeIdentification =
+                                              newValue!;
+                                          customerProvider.customer
+                                              .typeidentification = newValue;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20, left: 10),
+                                    child: TextFormField(
+                                      controller: _identificationController,
+                                      autovalidateMode: _isNameValidated
+                                          ? AutovalidateMode.onUserInteraction
+                                          : AutovalidateMode.disabled,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _isNameValidated = true;
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                          hintText: 'Idetificación',
+                                          hintStyle: TextStyle(
+                                              fontWeight: FontWeight.w700),
+                                          fillColor: Color.fromARGB(
+                                              255, 221, 216, 216),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 0,
+                                                style: BorderStyle.none),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                width: 0,
+                                                style: BorderStyle.none),
+                                          ),
+                                          filled: true),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'La identificación es obligatoria';
+                                        }
+                                        if (_espacios(value)) {
+                                          return 'No se permiten espacios en blanco';
+                                        } else if (_letras(value)) {
+                                          return 'La identificación solo puede contener números';
+                                        } else if (value.startsWith('0')) {
+                                          return 'La identificación no puede iniciar con 0';
+                                        } else if (validarEspaciosVacios(
+                                                value) !=
+                                            null) {
+                                          return 'No se pueden iniciar con espacios vacíos';
+                                        } else if (value.length < 6 ||
+                                            value.length > 10) {
+                                          return 'La identificación debe tener entre 6 y 10 dígitos';
+                                        }
 
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
 
                             Padding(
                                 padding: const EdgeInsets.only(top: 20),
@@ -224,15 +233,17 @@ bool  _espacios(String value) {
                                       ),
                                       filled: true),
                                   validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El nombre es obligatorio';
-                          }  if (!_contenedorDeNumeros(value)) {
-                            return "El nombre solo puede tener letra";
-                          }  if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          }  if (value.length < 3 || value.length > 20) {
-                            return 'El nombre debe de tener entre 3 y 20 caracteres';
-                          }
+                                    if (value!.isEmpty) {
+                                      return 'El nombre es obligatorio';
+                                    } else if (!_contenedorDeNumeros(value)) {
+                                      return "El nombre solo puede tener letra";
+                                    } else if (validarEspaciosVacios(value) !=
+                                        null) {
+                                      return 'No se pueden iniciar con espacios vacíos';
+                                    } else if (value.length < 3 ||
+                                        value.length > 20) {
+                                      return 'El nombre debe de tener entre 3 y 20 caracteres';
+                                    }
 
                                     return null;
                                   },
@@ -264,20 +275,21 @@ bool  _espacios(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                     validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El apellido es obligatorio';
-                          }  if (!_contenedorDeNumeros(value)) {
-                            return "El apellido solo puede tener letra";
-                          }  if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          }  if (value.length < 3 || value.length > 20) {
-                            return 'El apellido debe de tener entre 3 y 20 caracteres';
-                          }
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'El apellido es obligatorio';
+                                    } else if (!_contenedorDeNumeros(value)) {
+                                      return "El apellido solo puede tener letra";
+                                    } else if (validarEspaciosVacios(value) !=
+                                        null) {
+                                      return 'No se pueden iniciar con espacios vacíos';
+                                    } else if (value.length < 3 ||
+                                        value.length > 20) {
+                                      return 'El apellido debe de tener entre 3 y 20 caracteres';
+                                    }
 
-                          return null;
-                        },
-                      
+                                    return null;
+                                  },
                                 )),
                             Padding(
                                 padding: const EdgeInsets.only(top: 15),
@@ -306,20 +318,27 @@ bool  _espacios(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                                validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'El teléfono es obligatorio';
-                          }  if (_letras(value)) {
-                            return 'El télefono solo puede tener números';
-                          }  if (value.startsWith('0')) {
-                            return 'El Numero telefonico no puede iniciar con 0';
-                          }  if (validarEspaciosVacios(value) != null) {
-                            return 'No se pueden iniciar con espacios vacíos';
-                          }  if (value.length < 7 || value.length > 10) {
-                            return 'El teléfono no puede iniciar con 0';
-                          }
-                          return null;
-                        },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'El teléfono es obligatorio';
+                                    }
+                                    if (_espacios(value)) {
+                                      return 'No se permiten espacios en blanco';
+                                    } else if (_letras(value)) {
+                                      return 'El télefono solo puede tener números';
+                                    } else if (value.startsWith('0')) {
+                                      return 'El télefono no puede iniciar con 0';
+                                    } else if (validarEspaciosVacios(value) !=
+                                        null) {
+                                      return 'No se pueden iniciar con espacios vacíos';
+                                    } else if (_espacios(value)) {
+                                      return 'No se permiten espacios en blanco';
+                                    } else if (value.length < 7 ||
+                                        value.length > 10) {
+                                      return 'El teléfono debe tener entre 7 y 10 dígitos';
+                                    }
+                                    return null;
+                                  },
                                 )),
 
                             Padding(
@@ -349,18 +368,20 @@ bool  _espacios(String value) {
                                             width: 0, style: BorderStyle.none),
                                       ),
                                       filled: true),
-                            validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'La dirección es obligatoria';
-                            }  if (validarEspaciosVacios(value) != null) {
-                              return 'No se pueden iniciar con espacios vacíos';
-                            }  if (value.length < 4 || value.length > 50) {
-                              return 'La dirección debe tener entre 4 y 50 caracteres';
-                            }
-                            return null;
-                          },
-                        )),
-                                Padding(
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'La dirección es obligatoria';
+                                    } else if (validarEspaciosVacios(value) !=
+                                        null) {
+                                      return 'No se pueden iniciar con espacios vacíos';
+                                    } else if (value.length < 4 ||
+                                        value.length > 50) {
+                                      return 'La dirección debe tener entre 4 y 50 caracteres';
+                                    }
+                                    return null;
+                                  },
+                                )),
+                            Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: TextFormField(
                                   controller: _emailController,
@@ -393,7 +414,8 @@ bool  _espacios(String value) {
                                     RegExp regExp = RegExp(pattern);
                                     if (value!.isEmpty) {
                                       return "El correo electrónico es obligatorio";
-                                    }  if (!regExp.hasMatch(value)) {
+                                    }
+                                    if (!regExp.hasMatch(value)) {
                                       return "El correo electrónico no tiene un formato válido";
                                     } else {
                                       return null;
