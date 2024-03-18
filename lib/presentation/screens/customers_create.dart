@@ -279,14 +279,14 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           } else if (_letras(value)) {
                             return 'El télefono solo puede tener números';
                           }
-                          if (value.startsWith('0')) {
+                          else if (value.startsWith('0')) {
                             return 'El télefono no puede iniciar con 0';
                           } else if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
                           } else if (_espacios(value)) {
                             return 'No se permiten espacios en blanco';
                           } else if (value.length < 7 || value.length > 10) {
-                            return 'El teléfono no puede iniciar con 0';
+                            return 'El teléfono debe tener entre 7 y 10 dígitos';
                           }
                           return null;
                         },
