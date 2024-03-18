@@ -37,7 +37,7 @@ bool  _espacios(String value) {
 }
 
 bool _contenedorDeNumeros(String value) {
-  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$'; // Incluye letras con tildes
+  String letrasConEspacios = r'^[a-zA-ZáéíóúÁÉÍÓÚ]+$'; // Incluye letras con tildes
   final RegExp regex = RegExp(letrasConEspacios);
   return regex.hasMatch(value);
 }
@@ -277,10 +277,19 @@ class _CustomersCreateState extends State<CustomersCreate> {
                           }  if (_letras(value)) {
                             return 'El télefono solo puede tener números';
                           }  if (value.startsWith('0')) {
-                            return 'El Numero telefonico no puede iniciar con 0';
+                            return 'El télefono no puede iniciar con 0';
                           }  if (validarEspaciosVacios(value) != null) {
                             return 'No se pueden iniciar con espacios vacíos';
-                          }  if (value.length < 7 || value.length > 10) {
+
+
+                            
+                          }  
+             if (_espacios(value) != null){
+              return 'No se permiten espacios en blanco';
+            }
+                          
+                          
+                          if (value.length < 7 || value.length > 10) {
                             return 'El teléfono no puede iniciar con 0';
                           }
                           return null;
