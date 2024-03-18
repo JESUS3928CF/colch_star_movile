@@ -16,7 +16,7 @@ class CustomersCreate extends StatefulWidget {
 bool _isNameValidated = false;
 
 String? validarEspaciosVacios(String value) {
-  List<String> valueList = value.split('');
+  List<String> valueList = value.split(' ');
 
   if (valueList.every((letra) => letra == ' ')) {
     return 'No se pueden espacios vacíos';
@@ -26,10 +26,9 @@ String? validarEspaciosVacios(String value) {
 }
 
 
-bool  _espacios(String value) {
-  final RegExp regex = RegExp(r'\s');
+bool   _espacios(String value) {
 
-  if (regex.hasMatch(value)) {
+  if (value.contains(" ")) {
     return true;
   } else {
     return false;
@@ -284,7 +283,7 @@ class _CustomersCreateState extends State<CustomersCreate> {
 
                             
                           }  
-            else if (_espacios(value) != null){
+            else if (_espacios(value) ){
               return 'No se permiten espacios en blanco';
             }
                           
