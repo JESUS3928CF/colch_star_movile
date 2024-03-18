@@ -90,28 +90,26 @@ class _SalesView extends StatelessWidget {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
             ),
           ),
-          ...orderProviderSingleton.orderProvider.orderList
-              .map(
-                (sale) => _CardSale(
-                  elevation: 4.0,
-                  id: sale.id,
-                  totalPrice: sale.totalPrice,
-                  address: sale.address,
-                  creationDate: sale.creationDate,
-                  deliverDate: sale.deliverDate,
-                  orderStatus: sale.orderStatus,
-                  clientName: sale.clientName,
-                  details: sale.details,
-                ),
-              )
-              ,
+          ...orderProviderSingleton.orderProvider.orderList.map(
+            (sale) => _CardSale(
+              elevation: 4.0,
+              id: sale.id,
+              totalPrice: sale.totalPrice,
+              address: sale.address,
+              creationDate: sale.creationDate,
+              deliverDate: sale.deliverDate,
+              orderStatus: sale.orderStatus,
+              clientName: sale.clientName,
+              details: sale.details,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-const textCardStyle = TextStyle(fontSize: 18,  color: Colors.black);
+const textCardStyle = TextStyle(fontSize: 18, color: Colors.black);
 
 const labelCardStyle = TextStyle(
   fontSize: 20,
@@ -156,7 +154,8 @@ class _CardSaleState extends State<_CardSale> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: const Color.fromARGB(255, 127, 125, 142).withOpacity(0.4), // Color del difuminado
+              color: const Color.fromARGB(255, 127, 125, 142)
+                  .withOpacity(0.4), // Color del difuminado
               spreadRadius: 2,
               blurRadius: 7,
               offset: const Offset(0, 3), // Cambia según sea necesario
@@ -168,7 +167,7 @@ class _CardSaleState extends State<_CardSale> {
             borderRadius: BorderRadius.circular(12),
             side: const BorderSide(color: Colors.black),
           ),
-          elevation: widget.elevation, 
+          elevation: widget.elevation,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
             child: Column(
@@ -196,7 +195,7 @@ class _CardSaleState extends State<_CardSale> {
                             style: textContentCardStyle,
                           ),
                           TextSpan(
-                            text: '${widget.totalPrice}',
+                            text: _formatTotalPrice(widget.totalPrice),
                             style: textCardStyle,
                           ),
                         ],
@@ -235,7 +234,7 @@ class _CardSaleState extends State<_CardSale> {
                             text: 'Fecha de creación: ',
                             style: textContentCardStyle,
                           ),
-                         TextSpan(
+                          TextSpan(
                             text:
                                 '${DateFormat.yMd().format(widget.creationDate)}', // Formatear la fecha
                             style: textCardStyle,
@@ -257,7 +256,8 @@ class _CardSaleState extends State<_CardSale> {
                             style: textContentCardStyle,
                           ),
                           TextSpan(
-                            text: '${DateFormat.yMd().format(widget.deliverDate)}',
+                            text:
+                                '${DateFormat.yMd().format(widget.deliverDate)}',
                             style: textCardStyle,
                           ),
                         ],
@@ -295,7 +295,8 @@ class _CardSaleState extends State<_CardSale> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xFF252432)), // Color hexadecimal 252432
+                            const Color(
+                                0xFF252432)), // Color hexadecimal 252432
                       ),
                       child: const Text('Ver detalles',
                           style: TextStyle(color: Colors.white)),
@@ -310,11 +311,35 @@ class _CardSaleState extends State<_CardSale> {
     );
   }
 
+  String _formatTotalPrice(double totalPrice) {
+  // Convertir el número a cadena
+  String totalPriceString = totalPrice.toString();
+  // Eliminar los dos últimos dígitos
+  int decimalIndex = totalPriceString.indexOf('.');
+  if (decimalIndex != -1) {
+    totalPriceString = totalPriceString.substring(0, decimalIndex + 3);
+  }
+  // Agregar puntos para separar los miles
+  List<String> parts = totalPriceString.split('.');
+  String formattedPrice = parts[0].replaceAllMapped(
+    RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+    (Match match) => '${match[1]}.',
+  );
+  // Agregar la parte decimal si existe
+  if (parts.length > 1) {
+    formattedPrice += '.' + parts[1];
+  }
+  // Agregar el símbolo de pesos al principio
+  formattedPrice = '\$ ' + formattedPrice;
+  return formattedPrice;
+}
+
   void _showOrderDetails(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => OrderDetailsScreen(orderDetailsList: widget.details),
+        builder: (context) =>
+            OrderDetailsScreen(orderDetailsList: widget.details),
       ),
     );
   }

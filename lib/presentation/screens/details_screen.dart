@@ -33,7 +33,7 @@ class OrderDetailsScreen extends StatelessWidget {
               size: detail.size,
               color: detail.color,
               productName: detail.productName,
-              subtotal : detail.subtotal,
+              subtotal: detail.subtotal,
             );
           }).toList(),
         ),
@@ -42,9 +42,9 @@ class OrderDetailsScreen extends StatelessWidget {
   }
 }
 
-const textCardStyle = TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
-const textContentCardStyle =
-    TextStyle( color: Colors.black);
+const textCardStyle =
+    TextStyle(fontWeight: FontWeight.bold, color: Colors.black);
+const textContentCardStyle = TextStyle(color: Colors.black);
 
 class _CardOrderDetail extends StatefulWidget {
   final int quantity;
@@ -77,17 +77,17 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Center(
-    child: Column(
-      children: [
-        Text(
-          '${widget.productName}',
-          style: TextStyle(fontSize: 20, color: Colors.black),
-        ),
-        SizedBox(height: 8),
-      ],
-    ),
-  ),
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    '${widget.productName}',
+                    style: TextStyle(fontSize: 20, color: Colors.black),
+                  ),
+                  SizedBox(height: 8),
+                ],
+              ),
+            ),
             RichText(
               text: TextSpan(
                 style: TextStyle(fontSize: 16),
@@ -96,7 +96,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     text: 'Cantidad: ',
                     style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.quantity}', style: textContentCardStyle),
+                  TextSpan(
+                    text: '${widget.quantity}',
+                    style: textContentCardStyle,
+                  ),
                 ],
               ),
             ),
@@ -109,8 +112,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     text: 'Descripción: ',
                     style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.description} ',
-                      style: textContentCardStyle),
+                  TextSpan(
+                    text: '${widget.description} ',
+                    style: textContentCardStyle,
+                  ),
                 ],
               ),
             ),
@@ -123,7 +128,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     text: 'Talla: ',
                     style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.size}', style: textContentCardStyle),
+                  TextSpan(
+                    text: '${widget.size}',
+                    style: textContentCardStyle,
+                  ),
                 ],
               ),
             ),
@@ -136,7 +144,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     text: 'Color: ',
                     style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.color}', style: textContentCardStyle),
+                  TextSpan(
+                    text: '${widget.color}',
+                    style: textContentCardStyle,
+                  ),
                 ],
               ),
             ),
@@ -149,7 +160,10 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     text: 'Subtotal: ',
                     style: textCardStyle,
                   ),
-                  TextSpan(text: '${widget.subtotal}', style: textContentCardStyle),
+                  TextSpan(
+                    text: _formatSubtotal(widget.subtotal),
+                    style: textContentCardStyle,
+                  ),
                 ],
               ),
             ),
@@ -158,4 +172,19 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
       ),
     );
   }
+
+  String _formatSubtotal(String  subtotal) {
+  // Convertir el número a cadena
+  String formattedSubtotal = subtotal.toString();
+  // Eliminar los dos últimos dígitos
+  formattedSubtotal = formattedSubtotal.substring(0, formattedSubtotal.length - 3);
+  // Agregar puntos para separar los miles
+  formattedSubtotal = formattedSubtotal.replaceAllMapped(
+    RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+    (Match match) => '${match[1]}.',
+  );
+  // Agregar el símbolo de pesos al principio
+  formattedSubtotal = '\$ $formattedSubtotal';
+  return formattedSubtotal;
+}
 }
