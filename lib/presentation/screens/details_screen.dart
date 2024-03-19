@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/config/helpers/formatPrice.dart';
 import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
 import 'package:flutter/material.dart';
 
@@ -113,55 +114,55 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
                     style: textCardStyle,
                   ),
                   TextSpan(
-                    text: '${widget.description} ',
+                    text: '${widget.description == ""? "Sin descripción" : widget.description} ',
                     style: textContentCardStyle,
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             RichText(
               text: TextSpan(
                 style: TextStyle(fontSize: 16),
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Talla: ',
                     style: textCardStyle,
                   ),
                   TextSpan(
-                    text: '${widget.size}',
+                    text: widget.size,
                     style: textContentCardStyle,
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             RichText(
               text: TextSpan(
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Color: ',
                     style: textCardStyle,
                   ),
                   TextSpan(
-                    text: '${widget.color}',
+                    text: widget.color,
                     style: textContentCardStyle,
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             RichText(
               text: TextSpan(
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Subtotal: ',
                     style: textCardStyle,
                   ),
                   TextSpan(
-                    text: _formatSubtotal(widget.subtotal),
+                    text: formatearPrecio(widget.subtotal),
                     style: textContentCardStyle,
                   ),
                 ],
@@ -173,18 +174,4 @@ class _CardOrderDetailState extends State<_CardOrderDetail> {
     );
   }
 
-  String _formatSubtotal(String  subtotal) {
-  // Convertir el número a cadena
-  String formattedSubtotal = subtotal.toString();
-  // Eliminar los dos últimos dígitos
-  formattedSubtotal = formattedSubtotal.substring(0, formattedSubtotal.length - 3);
-  // Agregar puntos para separar los miles
-  formattedSubtotal = formattedSubtotal.replaceAllMapped(
-    RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-    (Match match) => '${match[1]}.',
-  );
-  // Agregar el símbolo de pesos al principio
-  formattedSubtotal = '\$ $formattedSubtotal';
-  return formattedSubtotal;
-}
 }

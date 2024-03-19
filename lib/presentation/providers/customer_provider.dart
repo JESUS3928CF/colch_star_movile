@@ -70,7 +70,7 @@ class CustomerProvider extends ChangeNotifier {
       await customerRepository.createCustomer(name, lastName, phone, email,
           address, identification, typeidentification);
 
-      _success = "Cliente creado exitosamente";
+      _success = "Cliente agregado exitosamente";
     } on CustomError catch (e) {
       // Manejar el error personalizado
       _error = e.message;

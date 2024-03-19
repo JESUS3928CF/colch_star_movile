@@ -1,3 +1,4 @@
+import 'package:colch_stat_app/config/helpers/formatPrice.dart';
 import 'package:flutter/material.dart';
 import 'package:colch_stat_app/infrastruture/alerts/alertHelper.dart';
 import 'package:colch_stat_app/infrastruture/models/sale_model.dart';
@@ -195,7 +196,7 @@ class _CardSaleState extends State<_CardSale> {
                             style: textContentCardStyle,
                           ),
                           TextSpan(
-                            text: _formatTotalPrice(widget.totalPrice),
+                            text: formatearPrecio(widget.totalPrice),
                             style: textCardStyle,
                           ),
                         ],
@@ -310,29 +311,6 @@ class _CardSaleState extends State<_CardSale> {
       ),
     );
   }
-
-  String _formatTotalPrice(double totalPrice) {
-  // Convertir el número a cadena
-  String totalPriceString = totalPrice.toString();
-  // Eliminar los dos últimos dígitos
-  int decimalIndex = totalPriceString.indexOf('.');
-  if (decimalIndex != -1) {
-    totalPriceString = totalPriceString.substring(0, decimalIndex + 3);
-  }
-  // Agregar puntos para separar los miles
-  List<String> parts = totalPriceString.split('.');
-  String formattedPrice = parts[0].replaceAllMapped(
-    RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-    (Match match) => '${match[1]}.',
-  );
-  // Agregar la parte decimal si existe
-  if (parts.length > 1) {
-    formattedPrice += '.' + parts[1];
-  }
-  // Agregar el símbolo de pesos al principio
-  formattedPrice = '\$ ' + formattedPrice;
-  return formattedPrice;
-}
 
   void _showOrderDetails(BuildContext context) {
     Navigator.push(
